@@ -1,0 +1,892 @@
+<?php
+/**
+ * @file
+ * Code for the Usuarios feature.
+ */
+
+include_once 'usuarios.features.inc';
+
+// Roles.
+
+define('USUARIOS_ROL_EDITOR', '8');
+define('USUARIOS_ROL_EMPRENDEDOR', '3');
+define('USUARIOS_ROL_TUTOR', '4');
+define('USUARIOS_ROL_ASPIRANTE_EMPRENDEDOR', '5');
+define('USUARIOS_ROL_ASPIRANTE_TUTOR', '6');
+define('USUARIOS_ROL_INSTITUCION', '7');
+define('USUARIOS_ROL_EMAIL_NO_VERIFICADO', '9');
+
+// Ruta para cargar institucion.
+define('USUARIOS_ADD_INSTITUCION_URI', 'admin/people/create-institucion');
+
+/**
+ * Implements hook_form_alter().
+ */
+function usuarios_form_alter(&$form, &$form_state, $form_id){
+  $form['account']['mail']['#description'] = "Ingrese una dirección de correo válida. Todos los correos del sistema se enviarán a esta dirección. La dirección de correo no es pública y solamente se usará para enviar una contraseña nueva o algunas noticias y/o avisos.";
+  switch ($form_id) {
+    case 'profile2_regpath_form_block_tutor':
+      usuarios_profile2_regpath_form_block_tutor($form, $form_state);
+      break;
+    case 'profile2_regpath_form_block_emprendedor':
+      usuarios_profile2_regpath_form_block_emprendedor($form, $form_state);
+      break;
+    case 'profile2_regpath_form_block_main':
+      usuarios_profile2_regpath_form_block_main($form, $form_state);
+      break;
+    case 'user_register_form':
+      usuarios_user_register_form($form, $form_state);
+      break;
+    case 'user_profile_form':
+      usuarios_user_profile_form($form, $form_state);
+      break;
+    case 'views_exposed_form':
+      usuarios_views_exposed_form($form, $form_state);
+      break;
+  }
+}
+
+/**
+ * Based on submit handler for the user registration form.
+ *
+ * This function is shared by the installation form and the normal registration form,
+ * which is why it can't be in the user.pages.inc file.
+ *
+ * @see user_register_form()
+ */
+
+function usuarios_register_submit($form, &$form_state) {
+  $admin = $form_state['values']['administer_users'];
+
+  if (!variable_get('user_email_verification', TRUE) || $admin) {
+    $pass = $form_state['values']['pass'];
+  }
+  else {
+    $pass = user_password();
+  }
+  $notify = !empty($form_state['values']['notify']);
+
+  // Remove unneeded values.
+  form_state_values_clean($form_state);
+
+  $form_state['values']['pass'] = $pass;
+  $form_state['values']['init'] = $form_state['values']['mail'];
+
+  $account = $form['#user'];
+
+  entity_form_submit_build_entity('user', $account, $form, $form_state);
+
+  // Populate $edit with the properties of $account, which have been edited on
+  // this form by taking over all values, which appear in the form values too.
+  $edit = array_intersect_key((array) $account, $form_state['values']);
+
+  // Codigo de gcoop
+  $role_name = "tutor";
+  $role = user_role_load_by_name($role_name);
+  if (in_array($role->rid, array_keys($account->roles)) && $account->roles[$role->rid] == TRUE) {
+    $account->status = FALSE;
+    $edit['status'] = FALSE;
+  }
+  // Fin codigo gcoop
+  $account = user_save($account, $edit);
+
+  // Terminate if an error occurred during user_save().
+  if (!$account) {
+    drupal_set_message(t("Error saving user account."), 'error');
+    $form_state['redirect'] = '';
+    return;
+  }
+
+  $form_state['user'] = $account;
+  $form_state['values']['uid'] = $account->uid;
+
+  watchdog('user', 'New user: %name (%email).', array('%name' => $form_state['values']['name'], '%email' => $form_state['values']['mail']), WATCHDOG_NOTICE, l(t('edit'), 'user/' . $account->uid . '/edit'));
+
+  // Add plain text password into user account to generate mail tokens.
+  $account->password = $pass;
+
+  // New administrative account without notification.
+  $uri = entity_uri('user', $account);
+  if ($admin && !$notify) {
+    drupal_set_message(t('Created a new user account for <a href="@url">%name</a>. No e-mail has been sent.', array('@url' => url($uri['path'], $uri['options']), '%name' => $account->name)));
+  }
+  // No e-mail verification required; log in user immediately.
+  elseif (!$admin && !variable_get('user_email_verification', TRUE) && $account->status) {
+    _user_mail_notify('register_no_approval_required', $account);
+    $form_state['uid'] = $account->uid;
+    user_login_submit(array(), $form_state);
+    drupal_set_message(t('Registration successful. You are now logged in.'));
+    $form_state['redirect'] = '';
+  }
+  // No administrator approval required.
+  elseif ($account->status || $notify) {
+    $op = $notify ? 'register_admin_created' : 'register_no_approval_required';
+    _user_mail_notify($op, $account);
+    if ($notify) {
+      drupal_set_message(t('A welcome message with further instructions has been e-mailed to the new user <a href="@url">%name</a>.', array('@url' => url($uri['path'], $uri['options']), '%name' => $account->name)));
+    }
+    else {
+      drupal_set_message(t('A welcome message with further instructions has been sent to your e-mail address.'));
+      $form_state['redirect'] = '';
+    }
+  }
+  // Administrator approval required.
+  else {
+    _user_mail_notify('register_pending_approval', $account);
+    drupal_set_message(t('Thank you for applying for an account. Your account is currently pending approval by the site administrator.<br />In the meantime, a welcome message with further instructions has been sent to your e-mail address.'));
+    $form_state['redirect'] = '';
+  }
+}
+
+function _replace_any_label(&$form, $profile, $contenedor, $field) {
+  $label = $form[$profile][$contenedor]['und'][0][$field]['und']['#title'];
+  $form[$profile][$contenedor]['und'][0][$field]['und']['#title'] = '';
+  $form[$profile][$contenedor]['und'][0][$field]['und']['#options']['_none'] = $label;
+}
+function _replace_any_label2(&$form, $profile, $field) {
+  $label = $form[$profile][$field]['und']['#title'];
+  $form[$profile][$field]['und']['#title'] = '';
+  $form[$profile][$field]['und']['#options']['_none'] = $label;
+}
+function _replace_label_sexo(&$form, $profile, $field) {
+  $label = "Sexo *";
+  $form[$profile][$field]['und']['#title'] = '';
+  $form[$profile][$field]['und']['#options']['_none'] = $label;
+}
+
+/**
+ * Indica si el usuario $user tiene el rol $role.
+ *
+ * No usar para determinar acceso, sólo para determinar el tipo de usuario.
+ */
+function usuarios_user_has_role($user, $role, $role_id) {
+  if (isset($user->roles) && (in_array($role, $user->roles) || in_array($role_id, $user->roles))) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Indica si el usuario es aspirante tutor o tutor.
+ */
+function usuarios_is_tutor($user) {
+  return (usuarios_user_has_role($user, 'Aspirante Tutor', USUARIOS_ROL_ASPIRANTE_TUTOR)
+    || usuarios_user_has_role($user, 'Tutor', USUARIOS_ROL_TUTOR));
+}
+
+/**
+ * Indica si el usuario es aspirante emprendedor o emprendedor.
+ */
+function usuarios_is_emprendedor($user) {
+  return (usuarios_user_has_role($user, 'Aspirante Emprendedor', USUARIOS_ROL_ASPIRANTE_EMPRENDEDOR)
+    || usuarios_user_has_role($user, 'Emprendedor', USUARIOS_ROL_EMPRENDEDOR));
+}
+
+/**
+ * Indica si el usuario es institucion.
+ */
+function usuarios_is_institucion($user) {
+  return usuarios_user_has_role($user, 'Institucion', USUARIOS_ROL_INSTITUCION);
+}
+
+/**
+ * Valida si existe el hash de la institucion y asigna la institución al perfil
+ * del usuario.
+ */
+function validate_institution_hash($form, &$form_state) {
+  $profile_main =& $form_state['values']['profile_main'];
+  $hash = $profile_main['field_institucion_referente'][LANGUAGE_NONE][0]['value'];
+  if (!empty($hash)) {
+    $id_institucion = usuarios_get_id_institucion($hash);
+    if ($id_institucion) {
+      $profile_main['field_institucion'][LANGUAGE_NONE][0]['target_id'] = $id_institucion;
+    }
+    else {
+      form_set_error('profile_main][field_institucion_referente', t('No hay ninguna institución con el identificador ingresado.'));
+    }
+  }
+}
+
+/**
+ * Devuelve el id la institucion con identificador $hash.
+ */
+function usuarios_get_id_institucion($hash) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'user')
+    ->propertyCondition('status', 1)
+    ->fieldCondition('field_identificador_de_recomenda', 'value', $hash, '=');
+  $result = $query->execute();
+  if (isset($result['user'])) {
+    $ids = array_keys($result['user']);
+    return reset($ids);
+  }
+  return FALSE;
+}
+
+/**
+ * Agrega el formulario del perfil $profile_type al formulario $form.
+ */
+function usuarios_add_profile_form($profile_type, &$form, &$form_state) {
+  if (($type = profile2_get_types($profile_type)) && $type->userCategory) {
+    if (empty($form_state['profiles'][$profile_type])) {
+      $profile = profile2_load_by_user($form['#user'], $profile_type);
+      if (empty($profile)) {
+        $profile = profile_create(array('type' => $profile_type, 'uid' => $form['#user']->uid));
+      }
+      $form_state['profiles'][$profile->type] = $profile;
+    }
+  }
+}
+
+function usuarios_user_insert(&$edit, $user, $category) {
+  //solo creo el foro si el usuario es una institucion
+  if(usuarios_is_institucion($user)) {
+    $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+    if(!empty($vocabulary)) {
+      $query = new EntityFieldQuery();
+      $result = $query->entityCondition('entity_type', 'taxonomy_term', '=')
+        ->propertyCondition('vid', $vocabulary->vid, '=')
+        ->fieldCondition('field_institucion', 'target_id', $user->uid)
+        ->execute();
+      if(empty($result['taxonomy_term'])) {
+        $term = (object) array(
+          'name' => $user->name,
+          'description' => 'Foro de los participantes de la institucion ' . $user->name,
+          'vocabulary_machine_name' => 'forums',
+          'vid' => $vocabulary->vid,
+          'parent' => array(0),
+          'metatags' => array(),
+          'op' => "Guardar",
+          'field_institucion' => array('und' => array(array('target_id' => $user->uid))),
+        );
+        $status = taxonomy_term_save($term);
+        switch ($status) {
+        case SAVED_NEW:
+          watchdog('taxonomy', 'Created new term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'taxonomy/term/' . $term->tid . '/edit'));
+          break;
+        case SAVED_UPDATED:
+          watchdog('taxonomy', 'Updated term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'taxonomy/term/' . $term->tid . '/edit'));
+          // Clear the page and block caches to avoid stale data.
+          cache_clear_all();
+          break;
+        }
+      }
+    }
+  }
+}
+
+function validar_fecha_nacimiento($value, $instance, $field) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = strtotime($date->originalTime);
+
+      if ($datetime > REQUEST_TIME) {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validar_cuit_cuil($cuit_cuil) {
+  // no forzar a que el campo sea obligatorio
+  if (strlen($cuit_cuil) == 0) {
+    return true;
+  }
+
+  // si no estan todos los dígitos
+  if (strlen($cuit_cuil) != 11) {
+    return false;
+  } else {
+    $coeficiente = array(5, 4, 3, 2, 7, 6, 5, 4, 3, 2);
+    $sumador = 0;
+
+    // tomo el digito verificador
+    $verificador = intval(substr($cuit_cuil, -1));
+
+    for ($i = 0; $i <= 9; $i++) {
+      //separo cada digito y lo multiplico por el coeficiente
+      $sumador += $cuit_cuil[$i] * $coeficiente[$i];
+    }
+
+    $resultado = 11 - ($sumador % 11);
+    if ($resultado == 11) {
+      $resultado = 0;
+    } elseif ($resultado == 10) {
+      $resultado = 9;
+    }
+
+    if ($verificador != $resultado) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function usuarios_tiene_puntos($uid, $puntos) {
+  if (userpoints_get_current_points($uid) >= $puntos) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function usuarios_descontar_puntos($uid, $puntos, $detalle = '', $entity_id = NULL, $entity_type = NULL) {
+  $params = array(
+    'points' => (-1 * $puntos),
+    'moderate' => 0,
+    'uid' => $uid,
+    'time_stamp' => REQUEST_TIME,
+    'expirydate' => 0,
+    'description' => $detalle,
+    'entity_id' => $entity_id,
+    'entity_type' => $entity_type,
+  );
+
+  userpoints_userpointsapi($params);
+}
+
+/**
+ *	Verifica la validez de un CBU
+ *	Formato del CBU:
+ *		EEESSSSVTTTTTTTTTTTTTV
+ *		Bloque 1:
+ *			EEE - Número de entidad (3 posiciones)
+ *			SSSS - Número de sucursal (4 posiciones)
+ *			V - Dígito verificador de las primeras 7 posiciones
+ *		Bloque 2:
+ *			TTTTTTTTTTTTT - Identificación de la cuenta individual
+ *			V - Dígito verificador de las anteriores 13 posiciones
+ *
+ *	@access		public
+ *	@param		string				$cbu				CBU a verificar
+ *	@return		boolean				True es un CBU válido. False en caso contrario.
+ */
+function validarCBU($cbu)
+{
+  $valid = false;
+  	
+  $cbu = trim($cbu);
+  if(strlen($cbu) == 0) {
+    $valid = true;
+  }
+  elseif ((strlen($cbu) == 22) && (substr_count($cbu, '0') < 22))
+  {
+    $bloque1 = substr($cbu, 0, 8);
+    $bloque2 = substr($cbu, 8, 14);
+
+    if ((validarDigitoCBU($bloque1)) && (validarDigitoCBU($bloque2)))
+    {
+      $valid = true;
+    }
+  }
+  return($valid);
+}
+
+/**
+ *	Valida el Dígito Verificador de una Parte del CBU
+ *
+ *	@access		private
+ *	@param		string				$bloque				Parte del CBU a verificar
+ *	@return		boolean				True si el bloque es correcto, false en caso contrario
+ */
+function validarDigitoCBU($bloque)
+{
+  $ponderador = '9713';
+  $bloqueValor = substr($bloque, 0, -1);
+  $bloqueDigito = substr($bloque, -1, 1);
+  $largoValor = strlen($bloqueValor);
+  $suma = 0;
+  $digitoPonderador = 3;
+  	
+  for ($count = 0; $count < $largoValor; $count++)
+  {
+    $valor = intval(substr($bloqueValor, (-1 - $count), 1));
+    $ponderacion = intval(substr($ponderador, $digitoPonderador, 1));
+
+    $suma += ($valor * $ponderacion);
+    if ($digitoPonderador > 0)
+    {
+      $digitoPonderador--;
+    }
+    else
+    {
+      $digitoPonderador = 3;
+    }
+  }
+  $digito = intval(substr((10 - ($suma % 10)), -1, 1));
+
+  return($digito == $bloqueDigito);
+}
+
+
+/**
+ * Implements hook_field_default_fields_alter().
+ *
+ * Alter the default fields right before they are cached into the database.
+ *
+ * @param &$fields
+ *   By reference. The fields that have been declared by another feature.
+ */
+function usuarios_field_default_field_instances_alter(&$fields) {
+  $source_dir = drupal_get_path('module', 'usuarios') . '/images';
+  $field_default_images = array(
+    'profile2-main-field_imagen_perfil' => 'tutoriame.png',
+  );
+  foreach ($field_default_images as $field_name => $filename) {
+    $source = $source_dir . '/' . $filename;
+    $destination = $filename;
+    if (isset($fields[$field_name])) {
+      usuarios_set_default_image($fields[$field_name], $filename, $source, $destination);
+    }
+  }
+}
+
+/**
+ * Sets the default image.
+ */
+function usuarios_set_default_image(&$field, $filename, $source, $destination) {
+  // See if a default image hasn't been set for this field yet
+  if (empty($field['field_config']['settings']['default_image'])) {
+    // Dynamically set the user default image on the field
+    $destination = file_default_scheme() . '://' . $destination;
+    // Check to see if it exists already
+    $result = db_select('file_managed', 'f')
+      ->fields('f', array('fid'))
+      ->condition('f.uri', $destination)
+      ->execute();
+    $fid = $result->fetchField();
+    // Simulate an upload of the default user image
+    if (!$fid && file_exists($source)) {
+      $file = new stdClass;
+      $file->filename = $filename;
+      $file->timestamp = REQUEST_TIME;
+      $file->uri = $source;
+      $file->filemime = file_get_mimetype($source);
+      $file->uid = 1;
+      $file->status = 1;
+      $file = file_copy($file, $destination, FILE_EXISTS_REPLACE);
+      $fid = $file->fid;
+    }
+    $field['settings']['default_image'] = (string) $fid;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function usuarios_permission() {
+  return array(
+    'permisos de usuarios' => array(
+      'title' => t('Visualizar contenido privado'),
+      'description' => t('permite acceder a contenido que requiere registrarse'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function usuarios_menu() {
+  $items[USUARIOS_ADD_INSTITUCION_URI] = array(
+    'title' => t('Añadir institucion'),
+    'description' => t('Atajo para agregar un usuario de tipo institucion.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_register_form'),
+    'access arguments' => array('administer users'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['usuarios/location/autocomplete'] = array(
+    'access arguments' => array('access content'),
+    'page callback' => 'usuarios_location_autocomplete',
+    'type' => MENU_CALLBACK,
+  );
+  $items['user/register'] = array(
+    'access callback' => false,
+  );
+  $items['cart'] = array(
+    'access callback' => false,
+  );
+
+  return $items;
+}
+
+function usuarios_profile2_regpath_form_block_tutor(&$form, &$form_state) {
+  _replace_any_label($form, 'profile_tutor','field_datos_cuenta_bancaria', 'field_banco');
+  _replace_any_label($form, 'profile_tutor','field_datos_cuenta_bancaria', 'field_tipo_de_cuenta');
+  _replace_any_label2($form, 'profile_main','field_sexo');
+
+  $form['profile_tutor']['field_fecha_de_nacimiento']['und'][0]['#title'] = '';
+
+  $user_register_key = array_search('user_register_submit', $form['#submit']);
+  $form['#submit'][$user_register_key] = 'usuarios_register_submit';
+}
+
+function usuarios_profile2_regpath_form_block_emprendedor(&$form, &$form_state) {
+  _replace_label_sexo($form, 'profile_main','field_sexo');
+  _replace_any_label($form, 'profile_emprendedor','field_datos_cuenta_bancaria', 'field_tipo_de_cuenta');
+  _replace_any_label($form, 'profile_emprendedor','field_datos_cuenta_bancaria', 'field_banco');
+  _replace_any_label2($form, 'profile_emprendedor','field_consultora_si_no');
+  _replace_any_label2($form, 'profile_emprendedor','field_dotacion_empresa');
+  _replace_any_label2($form, 'profile_emprendedor','field_medio_conocio_ttm');
+  _replace_any_label2($form, 'profile_emprendedor','field_pagina_web');
+  _replace_any_label2($form, 'profile_emprendedor','field_ramo_o_actividad');
+  _replace_any_label2($form, 'profile_emprendedor','field_responsabilidad_iva');
+
+  $form['profile_emprendedor']['field_fecha_de_nacimiento']['und'][0]['#title'] = '';
+  $form['profile_emprendedor']['field_pagina_web']['und'][0]['#title'] = '';
+}
+
+function usuarios_profile2_regpath_form_block_main(&$form, &$form_state) {
+  $form['#validate'][] = 'validate_institution_hash';
+
+  hide($form['profile_main']['field_institucion']);
+}
+
+function usuarios_user_register_form(&$form, &$form_state) {
+  if (user_access('administer user') && _usuarios_is_formulario_institucion($form)) {
+    // Ocultamos los campos de main profile (no aplican a institucion).
+    foreach ($form['profile_main'] as $key => &$field) {
+      if (strpos($key, 'field_') === 0) {
+        $lang = $field['#language'];
+        $field[$lang]['#access'] = FALSE;
+      }
+    }
+    hide($form['profile_main']);
+    usuarios_add_profile_form('institucion', $form, $form_state);
+    profile2_attach_form($form, $form_state);
+
+    // Asignamos el rol institución para la nueva cuenta.
+    $form['account']['roles']['#default_value'] = array(USUARIOS_ROL_INSTITUCION);
+    $form['account']['roles'][USUARIOS_ROL_INSTITUCION] = array(
+      '#type' => 'checkbox',
+      '#title' => $form['account']['roles']['#options'][USUARIOS_ROL_INSTITUCION],
+      '#default_value' => TRUE,
+      '#disabled' => TRUE,
+    );
+    hide($form['account']['roles']);
+  }
+
+  hide($form['profile_main']['field_institucion']);
+  hide($form['profile_main']['field_institucion_referente']);
+}
+
+function usuarios_user_profile_form(&$form, &$form_state) {
+  if (!isset($form_state['profiles'])) {
+    $form_state['profiles'] = array();
+  }
+
+  if (usuarios_is_tutor($form['#user'])) {
+    usuarios_add_profile_form('main', $form, $form_state);
+    usuarios_add_profile_form('tutor', $form, $form_state);
+  }
+  if (usuarios_is_emprendedor($form['#user'])) {
+    usuarios_add_profile_form('main', $form, $form_state);
+    usuarios_add_profile_form('emprendedor', $form, $form_state);
+  }
+  if (usuarios_is_institucion($form['#user'])) {
+    usuarios_add_profile_form('institucion', $form, $form_state);
+  }
+  profile2_attach_form($form, $form_state);
+  $form['overlay_control']['overlay']['#value'] = '1';
+  if (!empty($form['privatemsg']['pm_email_notify_level'])) {
+    $form['privatemsg']['pm_email_notify_level']['#value'] = PM_EMAIL_NOTIFY_LEVEL_ALL;
+  }
+
+  hide($form['overlay_control']);
+  hide($form['privatemsg']);
+  hide($form['profile_main']['field_institucion_referente']);
+  hide($form['profile_main']['field_institucion']);
+  hide($form['profile_tutor']['field_calificacion_tutor']);
+
+  // Here we need to provide an extra #process handler to allow us to modify
+  // the password element that FAPI expands.
+  $element_info = element_info('password_confirm');
+  $process = $element_info['#process'];
+  $process[] = 'usuarios_process_password_confirm';
+  $form['account']['pass']['#process'] =  $process;
+  $form['account']['current_pass']['#title'] = t('Contraseña actual');
+}
+
+/**
+ * Implements hook_process_password_confirm().
+ */
+function usuarios_process_password_confirm($element) {
+  $element['pass1']['#title'] = t("Contraseña nueva");
+  $element['pass2']['#title'] = t("Confirmar Contraseña nueva");
+  return $element;
+}
+
+function usuarios_views_exposed_form(&$form, &$form_state) {
+  if (!empty($form['time_stamp']['max'])) {
+    $form['time_stamp']['max']['#title'] = '';
+  }
+}
+
+/**
+ * Indica si estamos en el formulario para crear una institución.
+ */
+function _usuarios_is_formulario_institucion($form) {
+  global $base_path;
+  return $base_path . USUARIOS_ADD_INSTITUCION_URI == $form['#action']
+    || USUARIOS_ADD_INSTITUCION_URI == $_GET['q'];
+}
+
+/**
+ * Handler para el computed field de hash de institucion.
+ */
+function computed_field_field_identificador_de_recomenda_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+  // Sólo generamos un hash para las instituciones.
+  if (isset($entity->roles) && in_array(USUARIOS_ROL_INSTITUCION, $entity->roles)) {
+    if(empty($entity_field[0]['value'])){
+      $entity_field[0]['value'] = uniqid();
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function usuarios_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function usuarios_theme($existing, $type, $theme, $path) {
+  $tpl_path = drupal_get_path('module', 'usuarios') . '/templates';
+  return array(
+    'usuarios_institucion_user' => array(
+      'path' => $tpl_path,
+      'template' => 'usuarios-institucion-user',
+      'variables' => array(
+        'image' => NULL,
+        'link' => NULL,
+      ),
+    ),
+    'usuarios_institucion' => array(
+      'path' => $tpl_path,
+      'template' => 'usuarios-institucion',
+      'variables' => array(
+        'logo' => NULL,
+        'usuarios' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Devuelve el html para el $campo de $perfil.
+ */
+function usuarios_get_imagen($perfil, $image_style, $campo) {
+  $display['label'] = 'hidden';
+  if (!empty($image_style)) {
+    $display['settings']['image_style'] = $image_style;
+  }
+
+  $value = field_view_field('profile2', $perfil, $campo, $display);
+
+  return $value;
+}
+
+/**
+ * Implements hook_date_combo_process_alter().
+ */
+function usuarios_date_combo_process_alter(&$element, &$form_state, $context) {
+  if (
+    ($context['form']['form_id']['#value'] == 'user_profile_form') &&
+    ($element['#field_name'] == 'field_experiencia_ingreso') &&
+    (isset($element['value2']))
+  ) {
+    $element['value2']['#title'] = t('Fecha de egreso');
+  }
+}
+
+/**
+ * Implements hook_location_element_alter().
+ */
+function usuarios_location_element_alter(&$element) {
+  unset($element['province']['#options']['xx']);
+  unset($element['country']['#options']['xx']);
+}
+
+/**
+ * Implements hook_locationapi().
+ */
+function usuarios_locationapi(&$obj, $op, $a3 = NULL, $a4 = NULL, $a5 = NULL) {
+  switch ($op) {
+    case 'field_expand':
+      if (is_array($a4)) {
+        $settings = $a4;
+      }
+      else {
+        $settings = array('default' => NULL, 'weight' => NULL, 'collect' => $a4, 'widget' => NULL);
+      }
+      switch ($a3) {
+        case 'province':
+          if (isset($a5['country']) && is_string($a5['country'])) {
+            $country = $a5['country'];
+          }
+          elseif (isset($a5['country']['default']) && is_string($a5['country']['default'])) {
+            $country = $a5['country']['default'];
+          }
+          else {
+            $country = variable_get('site_default_country', 'us');
+          }
+          switch ($settings['widget']) {
+            case 'autocomplete':
+              drupal_add_js(drupal_get_path('module', 'location') . '/location_autocomplete.js');
+              return array(
+                '#type' => 'textfield',
+                '#title' => t('State/Province'),
+                '#autocomplete_path' => 'usuarios/location/autocomplete/' . $country,
+                '#default_value' => variable_get('location_use_province_abbreviation', 1) ? $obj : location_province_name($country, $obj),
+                '#size' => 64,
+                '#maxlength' => 64,
+                '#description' => NULL,
+                '#attributes' => array('class' => array('location_auto_province')),
+                '#required' => ($settings['collect'] == 2),
+              );
+              break;
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Create a list of states from a given country.
+ *
+ * @param $country
+ *   String. The country code
+ * @param $string
+ *   String (optional). The state name typed by user
+ * @return
+ *   Javascript array. List of states
+ */
+function usuarios_location_autocomplete($country, $string = '') {
+  $counter = 0;
+  $string = usuarios_sanitizar_cadena($string);
+  $string = '/' . preg_quote($string) . '/i';
+  $matches = array();
+
+  if (strpos($country, ',') !== FALSE) {
+    // Multiple countries specified.
+    $provinces = array();
+    $country = explode(',', $country);
+    foreach ($country as $c) {
+      $provinces = $provinces + location_get_provinces($c);
+    }
+  }
+  else {
+    $provinces = location_get_provinces($country);
+  }
+
+  if (!empty($provinces)) {
+    asort($provinces);
+
+    while (list($code, $name) = each($provinces)) {
+      if ($counter < 5) {
+        $match = usuarios_sanitizar_cadena($name);
+        if (preg_match($string, $match)) {
+          $matches[$name] = $name;
+          ++$counter;
+        }
+      }
+    }
+  }
+  drupal_json_output($matches);
+}
+
+function usuarios_sanitizar_cadena($string) {
+  $tildes = array(
+    'á', 'é', 'í', 'ó', 'ú',
+    'Á', 'É', 'Í', 'Ó', 'Ú',
+  );
+  $vocales = array(
+    'a', 'e', 'i', 'o', 'u',
+    'A', 'E', 'I', 'O', 'U',
+  );
+
+  $string = str_replace($tildes, $vocales, $string);
+
+  return $string;
+}
+
+/**
+ * Implements hook_votingapi_results
+ */
+function usuarios_votingapi_results($cached, $entity_type, $entity_id) {
+  if (
+    ($entity_type == 'profile2') &&
+    ($profile = profile2_load($entity_id))
+  ) {
+    $fields = array();
+    if ($instances = field_info_instances('profile2', $profile->type)) {
+      foreach ($instances as $instance) {
+        $field = field_info_field($instance['field_name']);
+        if (
+          ($field['type'] == 'fivestar') &&
+          (!empty($field['settings']['axis']))
+        ){
+          $fields[$field['settings']['axis']] = array(
+            'field_name' => $instance['field_name'],
+            'stars' => $instance['settings']['stars'],
+          );
+        }
+      }
+    }
+
+    if (!empty($fields)) {
+      foreach ($cached as $aCached) {
+        if (
+          ($aCached['function'] == 'average') &&
+          (!empty($fields[$aCached['tag']])) &&
+          (!empty($fields[$aCached['tag']]['stars']))
+        ) {
+          $star_value = 100 / $fields[$aCached['tag']]['stars'];
+          $aCached_stars = round($aCached['value'] / $star_value);
+          $value = $aCached_stars * $star_value;
+
+          $profile->{$fields[$aCached['tag']]['field_name']}['und'][0]['rating'] = $value;
+        }
+      }
+
+      profile2_save($profile);
+    }
+  }
+}
+
+function usuarios_views_data_alter(&$data) {
+  $entity_info = taxonomy_entity_index_entity_views_integrable($data);
+
+  foreach($entity_info as $type => $info) {
+    if (isset($data[$info['base table']]) && isset($info['entity keys']['id'])) {
+      $base_table = $info['base table'];
+
+      $data[$base_table]['shs_taxonomy_entity_index_tid_depth'] = array(
+        'help' => t('Display content if it has the selected taxonomy terms, or children of the selected terms. Due to additional complexity, this has fewer options than the versions without depth. Optionally the filter will use a simple hierarchical select for the selection of terms.'),
+        'group' => t('Taxonomy Entity Index'),
+        'real field' => $info['entity keys']['id'],
+        'filter' => array(
+          'title' => t('Has taxonomy terms on @entity_type (with depth and indexed in taxonomy_entity_index; @type)', array('@entity_type' => $info['label'], '@type' => 'Simple hierarchical select')),
+          'handler' => 'shs_taxonomy_entity_index_handler_filter_tid_depth',
+        ),
+      );
+    }
+  }
+}
+

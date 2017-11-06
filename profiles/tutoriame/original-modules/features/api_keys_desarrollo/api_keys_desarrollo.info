@@ -1,0 +1,17 @@
+name = Api keys desarrollo
+description = Claves para los servicios externos usadas en desarrollo
+core = 7.x
+package = Tutoriame desarrollo
+version = 7.x-1.0
+project = api_keys_desarrollo
+dependencies[] = ctools
+dependencies[] = strongarm
+dependencies[] = login_externos
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = opentok_api_key
+features[variable][] = opentok_api_secret
+features[variable][] = opentok_staging
+features[variable][] = recaptcha_private_key
+features[variable][] = recaptcha_public_key
+project path = profiles/tutoriame/modules/features

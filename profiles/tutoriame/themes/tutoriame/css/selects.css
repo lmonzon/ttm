@@ -1,0 +1,157 @@
+/*	--------------------------------------------------
+	Jquery Selectyze
+	-------------------------------------------------- */	
+
+*{margin:0;padding:0}
+fieldset{padding:0;}
+.intro span {color:#ff0000}
+.first {margin-top:0 !important}
+fieldset{border:0}
+
+.DivSelectyze {
+	position:relative; 
+/*	max-width: 135px;*/
+/*	float:left;*/
+	margin-right:10px;
+	height:26px;
+	margin-bottom: 10px;
+}
+
+.DivSelectyze .selectyzeValue {
+	position:relative;
+	z-index:10;
+	display:block;
+	text-decoration:none;}
+	
+.DivSelectyze ul {list-style:none;}
+
+.DivSelectyze .UlSelectize {
+	position:absolute;
+	z-index:9999;
+	display:none;}
+
+.DivSelectyze li a {
+	display:block;
+	text-decoration:none;}
+
+.optgroupTitle {
+	display:block;}
+
+.skype .selectyzeValue {
+	font-size: 14px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	color: #999; 
+	width: 481px;
+	height: 20px;
+    overflow:hidden;
+	background: #f0f0f0 url(select.png) 98% 60% no-repeat;
+	padding: 4px 20px 4px 6px;
+}
+
+	.skype .UlSelectize {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CDCDCD;
+    margin: 0;
+    padding: 0;
+    right: 0;
+    top: 26px;
+    width: 50%;	}
+
+	.skype li a {
+		height:18px;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+		font-size: 14px;
+		font-weight:normal;
+		background:#FFF;
+		color:#333333;
+		border:none;
+		padding:6px 0px 4px 10px;
+}
+
+	.skype li a:hover {
+		background: #52BE9C;}
+		
+input.bt-buscar{
+	background:#1B325F;
+	height:26px; width:118px;
+	border:0px none;
+	cursor:pointer;
+	color:#FFF; font-size:12px; padding-bottom:2px}
+	
+	
+/*	--------------------------------------------------
+	Jquery Paginate
+	-------------------------------------------------- */	
+	
+.jPaginate{
+    height:34px;
+    position:relative;
+    color:#a5a5a5;
+    font-size:small;   
+	width:100%;}
+	
+.jPaginate a{
+    line-height:15px;
+    height:18px;
+    cursor:pointer;
+    padding:2px 5px;
+    margin:2px;
+    float:left;}
+	
+.jPag-control-back{ position:absolute; left:0px;}
+	
+.jPag-control-front{ position:absolute;	top:0px;}
+	
+.jPaginate span{ cursor:pointer;}
+	
+ul.jPag-pages{
+    float:left;
+    list-style-type:none;
+    margin:0px 0px 0px 0px;
+    padding:0px;}
+	
+ul.jPag-pages li{
+    display:inline; float:left;
+    padding:0px;  margin:0px;}
+	
+ul.jPag-pages li a{ float:left; padding:2px 5px;}
+	
+span.jPag-current{
+    cursor:default;
+    font-weight:normal;
+    line-height:15px;
+    height:18px;
+    padding:2px 5px;
+    margin:2px;
+    float:left;}
+	
+ul.jPag-pages li span.jPag-previous,
+ul.jPag-pages li span.jPag-next,
+span.jPag-sprevious,
+span.jPag-snext,
+ul.jPag-pages li span.jPag-previous-img,
+ul.jPag-pages li span.jPag-next-img,
+span.jPag-sprevious-img,
+span.jPag-snext-img{
+    height:22px; margin:2px; float:left;
+    line-height:18px;}
+	
+ul.jPag-pages li span.jPag-previous,
+ul.jPag-pages li span.jPag-previous-img{
+    margin:2px 0px 0px 2px;
+    font-size:11px; font-weight:bold;}
+		
+ul.jPag-pages li span.jPag-next,
+ul.jPag-pages li span.jPag-next-img{
+    margin:2px 0px 2px 0px;
+    font-size:11px; font-weight:bold; }
+	
+span.jPag-sprevious,
+span.jPag-sprevious-img{
+    0margin:2px 0px 2px 0px;
+    font-size:14px; text-align:right;}
+	
+span.jPag-snext,
+span.jPag-snext-img{
+    0margin:2px 0px 2px 0px;
+    font-size:14px; text-align:right;}

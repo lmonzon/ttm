@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the terminos_condiciones feature.
+ */
+
+include_once 'terminos_condiciones.features.inc';

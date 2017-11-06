@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the paginas_error feature.
+ */
+
+include_once 'paginas_error.features.inc';

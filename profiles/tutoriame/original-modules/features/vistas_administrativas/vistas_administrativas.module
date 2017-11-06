@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the vistas_administrativas feature.
+ */
+
+include_once 'vistas_administrativas.features.inc';

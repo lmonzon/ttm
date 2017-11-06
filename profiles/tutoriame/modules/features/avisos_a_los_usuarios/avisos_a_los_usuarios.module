@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Avisos a los usuarios feature.
+ */
+
+include_once 'avisos_a_los_usuarios.features.inc';

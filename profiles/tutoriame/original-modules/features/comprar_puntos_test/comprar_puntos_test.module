@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the comprar_puntos_test feature.
+ */
+
+include_once 'comprar_puntos_test.features.inc';

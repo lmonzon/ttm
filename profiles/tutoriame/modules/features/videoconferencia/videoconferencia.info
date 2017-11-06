@@ -1,0 +1,13 @@
+name = Videoconferencia
+description = Videoconferencias para Tutoriame usando TokBox
+core = 7.x
+package = Tutoriame
+version = 7.x-1.0
+project = videoconferencia
+dependencies[] = ctools
+dependencies[] = page_manager
+dependencies[] = proyecto
+features[ctools][] = page_manager:pages_default:1
+features[features_api][] = api:2
+features[page_manager_pages][] = videoconferencia_proyecto
+project path = profiles/tutoriame/modules/features

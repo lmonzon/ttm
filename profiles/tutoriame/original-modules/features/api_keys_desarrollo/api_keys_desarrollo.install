@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Hooks de instalación.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function api_keys_desarrollo_install() {
+  $fixed = variable_get('api_keys_desarrollo_keys_fixed', FALSE);
+  if (!$fixed) {
+    module_load_include('inc', 'oauthconnector', 'oauthconnector.admin');
+    $providers = api_keys_desarrollo_get_providers();
+    foreach ($providers as $name => $settings) {
+      api_keys_desarrollo_add_oauth_provider($name, $settings);
+    }
+    variable_set('api_keys_desarrollo_keys_fixed', TRUE);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function api_keys_desarrollo_uninstall() {
+  variable_del('api_keys_desarrollo_keys_fixed');
+}
+
+/**
+ * Agrega la key y secret en $settings al provider $name.
+ */
+function api_keys_desarrollo_add_oauth_provider($name, $settings) {
+  $provider = oauthconnector_provider_load($name);
+  if (!empty($provider->csid)) {
+    $provider->consumer = DrupalOAuthConsumer::loadById($provider->csid, FALSE);
+  }
+
+  $provider->consumer_key = $settings['key'];
+  $provider->consumer_secret = $settings['secret'];
+
+  oauthconnector_provider_save($provider);
+}
+
+/**
+ * Devuelve los datos para los providers de oauthconnector.
+ */
+function api_keys_desarrollo_get_providers() {
+  $providers['google'] = array(
+    'key' => '305014634027-abqoc7bms1p68a451n0skt9ik7sgpnp5.apps.googleusercontent.com',
+    'secret' => '5DqiNGW6frINU9zmgkEszVQB',
+  );
+  $providers['facebook'] = array(
+    'key' => '378269012240848',
+    'secret' => 'df8dfe7210a004ef5c0ad9b8412f1090',
+  );
+
+  return $providers;
+}

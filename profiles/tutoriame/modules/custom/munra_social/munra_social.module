@@ -1,0 +1,518 @@
+<?php
+
+/**
+ * @file
+ * Bloques redes sociales
+ */
+
+// How many blocks should we create.
+define('MUNRA_SOCIAL_NUMBER_OF_BLOCKS', 3);
+
+/**
+ * Implements hook_theme().
+ */
+function munra_social_theme($existing, $type, $theme, $path) {
+  $tpl_path = drupal_get_path('module', 'munra_social') . '/templates';
+  $return = array(
+    // Link for the links block.
+    'munra_social_links' => array(
+      'path' => $tpl_path,
+      'template' => 'munra-social-links',
+      'variables' => array('links' => array(), 'align' => 'left'),
+    ),
+    // Links block.
+    'munra_social_links_link' => array(
+      'path' => $tpl_path,
+      'template' => 'munra-social-links-link',
+      'variables' => array('title' => '', 'url' => '', 'icon' => ''),
+    ),
+    // Shares block.
+    'munra_social_share' => array(
+      'path' => $tpl_path,
+      'template' => 'munra-social-share',
+      'variables' => array('buttons' => array(), 'align' => 'left'),
+    ),
+  );
+
+  // Functions to render the buttons for the shares block.
+  $redes = munra_social_get_shares();
+  module_load_include('inc', 'munra_social', 'munra_social.shares');
+  foreach ($redes as $key => $red) {
+    $callback = 'munra_social_share_' . $key;
+    if (function_exists($callback)) {
+      $return[$callback] = array(
+        'function' => $callback,
+        'file' => 'munra_social.shares.inc',
+        'variables' => array(
+          'options' => NULL,
+        ),
+      );
+    }
+  }
+
+  return $return;
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function munra_social_block_info() {
+  for ($i = 1; $i < MUNRA_SOCIAL_NUMBER_OF_BLOCKS + 1; ++$i) {
+    $blocks['munra_social_links_' . $i] = array(
+      'info' => t('Munra social links @index', array('@index' => $i)), 
+    );
+    $blocks['munra_social_share_' . $i] = array(
+      'info' => t('Munra social share @index', array('@index' => $i)), 
+    );
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function munra_social_block_save($delta = '', $edit = array()) {
+  extract(_munra_social_parse_delta($delta));
+  if ($type && $index) {
+    switch ($type) {
+      case 'links':
+        $redes = $edit['redes'];
+        uasort($redes, 'drupal_sort_weight');
+        variable_set('munra_social_links_settings_' . $index, $redes);
+
+        $directory = $edit['image_directory'];
+        // Remove whitespace and directory separators from the string.
+        $directory = trim(trim($directory, '/\\'));
+        // Replace Windows-style directory separators with Unix separators
+        $directory = implode('/', explode('\\', $directory));
+        variable_set('munra_social_links_image_directory_' . $index, $directory);
+
+        // Alineación.
+        variable_set('munra_social_links_align_' . $index, $edit['align']);
+
+        // Dimensiones.
+        $dimensions = $edit['width'] . 'x' . $edit['height'];
+        variable_set('munra_social_links_dimensions_' . $index, $dimensions);
+        break;
+
+      case 'share':
+        $redes = $edit['redes'];
+        uasort($redes, 'drupal_sort_weight');
+
+        // Save specific settings.
+        foreach ($redes as $key => $red) {
+          if (isset($edit[$key . '_settings'])) {
+            $redes[$key]['conf'] = $edit[$key . '_settings'];
+          }
+        }
+        variable_set('munra_social_share_settings_' . $index, $redes);
+
+        // Alineación.
+        variable_set('munra_social_share_align_' . $index, $edit['align']);
+        break;
+    }
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function munra_social_block_view($delta = '') {
+  extract(_munra_social_parse_delta($delta));
+  switch ($type) {
+    case 'links':
+      return array(
+        'subject' => '',
+        'content' => _munra_social_links_content($index),
+      );
+
+    case 'share':
+      // TODO: Implement.
+      return array(
+        'subject' => '',
+        'content' => _munra_social_share_content($index),
+      );
+  }
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function munra_social_block_configure($delta = '') {
+  extract(_munra_social_parse_delta($delta));
+  if ($type && $index) {
+    switch ($type) {
+      case 'links':
+        return munra_social_links_configure_form($index);
+
+      case 'share':
+        return munra_social_share_configure_form($index);
+    }
+  }
+}
+
+/**
+ * Configuration form for the social links blocks.
+ */
+function munra_social_links_configure_form($index) {
+  $redes = munra_social_get_redes();
+  $defaults = variable_get('munra_social_links_settings_' . $index, $redes);
+  $header = array(t('Nombre'), t('Habilitar'), t('URL'), t('Título del enlace'), t('Weight'));
+  $form['redes']['#prefix'] = '<table id="munra-social-links-settings"><thead><tr><th>' . implode('</th><th>', $header) . '</th></tr></thead><tbody>';
+  $form['redes']['#suffix'] = '</tbody></table>';
+  $form['redes']['#tree'] = TRUE;
+  $i = 0;
+  foreach ($defaults as $key => $red) {
+    $enabled = (isset($red['enable']) && !$red['enable']) ? FALSE : TRUE;
+    $url = isset($red['url']) ? $red['url'] : '';
+    $title = isset($red['title']) ? $red['title'] : '';
+    $weight = isset($red['weight']) ? $red['weight'] : $i++;
+    $file = _munra_social_get_image($key, $index);
+    $img = theme('image', array('path' => $file, 'width' => 15, 'height' => 15));
+
+    $form['redes'][$key]['name'] = array(
+      '#type' => 'hidden',
+      '#value' => $redes[$key]['name'],
+    );
+    $form['redes'][$key]['red'] = array(
+      '#markup' => '<span class="munra-social-links-logo">' . $img . '&nbsp;' . $redes[$key]['name'] . '</span>',
+      '#prefix' => '<tr class="draggable"><td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['enable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Habilitar'),
+      '#title_display' => 'invisible',
+      '#default_value' => $enabled,
+      '#prefix' => '<td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL'),
+      '#title_display' => 'invisible',
+      '#default_value' => $url,
+      '#size' => '30',
+      '#prefix' => '<td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#title_display' => 'invisible',
+      '#default_value' => $title,
+      '#size' => '30',
+      '#prefix' => '<td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#delta' => count($redes),
+      '#title_display' => 'invisible',
+      '#default_value' => $weight,
+      '#attributes' => array('class' => array('weight')),
+      '#prefix' => '<td>',
+      '#suffix' => '</td></tr>',
+    );
+  }
+  drupal_add_tabledrag('munra-social-links-settings', 'order', 'sibling', 'weight');
+
+  // Custom images directory.
+  $form['style'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Estilo'),
+  );
+  $form['style']['image_directory'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Directory for custom images'),
+    '#description' => t('Override the default image directory. This directory must be a subdirectory of the Drupal \'files\' path.'),
+    '#default_value' => variable_get('munra_social_links_image_directory_' . $index, ''),
+  );
+  $form['style']['align'] = array(
+    '#type' => 'radios',
+    '#title' => t('Alineación'),
+    '#options' => array('right' => t('Derecha'), 'left' => t('Izquierda')),
+    '#default_value' => variable_get('munra_social_links_align_' . $index, 'left'),
+  );
+
+  // Dimensiones de los logos.
+  $dimensions = variable_get('munra_social_links_dimensions_' . $index, '');
+  $dimensions = (!empty($dimensions)) ? explode('x', $dimensions) : array('', '');
+  $form['style']['dimensions'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Dimensiones de los logos'),
+    '#description' => t('width x height'),
+  );
+  $form['style']['dimensions']['width'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Width'),
+    '#title_display' => 'invisible',
+    '#size' => '5',
+    '#field_suffix' => 'x',
+    '#prefix' => '<div class="container-inline">',
+    '#default_value' => $dimensions[0],
+  );
+  $form['style']['dimensions']['height'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Height'),
+    '#title_display' => 'invisible',
+    '#size' => '5',
+    '#suffix' => '</div>',
+    '#default_value' => $dimensions[1],
+  );
+  return $form;
+}
+
+/**
+ * Configuration form for the social share blocks.
+ */
+function munra_social_share_configure_form($index) {
+  $redes = munra_social_get_shares();
+  $redes['print'] = array('name' => t('Imprimir'), 'description' => t('Imprimir nodo (vista de impresión) (sólo funciona con nodos).'));
+  $redes['print_mail'] = array('name' => t('Email'), 'description' => t('Enviar nodo por correo electrónico (sólo funciona con nodos).'));
+  $defaults = variable_get('munra_social_share_settings_' . $index, $redes);
+  $header = array(t('Nombre'), t('Habilitar'), t('Descripción'), t('Weight'));
+  $form['redes']['#prefix'] = '<table id="munra-social-share-settings"><thead><tr><th>' . implode('</th><th>', $header) . '</th></tr></thead><tbody>';
+  $form['redes']['#suffix'] = '</tbody></table>';
+  $form['redes']['#tree'] = TRUE;
+  $i = 0;
+  foreach ($defaults as $key => $red) {
+    $enabled = (isset($red['enable']) && !$red['enable']) ? FALSE : TRUE;
+    $weight = isset($red['weight']) ? $red['weight'] : $i++;
+
+    $form['redes'][$key]['name'] = array(
+      '#type' => 'hidden',
+      '#value' => $redes[$key]['name'],
+    );
+    $form['redes'][$key]['red'] = array(
+      '#markup' => $redes[$key]['name'],
+      '#prefix' => '<tr class="draggable"><td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['enable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Habilitar'),
+      '#title_display' => 'invisible',
+      '#default_value' => $enabled,
+      '#prefix' => '<td>',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['description'] = array(
+      '#markup' => $redes[$key]['description'],
+      '#prefix' => '<td class="description">',
+      '#suffix' => '</td>',
+    );
+    $form['redes'][$key]['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#delta' => count($redes),
+      '#title_display' => 'invisible',
+      '#default_value' => $weight,
+      '#attributes' => array('class' => array('weight')),
+      '#prefix' => '<td>',
+      '#suffix' => '</td></tr>',
+    );
+
+    // Specific settings.
+    $settings_function = 'munra_social_share_' . $key . '_settings';
+    module_load_include('inc', 'munra_social', 'munra_social.shares');
+    if (function_exists($settings_function)) {
+      $conf = isset($red['conf']) ? $red['conf'] : array();
+      $fieldset = $settings_function($conf);
+      _munra_social_share_add_fieldset($form, $key, $redes[$key]['name'], $fieldset);
+    }
+  }
+
+  // Deshabilitamos los elementos para los que no se cumplen las dependencias.
+  if (!module_exists('print')) {
+    $form['redes']['print']['enable']['#type'] = 'markup';
+    $form['redes']['print']['enable']['#markup'] = t('Para usar este botón es necesario habilitar el módulo <a href="http://drupal.org/project/print">Print</a>.');
+    $form['redes']['print']['enable']['#prefix'] = '<td class="description">';
+    $form['redes']['print']['weight']['#default_value'] = count($redes);
+  }
+  if (!module_exists('print_mail')) {
+    $form['redes']['print_mail']['enable']['#type'] = 'markup';
+    $form['redes']['print_mail']['enable']['#markup'] = t('Para usar este botón es necesario habilitar el módulo Send by e-mail, parte del módulo <a href="http://drupal.org/project/print">Print</a>.');
+    $form['redes']['print_mail']['enable']['#prefix'] = '<td class="description">';
+    $form['redes']['print_mail']['weight']['#default_value'] = count($redes);
+  }
+
+  drupal_add_tabledrag('munra-social-share-settings', 'order', 'sibling', 'weight');
+
+  // Style settings.
+  $form['style'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Estilo'),
+  );
+  $form['style']['align'] = array(
+    '#type' => 'radios',
+    '#title' => t('Alineación'),
+    '#options' => array('right' => t('Derecha'), 'left' => t('Izquierda')),
+    '#default_value' => variable_get('munra_social_share_align_' . $index, 'left'),
+  );
+
+  return $form;
+}
+
+/**
+ * Lista de redes para el bloque de enlaces.
+ */
+function munra_social_get_redes() {
+  return array(
+    'twitter' => array('name' => 'Twitter'),
+    'facebook' => array('name' => 'Facebook'),
+    'google_plus' => array('name' => 'Google +'),
+    'instagram' => array('name' => 'Instagram'),
+    'flickr' => array('name' => 'Flickr'),
+    'youtube' => array('name' => 'YouTube'),
+    'github' => array('name' => 'GitHub'),
+    'vimeo' => array('name' => 'Vimeo'),
+    'mail' => array('name' => t('Email')),
+    'contact' => array('name' => t('Contact')),
+    'rss' => array('name' => t('RSS')),
+  );
+}
+
+/**
+ * Lista de botones de compartir.
+ *
+ * Además se agregan imprimir y compartir por mail si están habilitados print y
+ * print_mail.
+ */
+function munra_social_get_shares() {
+  return array(
+    'twitter' => array(
+      'name' => 'Twitter',
+      'description' => t('Twitear enlace a la página actual (ver opciones abajo).'),
+    ),
+    'facebook' => array(
+      'name' => 'Facebook',
+      'description' => t('Botón Me gusta de facebook (ver opciones abajo).'),
+    ),
+    'google_plus_one' => array(
+      'name' => 'Google +1',
+      'description' => t('Botón +1 de google + (ver opciones abajo).'),
+    ),
+    'google_plus_share' => array(
+      'name' => 'Google + share',
+      'description' => t('Compartir en google + (ver opciones abajo).'),
+    ),
+  );
+}
+
+
+// Helper functions.
+
+/**
+ * Renders the contents of the links block.
+ */
+function _munra_social_links_content($index) {
+  $redes = variable_get('munra_social_links_settings_' . $index, array());
+  $links = array();
+  foreach ($redes as $key => $red) {
+    if ($red['enable'] && !empty($red['url'])) {
+      $name = isset($red['title']) ? $red['title'] : $red['name'];
+      // Prepare the <img> tag
+      $file = _munra_social_get_image($key, $index);
+      $dimensions = variable_get('munra_social_links_dimensions_' . $index, '');
+      $size = (!empty($dimensions)) ? explode('x', $dimensions) : getimagesize($file);
+      $img = theme('image', array(
+        'path' => $file,
+        'width' => $size[0],
+        'height' => $size[1],
+        'alt' => $name,
+        'title' => $name,
+        'attributes' => array('class' => 'munra-social-links-logo')
+      ));
+      $variables = array(
+        'title' => $name,
+        'url' => $red['url'],
+        'icon' => $img,
+      );
+      $links[] = theme('munra_social_links_link', $variables);
+    }
+  }
+  _munra_social_add_css();
+  $align = variable_get('munra_social_links_align_' . $index);
+  return theme('munra_social_links', array('links' => $links, 'align' => $align));
+}
+
+/**
+ * Renders the contents of the share block.
+ */
+function _munra_social_share_content($index) {
+  $redes = variable_get('munra_social_share_settings_' . $index, array());
+  $buttons = array();
+  foreach ($redes as $key => $options) {
+    if (isset($options['enable']) && $options['enable']) {
+      $buttons[$key] = theme('munra_social_share_' . $key, $options);
+    }
+  }
+  $align = variable_get('munra_social_share_align_' . $index);
+  return theme('munra_social_share', array('buttons' => $buttons, 'align' => $align));
+}
+
+/**
+ * Extracts info from the block delta.
+ *
+ * Returns an array with keys 'type' (links or share) and 'index' with the index
+ * number, or FALSE if $delta is not correct.
+ */
+function _munra_social_parse_delta($delta = '') {
+  $parts = explode('_', $delta);
+  if (count($parts) == 4 && $parts[0] == 'munra' && $parts[1] == 'social' && is_numeric($parts[3])) {
+    return array(
+      'type' => $parts[2],
+      'index' => $parts[3],
+    );
+  }
+  return FALSE;
+}
+
+/**
+ * Returns an img element with the image for $red.
+ */
+function _munra_social_get_image($red, $index) {
+  // Support a custom image directory. If the variable is not set or the
+  // specified file is not available, fall back to the default images.
+  $img_path = variable_get('munra_social_links_image_directory_' . $index, '');
+  $file = file_default_scheme() . '://' . $img_path . '/' . $red . '.png';
+  if (!is_readable($file)) {
+    $file = drupal_get_path('module', 'munra_social') . '/images/' . $red . '.png';
+  }
+
+  return $file;
+}
+
+/**
+ * Adds the css for the blocks.
+ */
+function _munra_social_add_css() {
+  drupal_add_css(drupal_get_path('module', 'munra_social') . '/munra_social.css');
+}
+
+/**
+ * Inserts $fieldset into $form inside a conditional container.
+ *
+ * The container is activated when $key is enabled.
+ */
+function _munra_social_share_add_fieldset(&$form, $key, $name, $fieldset) {
+  $form['container_' . $key] = array(
+    '#type' => 'container',
+    '#states' => array(
+      'visible' => array(
+        ':input[name="redes[' . $key . '][enable]"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['container_' . $key]['wrapper'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('@name settings', array('@name' => $name)),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['container_' . $key]['wrapper'][$key . '_settings'] = $fieldset;
+  $form['container_' . $key]['wrapper'][$key . '_settings']['#tree'] = TRUE;
+}

@@ -1,0 +1,9 @@
+name = Bloque Institucion
+description = Módulo para crear el link al foro de la institucion dentro del menu del usuario.
+package = Mail
+core = 7.x
+version = '7.x-1.0'
+dependencies[] = advanced_forum
+dependencies[] = profile2 
+
+files[] = bloque_institucion.module

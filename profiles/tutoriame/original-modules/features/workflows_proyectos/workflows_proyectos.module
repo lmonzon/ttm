@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Code for the Workflows Proyectos feature.
+ */
+
+include_once 'workflows_proyectos.features.inc';
+
+/**
+ * Implements hook_post_features_revert
+ */
+function workflows_proyectos_post_features_revert($component) {
+  if ($component == 'Workflow') {
+    workflows_proyectos_fix_workflows();
+  }
+}
+
+/**
+ * Implements hook_post_features_enable_feature
+ */
+function workflows_proyectos_post_features_enable_feature($component) {
+  if ($component == 'Workflow') {
+    workflows_proyectos_fix_workflows();
+  }
+}
+
+/**
+ * Corregimos los ids de los workflows, estados y transiciones de workflow.
+ */
+function workflows_proyectos_fix_workflows() {
+  module_load_include('inc', 'workflows_proyectos', 'workflows_proyectos.tutoriame');
+
+  $workflows = workflows_proyectos_tutoriame_get_workflows();
+  if ($workflows) {
+    db_truncate('workflows')->execute();
+
+    $query = db_insert('workflows')
+      ->fields(array('wid', 'name', 'label', 'status', 'module', 'tab_roles', 'options'));
+    // Agregamos los workflows en orden.
+    foreach ($workflows as $type => $workflow) {
+      $query->values($workflow);
+    }
+    $query->execute();
+
+    drupal_set_message('Se modificaron correctamente los ids de workflows.', 'status');
+  }
+
+  $estados = workflows_proyectos_tutoriame_get_estados();
+  if ($estados) {
+    db_truncate('workflow_states')->execute();
+
+    $query = db_insert('workflow_states')
+      ->fields(array('sid', 'wid', 'name', 'state', 'weight', 'sysid', 'status'));
+    // Agregamos los estados en orden.
+    foreach ($estados as $id => $estado) {
+      $query->values($estado);
+    }
+    $query->execute();
+
+    drupal_set_message('Se modificaron correctamente los ids de estados de workflow.', 'status');
+  }
+
+  $transiciones = workflows_proyectos_tutoriame_get_transitions();
+  if ($transiciones) {
+    db_truncate('workflow_transitions')->execute();
+
+    $query = db_insert('workflow_transitions')
+      ->fields(array('tid', 'name', 'label', 'sid', 'target_sid', 'roles'));
+    foreach ($transiciones as $transicion) {
+      $query->values($transicion);
+    }
+    $query->execute();
+
+    drupal_set_message('Se modificaron correctamente los ids de transiciones de workflow.', 'status');
+  }
+}
+

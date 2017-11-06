@@ -1,0 +1,10 @@
+.munra-social-share li,
+.munra-social-links li {
+  list-style: none outside none;
+  display: inline;
+}
+
+.munra-social-align-right {
+  text-align: right;
+}
+

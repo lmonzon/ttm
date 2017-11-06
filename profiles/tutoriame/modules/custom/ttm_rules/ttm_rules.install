@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for TTM Rules module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function ttm_rules_enable() {
+  module_load_include('module', 'mailsystem');
+  mailsystem_set(
+    array(
+      mailsystem_default_id() => 'TTMRulesMailSystem',
+      'ttm_rules' => 'TTMRulesMailSystem',
+    )
+  );
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ttm_rules_disable() {
+  mailsystem_clear(array('ttm_rules' => 'TTMRulesMailSystem'));
+}
+

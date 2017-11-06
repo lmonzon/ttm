@@ -1,0 +1,298 @@
+<?php
+/**
+ * @file
+ * Code for the Flujo de Proyectos feature.
+ */
+
+// Workflow de proyectos.
+define('FLUJO_PROYECTOS_PROYECTOS', '1');
+
+// Estados de proyectos.
+define('FLUJO_PROYECTOS_PROYECTO_ABIERTO', '2');
+define('FLUJO_PROYECTOS_PROYECTO_EN_CURSO', '3');
+define('FLUJO_PROYECTOS_PROYECTO_FINALIZADO', '4');
+define('FLUJO_PROYECTOS_PROYECTO_VENCIDO', '9');
+
+// Workflow Administrativo de proyectos
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTOS', '3');
+
+// Estados de proyectos (administrativos).
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_CALIFICADO', '11');
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_FACTURADO', '12');
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_PAGADO', '13');
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_SIN_MOVIMIENTO', '14');
+define('FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_PENDIENTE_DE_CALIFICACION', '15');
+
+// Workflow de contratos.
+define('FLUJO_PROYECTOS_CONTRATOS', '2');
+
+// Estados de contratos.
+define('FLUJO_PROYECTOS_CONTRATO_PENDIENTE', '6');
+define('FLUJO_PROYECTOS_CONTRATO_ACEPTADO', '7');
+define('FLUJO_PROYECTOS_CONTRATO_RECHAZADO', '8');
+
+function flujo_de_proyectos_programar_transicion_proyecto_vencido($node) {
+  global $user;
+
+  if ($node->type == 'proyecto') {
+    if (!empty($node->field_fecha_inicio['und'][0]['value2'])) {
+      $fechaVencimiento = strtotime($node->field_fecha_inicio['und'][0]['value2']) + 86400;
+
+      $transicion = new WorkflowScheduledTransition();
+      $transicion->setValues('node', $node, 'field_estado_del_proyecto', FLUJO_PROYECTOS_PROYECTO_ABIERTO, FLUJO_PROYECTOS_PROYECTO_VENCIDO, $user->uid, $fechaVencimiento, t('Vencimiento del proyecto')); 
+      $transicion->save();
+    }
+  }
+}
+
+function flujo_de_proyectos_programar_transicion_proyecto_finalizado($node, $contrato) {
+  global $user;
+
+  if (
+    ($node->type == 'proyecto') &&
+    ($contrato->type == 'contrato')
+  ) {
+    if (!empty($contrato->field_fecha_acordada['und'][0]['value2'])) {
+      $fechaFinalizacion = strtotime($contrato->field_fecha_acordada['und'][0]['value2']) + 86400;
+
+      $transicion = new WorkflowScheduledTransition();
+      $transicion->setValues('node', $node, 'field_estado_del_proyecto', FLUJO_PROYECTOS_PROYECTO_EN_CURSO, FLUJO_PROYECTOS_PROYECTO_FINALIZADO, $user->uid, $fechaFinalizacion, t('Finalización del proyecto')); 
+      $transicion->save();
+
+      $transicion_adm = new WorkflowScheduledTransition();
+      $transicion_adm->setValues('node', $node, 'field_estado_adm_proyecto', FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_SIN_MOVIMIENTO, FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_PENDIENTE_DE_CALIFICACION, $user->uid, $fechaFinalizacion, t('Finalización del proyecto')); 
+      $transicion_adm->save();
+    }
+  }
+}
+
+function flujo_de_proyectos_proyecto_editable($proyecto) {
+  $editable = false;
+
+  $proyecto = entity_metadata_wrapper('node', $proyecto);
+  if ($proyecto->field_estado_del_proyecto->value() == FLUJO_PROYECTOS_PROYECTO_ABIERTO) {
+    $editable = true;
+  }
+
+  return $editable;
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function flujo_de_proyectos_node_insert($node) {
+  flujo_de_proyectos_programar_transicion_proyecto_vencido($node);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function flujo_de_proyectos_node_update($node) {
+  flujo_de_proyectos_programar_transicion_proyecto_vencido($node);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function flujo_de_proyectos_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'proyecto_node_form'){
+    if (!user_access('show workflow state change on node edit')) {
+      $form['field_estado_del_proyecto']['#access'] = FALSE;
+      $form['field_estado_adm_proyecto']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function flujo_de_proyectos_permission() {
+  return array(
+    'show workflow state change on node edit' => array(
+      'title' => t('Show workflow state change on node edit'),
+      'description' => t('Show workflow state change form on node editing.'),
+    ),
+  );
+}
+
+function flujo_de_proyectos_query_proyectos_activos() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'proyecto', '=')
+         ->fieldCondition('field_estado_del_proyecto', 'value', FLUJO_PROYECTOS_PROYECTO_ABIERTO, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_proyectos_en_curso() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'proyecto', '=')
+         ->fieldCondition('field_estado_del_proyecto', 'value', FLUJO_PROYECTOS_PROYECTO_EN_CURSO, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_proyectos_finalizados() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'proyecto', '=')
+         ->fieldCondition('field_estado_del_proyecto', 'value', FLUJO_PROYECTOS_PROYECTO_FINALIZADO, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_proyectos_vencidos() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'proyecto', '=')
+         ->fieldCondition('field_estado_del_proyecto', 'value', FLUJO_PROYECTOS_PROYECTO_VENCIDO, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_contratos_activos() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'contrato', '=')
+         ->fieldCondition('field_estado_del_contrato', 'value', FLUJO_PROYECTOS_CONTRATO_RECHAZADO, '!=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_contratos_pendientes() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'contrato', '=')
+         ->fieldCondition('field_estado_del_contrato', 'value', FLUJO_PROYECTOS_CONTRATO_PENDIENTE, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_query_contratos_aceptados() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+         ->propertyCondition('type', 'contrato', '=')
+         ->fieldCondition('field_estado_del_contrato', 'value', FLUJO_PROYECTOS_CONTRATO_ACEPTADO, '=')
+         ->propertyOrderBy('title', 'ASC');
+
+  return $query;
+}
+
+function flujo_de_proyectos_calificar_proyecto($proyecto) {
+  global $user;
+
+  $entity_type = 'node';
+  $field_name = 'field_estado_adm_proyecto';
+  $old_sid = workflow_node_current_state($proyecto, $entity_type, $field_name);
+  $new_sid = FLUJO_PROYECTOS_ADMINISTRATIVO_PROYECTO_CALIFICADO;
+  $comment = '';
+
+  $transicion = new WorkflowTransition();
+  $transicion->setValues($entity_type, $proyecto, $field_name, $old_sid, $new_sid, $user->uid, REQUEST_TIME, $comment);
+
+  $new_sid = workflow_execute_transition('node', $proyecto, 'field_estado_adm_proyecto', $transicion);
+  if ($new_sid == $old_sid) {
+    drupal_set_message(t('Se produjo un error al calificar el proyecto.'), 'error');
+  }
+}
+
+function flujo_de_proyectos_aprobar_contrato($contrato) {
+  global $user;
+
+  /**
+   * El contratante debe tener los puntos necesarios
+   */
+  if (usuarios_tiene_puntos($contrato->uid, $contrato->field_puntos['und'][0]['value'])) {
+    $entity_type = 'node';
+    $field_name = 'field_estado_del_contrato';
+    $old_sid = workflow_node_current_state($contrato, $entity_type, $field_name);
+    $new_sid = FLUJO_PROYECTOS_CONTRATO_ACEPTADO;
+    $comment = '';
+
+    $transicion = new WorkflowTransition();
+    $transicion->setValues($entity_type, $contrato, $field_name, $old_sid, $new_sid, $user->uid, REQUEST_TIME, $comment);
+
+    $new_sid = workflow_execute_transition($entity_type, $contrato, $field_name, $transicion);
+    if ($new_sid != $old_sid) {
+      drupal_set_message(t('El contrato se ha aceptado con éxito.'));
+
+      /**
+       * Proyecto En Curso
+       */
+      if ($proyecto = node_load($contrato->field_proyecto['und'][0]['target_id'])) {
+        $entity_type = 'node';
+        $field_name = 'field_estado_del_proyecto';
+        $old_sid = workflow_node_current_state($proyecto, $entity_type, $field_name);
+        $new_sid = FLUJO_PROYECTOS_PROYECTO_EN_CURSO;
+        $comment = '';
+
+        $transicion = new WorkflowTransition();
+        $transicion->setValues($entity_type, $proyecto, $field_name, $old_sid, $new_sid, $user->uid, REQUEST_TIME, $comment);
+
+        $new_sid = workflow_execute_transition($entity_type, $proyecto, $field_name, $transicion);
+        if ($new_sid == $old_sid) {
+          drupal_set_message(t('Se produjo un error al comenzar el proyecto. Por favor contacte a un administrador.'));
+        }
+
+        /**
+         * Programo la finalización del proyecto
+         */
+        flujo_de_proyectos_programar_transicion_proyecto_finalizado($proyecto, $contrato);
+      }
+
+      /**
+       * Descuento los puntos al contratante
+       */
+      $uid = $contrato->uid;
+      $puntos = $contrato->field_puntos['und'][0]['value'];
+      $entity_id = $contrato->field_proyecto['und'][0]['target_id'];
+      $entity_type = 'node';
+
+      $username = format_username($user);
+      if ($profile = profile2_load_by_user($user)) {
+        if (!empty($profile['main'])) {
+          $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+        }
+      }
+      $titulo = '';
+      if ($proyecto = node_load($contrato->field_proyecto['und'][0]['target_id'])) {
+        $titulo = $proyecto->title;
+      }
+      $descripcion = t('Compra de Horas / @proyecto / @tutor', array('@proyecto' => $titulo, '@tutor' => $username));
+
+      usuarios_descontar_puntos($uid, $puntos, $descripcion, $entity_id, $entity_type);
+    } else {
+      drupal_set_message(t('Se produjo un error al aceptar el contrato.'), 'error');
+    }
+  } else {
+    drupal_set_message(t('El emprendedor ya no cuenta con los puntos necesarios para contratarlo.'), 'error');
+  }
+}
+
+function flujo_de_proyectos_rechazar_contrato($contrato) {
+  global $user;
+
+  $entity_type = 'node';
+  $field_name = 'field_estado_del_contrato';
+  $old_sid = workflow_node_current_state($contrato, $entity_type, $field_name);
+  $new_sid = FLUJO_PROYECTOS_CONTRATO_RECHAZADO;
+  $comment = '';
+
+  $transicion = new WorkflowTransition();
+  $transicion->setValues($entity_type, $contrato, $field_name, $old_sid, $new_sid, $user->uid, REQUEST_TIME, $comment);
+
+  $new_sid = workflow_execute_transition('node', $contrato, 'field_estado_del_contrato', $transicion);
+  if ($new_sid != $old_sid) {
+    drupal_set_message(t('El contrato se ha rechazado con éxito.'));
+  } else {
+    drupal_set_message(t('Se produjo un error al rechazar el contrato.'), 'error');
+  }
+}
+

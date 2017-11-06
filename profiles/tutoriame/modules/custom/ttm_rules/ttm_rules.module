@@ -1,0 +1,155 @@
+<?php
+
+/**
+ * @file
+ * Rules events, actions and conditions specific to Tutoriame.
+ */
+
+/**
+ * Implements hook_node_insert().
+ */
+function ttm_rules_node_insert($node) {
+  if ($node->type == 'proyecto') {
+    $author = user_load($node->uid);
+    rules_invoke_event('ttm_rules_proyecto_creado', $author, $node);
+  }
+  elseif ($node->type == 'contrato') {
+    $tutor = user_load($node->field_tutor['und'][0]['target_id']);
+    $emprendedor = user_load($node->uid);
+    $proyecto = node_load($node->field_proyecto['und'][0]['target_id']);
+    rules_invoke_event('ttm_rules_contrato_creado', $tutor, $emprendedor, $node, $proyecto);
+  }
+}
+
+/**
+ * Implements hook_profile2_insert().
+ */
+function ttm_rules_profile2_insert($profile) {
+  $usuario = user_load($profile->uid);
+
+  if (!usuarios_is_institucion($usuario)) {
+    if ($profile->type == 'main') {
+      $id_rol_en_tutoriame = $profile->field_rol_en_tutoriame[LANGUAGE_NONE][0]['tid'];
+    } else {
+      if ($perfil = profile2_load_by_user($usuario, 'main')) {
+        $id_rol_en_tutoriame = $perfil->field_rol_en_tutoriame[LANGUAGE_NONE][0]['tid'];
+      }
+    }
+    $rol_en_tutoriame = taxonomy_term_load($id_rol_en_tutoriame);
+
+    rules_invoke_event('ttm_rules_perfil_creado', $usuario, $profile, $rol_en_tutoriame);
+  }
+}
+
+function ttm_rules_flag_flag($flag, $entity, $account, $flagging) {
+  if ($flag->name == 'me_interesa') {
+    $project = node_load($entity);
+    rules_invoke_event('ttm_rules_tutor_declara_interes', $account, $project->uid, $project);
+  }
+}
+
+function ttm_rules_permission() {
+  return array(
+    'administer ttm_rules settings' => array(
+      'title' => t('Administrar los avisos a usuarios en Tutoriame'),
+      'description' => t('Configurar los avisos que se enviarán a usuarios de Tutoriame.'),
+    ),
+  );
+}
+
+function ttm_rules_menu() {
+  $items['admin/tutoriame'] = array(
+    'title' => t('Tutoriame'),
+    'description' => t('Opciones para Tutoriame.'),
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/tutoriame/config'] = array(
+    'title' => t('Configuraciones'),
+    'description' => t('Configuraciones para Tutoriame.'),
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/tutoriame/informes'] = array(
+    'title' => t('Informes'),
+    'description' => t('Informes para Tutoriame.'),
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/tutoriame/config/rules'] = array(
+    'title' => t('Avisos a usuarios'),
+    'description' => t('Configure los mensajes que se enviarán a usuarios de Tutoriame.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ttm_rules_admin_settings'),
+    'file' => 'ttm_rules.admin.inc',
+    'access arguments' => array('administer ttm_rules settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function ttm_rules_mail($key, &$message, $params) {
+  mimemail_mail($key, $message, $params);
+}
+
+function ttm_rules_send_mail($key, $to, $subject, $body, $context = array()) {
+  module_load_include('inc', 'mimemail');
+
+  $from = array(
+    'name' => variable_get('site_name'),
+    'mail' => variable_get('site_mail'),
+  );
+  $from = mimemail_address($from);
+
+  $language = language_default();
+
+  $context['subject'] = $subject;
+  $context['body'] = $body;
+
+  $params = array(
+    'context' => $context,
+    'attachments' => '',
+    'plaintext' => '',
+  );
+
+  drupal_mail('ttm_rules', $key, $to, $language, $params, $from);
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function ttm_rules_cron_queue_info() {
+  $queues['ttm_rules_proyecto_creado'] = array(
+    'worker callback' => 'ttm_rules_queue_proyecto_creado',
+    'time' => 60,
+  );
+
+  return $queues;
+}
+
+function ttm_rules_queue_proyecto_creado($data) {
+  if (
+    ($emprendedor = user_load($data['emprendedor'])) &&
+    ($tutor = user_load($data['tutor'])) &&
+    ($proyecto = node_load($data['proyecto']))
+  ) {
+    $context = array(
+      'emprendedor' => $emprendedor,
+      'tutor' => $tutor,
+      'proyecto' => $proyecto,
+    );
+
+    $subject = variable_get('ttm_rules_proyecto_creado_tutor_subject', t('Han creado un proyecto que podría interesarte'));
+    $body = variable_get('ttm_rules_proyecto_creado_tutor_body', t('Han creado un nuevo proyecto que podría ser de tu interés.'));
+
+    ttm_rules_send_mail('ttm_rules_proyecto_creado_tutor', $tutor->mail, $subject, $body, $context);
+  }
+}
+

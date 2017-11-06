@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * Code for the puntos feature.
+ */
+
+include_once 'puntos.features.inc';
+
+define('PUNTOS_UUID_PRODUCTO', '6e028c92-1726-4d57-98b8-3a661a06f92a');
+
+function puntos_form_alter(&$form, &$form_state, $form_id) {
+  //print($form_id);
+  if(substr($form_id, 0, 28) == 'uc_product_add_to_cart_form_') {
+    $form['qty'] = array(
+      '#type' => 'textfield',
+      '#size' => 60,
+      '#title' => t('Cantidad'),
+      '#default_value' => '1',
+      '#prefix' => '<div class="container-inline comprar-puntos">'
+    );
+    $form['actions']['submit']['#value'] = 'Comprar Créditos';
+    $form['actions']['submit']['#suffix'] = '</div>';
+  }
+}
+
+function puntos_uc_add_to_cart($nid, $qty, $data) {
+    uc_cart_empty();
+}
+
+function puntos_permission() {
+  return array(
+    'access puntos comprar' => array(
+      'title' => t('Compra de Créditos de Tutoriame'),
+      'description' => t('Acceder a la página de compra de Tutoriame'),
+    ),
+  );
+}
+
+function puntos_menu() {
+  $items['comprar-puntos'] = array(
+    'title' => t('Comprar Créditos'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('puntos_comprar_page'),
+    'file' => 'puntos.pages.inc',
+    'access callback' => 'puntos_comprar_access',
+    'access callback' => 'user_access',
+    'access arguments' => array('access puntos comprar'),
+  );
+
+  return $items;
+}
+

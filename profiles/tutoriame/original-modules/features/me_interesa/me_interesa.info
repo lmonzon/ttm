@@ -1,0 +1,13 @@
+name = Me interesa
+description = Botón Me Interesa para los Proyectos
+core = 7.x
+package = Tutoriame
+version = 7.x-1.0
+project = me_interesa
+dependencies[] = features
+dependencies[] = flag
+dependencies[] = flujo_de_proyectos
+features[features_api][] = api:2
+features[flag][] = me_interesa
+features[user_permission][] = flag me_interesa
+features[user_permission][] = unflag me_interesa

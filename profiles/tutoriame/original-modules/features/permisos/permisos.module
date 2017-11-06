@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the permisos feature.
+ */
+
+include_once 'permisos.features.inc';

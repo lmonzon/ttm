@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * Code for the busqueda_tutores feature.
+ */
+
+include_once 'busqueda_tutores.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function busqueda_tutores_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'views_exposed_form') {
+    $view = $form_state['view'];
+    if ($view->name == 'buscar_tutores') {
+      drupal_add_js(drupal_get_path('theme', 'tutoriame') . '/js/order_fields.js');
+      ctools_add_js('busqueda_tutores', 'busqueda_tutores');
+
+      if (isset($form['tarifa_desde'])) {
+        $form['tarifa_desde']['#title'] = t('Desde');
+        $form['tarifa_desde']['#prefix'] = '<div class="label-tarifa">' . t('Tarifa') . '</div>';
+      }
+      if (isset($form['tarifa_desde'])) {
+        $form['tarifa_hasta']['#title'] = t('Hasta');
+      }
+    }
+  }
+}
+
+/**
+ * Devuelve la cantidad de proyectos finalizados del usuario $uid.
+ */
+function busqueda_tutores_get_proyectos_finalizados($uid) {
+  $query = db_select('field_data_field_proyecto', 'p');
+  $query->join('field_data_field_tutor', 't', 'p.entity_id = t.entity_id');
+  $query->join('workflow_node_history', 'w', 'w.nid = p.field_proyecto_target_id');
+  $query->fields('p', array('entity_id'))
+    ->condition('w.sid', FLUJO_PROYECTOS_PROYECTO_FINALIZADO)
+    ->condition('t.field_tutor_target_id', $uid);
+  return $query->countQuery()->execute()->fetchField();
+}
+
+/**
+ * Compara la cantidad de proyectos finalizados de los usuarios de $row1 y $row2
+ * para ordenar la salida de la vista, sólo si está activo el criterio de
+ * ordenamiento $handler.
+ */
+function busqueda_tutores_comparar_proyectos_finalizados($uid1, $uid2) {
+  $proyectos1 = busqueda_tutores_get_proyectos_finalizados($uid1);
+  $proyectos2 = busqueda_tutores_get_proyectos_finalizados($uid2);
+  return $proyectos2 - $proyectos1;
+}

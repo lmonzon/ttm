@@ -1,0 +1,15 @@
+name = vistas_administrativas
+core = 7.x
+package = Tutoriame
+version = 7.x-1.1
+dependencies[] = ctools
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = administracion_contenidos
+features[views_view][] = administracion_puntos
+features[views_view][] = administracion_usuarios
+features_exclude[dependencies][better_exposed_filters] = better_exposed_filters
+features_exclude[dependencies][views] = views
+features_exclude[dependencies][views_content] = views_content
+features_exclude[dependencies][views_data_export] = views_data_export
+mtime = 1407451704

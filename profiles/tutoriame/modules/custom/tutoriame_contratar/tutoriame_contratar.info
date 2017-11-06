@@ -1,0 +1,27 @@
+name = Tutoriame Contratar
+description = Módulo para la contratación de tutores en Tutoriame
+package = Tutoriame
+core = 7.x
+version = '7.x-1.0'
+dependencies[] = block
+dependencies[] = ctools
+dependencies[] = flag
+dependencies[] = flujo_de_proyectos
+dependencies[] = mensajer_a
+dependencies[] = profile2
+dependencies[] = proyecto
+dependencies[] = userpoints
+dependencies[] = views
+
+files[] = tutoriame_contratar.inc
+files[] = tutoriame_contratar.module
+files[] = tutoriame_contratar.admin.inc
+files[] = tutoriame_contratar.form.inc
+files[] = tutoriame_contratar.pathauto.inc
+files[] = tutoriame_contratar.pages.inc
+files[] = views/tutoriame_contratar.views.inc
+files[] = views/views_handler_field_contratar_link.inc
+files[] = views/views_handler_field_contratar_para_link.inc
+
+configure=admin/tutoriame/config/contratar
+

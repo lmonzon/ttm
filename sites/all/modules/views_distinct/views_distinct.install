@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Views Distinct module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function views_distinct_uninstall() {
+  // We can't delete the variables one by one because we don't know them all.
+  db_delete('variable')
+    ->condition('name', 'views_distinct:%', 'LIKE')
+    ->execute();
+  cache_clear_all('variables', 'cache_bootstrap');
+}
+
+/**
+ * Migrate existing views_distinct settings to the variable storage.
+ */
+function views_distinct_update_7001() {
+  $result = db_select('views_distinct', 'v')
+    ->fields('v')
+    ->execute();
+
+  foreach ($result as $v) {
+    $views[$v->view_name][$v->display_id][$v->field_id] = unserialize($v->settings);
+  }
+
+  foreach ($views as $view_name => $settings) {
+    variable_set('views_distinct:' . $view_name, $settings);
+  }
+
+  if (db_table_exists('views_distinct')) {
+    db_drop_table('views_distinct');
+  }
+}

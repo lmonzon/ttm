@@ -1,0 +1,27 @@
+name = Theme Tutoriame
+description = Bootstrap Everywhere subtheme providing panels and panels everywhere support
+version = 0.1
+core = 7.x
+
+base theme = bootstrap_everywhere
+
+fonts[google_fonts_api][] = "Source Sans Pro&subset=latin#600"
+fonts[google_fonts_api][] = "Source Sans Pro&subset=latin#700"
+fonts[google_fonts_api][] = "Source Sans Pro&subset=latin#regular"
+
+stylesheets[all][] = css/selects.css
+stylesheets[all][] = css/tutoriame.css
+stylesheets[all][] = css/user.css
+stylesheets[all][] = css/font-awesome.css
+
+scripts[] = js/selectyze/jquery/Selectyze.jquery.min.js
+scripts[] = js/tutoriame.js
+
+plugins[panels][layouts] = plugins/layouts
+
+settings[toggle_name] = 0
+settings[toggle_search] = 1
+
+version = "7.x-2.x-dev"
+core = "7.x"
+project = "tutoriame"

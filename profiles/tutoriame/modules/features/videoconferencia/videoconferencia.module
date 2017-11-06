@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * Code for the Videoconferencia feature.
+ */
+
+include_once 'videoconferencia.features.inc';
+
+define('VIDEOCONFERENCIA_DEFAULT_OFFSET', 3600);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function videoconferencia_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'page_manager' || $owner == 'ctools' || $owner == 'panels') {
+    switch ($plugin_type) {
+      case 'access':
+          return 'plugins/' . $plugin_type;
+      break;
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function videoconferencia_menu() {
+  $items['admin/tutoriame/config/videoconferencias'] = array(
+    'title' => t('Videoconferencias'),
+    'description' => t('Configure los horarios habilitados para las videoconferencias.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('videoconferencia_admin_settings'),
+    'file' => 'videoconferencia.admin.inc',
+    'access arguments' => array('administer videoconferencia settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function videoconferencia_permission() {
+  return array(
+    'administer videoconferencia settings' => array(
+      'title' => t('Administrar opciones de videoconferencia'),
+    )
+  );
+}
+
+/**
+ * Indica si la hora actual está dentro del rango para alguna de las fechas de
+ * videoconferencia ($fechas).
+ */
+function videoconferencia_horario_activo($fechas) {
+  $offset = variable_get('videoconferencia_offset_horarios', VIDEOCONFERENCIA_DEFAULT_OFFSET);
+  $offset = intval($offset);
+  $now = time();
+  foreach ($fechas as $fecha) {
+    $ini = $fecha['value'] - $offset;
+    $fin = $fecha['value2'] + $offset;
+    if ($ini <= $now && $now <= $fin) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function videoconferencia_block_info() {
+  $blocks['videoconferencia-enlace'] = array(
+    'info' => t('Videoconferencias proyecto'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function videoconferencia_block_view($delta = '') {
+  $proyecto = menu_get_object();
+  if ($proyecto && is_object($proyecto)) {
+    $block['subject'] = t('Ver videoconferencia');
+    $block['content'] = array(
+      '#type' => 'link',
+      '#title' => t('Abrir videoconferencia'),
+      '#href' => url('videoconferencia/' . $proyecto->nid, array('absolute' => TRUE)),
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('btn'),
+        ),
+      ),
+    );
+    return $block;
+  }
+}

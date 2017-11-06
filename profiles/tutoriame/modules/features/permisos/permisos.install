@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Hooks de instalación.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function permisos_install() {
+  try {
+    $query = db_insert('role_permission')
+      ->fields(array('rid', 'permission', 'module'));
+    foreach (array('facebook', 'google') as $provider) {
+      foreach (array('1', '2') as $rol) {
+        $query->values(array(
+          'rid' => $rol,
+          'permission' => 'connect with oauthconnector_' . $provider,
+          'module' => 'connector',
+        ));
+      }
+    }
+    $query->execute();
+  }
+  catch (Exception $e) {
+    drupal_set_message('Los permisos de oauthconnect ya estaban creados.', 'status');
+  }
+}

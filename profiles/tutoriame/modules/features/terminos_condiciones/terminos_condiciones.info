@@ -1,0 +1,14 @@
+name = terminos_condiciones
+core = 7.x
+package = Tutoriame
+version = 7.x-1.0
+project = terminos_condiciones
+dependencies[] = features
+dependencies[] = legal
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[user_permission][] = administer Terms and Conditions
+features[user_permission][] = view Terms and Conditions
+features_exclude[dependencies][ctools] = ctools
+project path = profiles/tutoriame/modules/features

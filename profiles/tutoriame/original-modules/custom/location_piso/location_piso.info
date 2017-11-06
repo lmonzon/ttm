@@ -1,0 +1,16 @@
+name = Location Piso
+package = Location
+description = Permite agregar el número el piso a una location.
+dependencies[] = location
+core = 7.x
+files[] = location_piso.module
+files[] = location_piso.install
+files[] = location_piso.views.inc
+
+
+; Information added by Drupal.org packaging script on 2014-03-10
+version = "7.x-3.2"
+core = "7.x"
+project = "location"
+datestamp = "1394459305"
+

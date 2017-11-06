@@ -1,0 +1,67 @@
+<?php
+/**
+ * @file
+ * Code for the Me interesa feature.
+ */
+
+include_once 'me_interesa.features.inc';
+
+function me_interesa_flag_access($flag, $entity_id, $action, $account) {
+  $access = NULL;
+
+  if ($flag->name == 'me_interesa') {
+    $query = flujo_de_proyectos_query_proyectos_activos();
+    $query->propertyCondition('nid', $entity_id, '=')
+           ->count();
+
+    if ($query->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  return $access;
+}
+
+function me_interesa_flag_access_multiple($flag, $entity_ids, $account) {
+  $access = array();
+
+  if ($flag->name == 'me_interesa') {
+    $ids = array_keys($entity_ids);
+
+    foreach ($ids as $id) {
+      $access[$id] = false;
+    }
+
+    $query = flujo_de_proyectos_query_proyectos_activos();
+    $query->propertyCondition('nid', $ids, 'IN');
+
+    if ($proyectos = $query->execute()) {
+      foreach ($proyectos['node'] as $unProyecto) {
+        $access[$unProyecto->nid] = true;
+      }
+    }
+  }
+
+  return $access;
+}
+
+function me_interesa_flag_validate($action, $flag, $entity_id, $account, $skip_permission_check, $flagging) {
+  $access= array();
+
+  if ($flag->name == 'me_interesa') {
+    $query = flujo_de_proyectos_query_proyectos_activos();
+    $query->propertyCondition('nid', $entity_id, '=')
+           ->count();
+
+    if (!$query->execute()) {
+      $access = array(
+        'access-denied' => t('El proyecto seleccionado no existe o no se encuentre activo.'),
+      );
+    }
+  }
+
+  return($access);
+}
+

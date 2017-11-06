@@ -1,0 +1,14 @@
+name = Tutoriame Plantillas
+description = Módulo de personalización de plantillas para la mensajería de Tutoriame
+package = Mail
+core = 7.x
+version = '7.x-1.0'
+dependencies[] = pm_email_notify
+dependencies[] = ttm_rules
+dependencies[] = tutoriame_privatemsg
+
+files[] = tutoriame_plantillas.module
+files[] = tutoriame_plantillas.admin.inc
+
+configure=admin/tutoriame/config/plantillas
+

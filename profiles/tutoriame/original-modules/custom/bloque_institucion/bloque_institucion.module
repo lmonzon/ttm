@@ -1,0 +1,52 @@
+<?php
+
+function bloque_institucion_block_info() {
+  $blocks['bloque_institucion'] = array(
+    'info' => t('Institucion'),
+  );
+
+  return $blocks;
+}
+
+function bloque_institucion_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+  case 'bloque_institucion':
+    $block['subject'] = t('Institucion');
+    $block['content'] = bloque_institucion_contents($delta);
+    break;
+  }
+
+  return $block;
+}
+
+function bloque_institucion_contents($delta) {
+  global $user;
+
+  $block = '';
+
+  switch ($delta) {
+  case 'bloque_institucion':
+    $user_main_profile = profile2_load_by_user($user->uid, 'main');
+    if (!empty($user_main_profile->field_institucion)) {
+      $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+      if(!empty($vocabulary)) {
+        $query = new EntityFieldQuery();
+        $result = $query->entityCondition('entity_type', 'taxonomy_term', '=')
+          ->propertyCondition('vid', $vocabulary->vid, '=')
+          ->fieldCondition('field_institucion', 'target_id', $user_main_profile->field_institucion['und'][0]['target_id'], '=')
+          ->execute();
+        if(!empty($result['taxonomy_term'])) {
+          foreach($result['taxonomy_term'] as $taxonomy_term) {
+            $foro = taxonomy_term_load($taxonomy_term->tid); 
+            $block .= l($foro->name, url('forum/' . $foro->tid , array('absolute' => true)));
+          }
+        }
+      }
+    }
+    break;
+  }
+  return $block;
+}
+

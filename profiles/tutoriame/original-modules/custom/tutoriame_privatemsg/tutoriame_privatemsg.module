@@ -1,0 +1,734 @@
+<?php
+
+module_load_include('inc', 'privatemsg', 'privatemsg.pages');
+
+function tutoriame_privatemsg_action_info() {
+  $info['tutoriame_privatemsg_user_update_action'] = array(
+    'type' => 'user',
+    'label' => t('Actualizar alias de URL de contacto'),
+    'configurable' => false,
+  );
+
+  return $info;
+}
+
+function tutoriame_privatemsg_user_insert(&$edit, $account, $category) {
+  tutoriame_privatemsg_user_update_alias($account, 'insert');
+}
+
+function tutoriame_privatemsg_user_update(&$edit, $account, $category) {
+  tutoriame_privatemsg_user_update_alias($account, 'update');
+}
+
+function tutoriame_privatemsg_user_delete($account) {
+  pathauto_path_delete_all("consultar/{$account->uid}");
+}
+
+function tutoriame_privatemsg_user_operations() {
+  $operations['tutoriame_privatemsg_update_alias'] = array(
+    'label' => t('Actualizar URL de consulta'),
+    'callback' => 'tutoriame_privatemsg_user_update_alias_multiple',
+    'callback arguments' => array('bulkupdate', array('message' => true)),
+  );
+
+  return $operations;
+}
+
+function tutoriame_privatemsg_user_update_alias(stdClass $account, $op, array $options = array()) {
+  module_load_include('inc', 'pathauto');
+
+  if (!pathauto_pattern_load_by_entity('tutoriame_privatemsg')) {
+    return;
+  }
+
+  $options += array(
+    'language' => LANGUAGE_NONE,
+  );
+
+  pathauto_create_alias('tutoriame_privatemsg', $op, "consultar/{$account->uid}", array('user' => $account), NULL, $options['language']);
+}
+
+function tutoriame_privatemsg_user_update_alias_multiple(array $uids, $op, array $options = array()) {
+  $options += array('message' => false);
+
+  $accounts = user_load_multiple($uids);
+  foreach ($accounts as $account) {
+    tutoriame_privatemsg_user_update_alias($account, $op, $options);
+  }
+
+  if (!empty($options['message'])) {
+    drupal_set_message(format_plural(count($uids), 'Se actualizó el alias de la URL de consulta para 1 usuario.', 'Se actualizaron los aliases de consulta para @count usuarios.'));
+  }
+}
+
+function tutoriame_privatemsg_user_update_action($account, $context = array()) {
+  tutoriame_privatemsg_user_update_alias($account, 'bulkupdate', array('message' => true));
+}
+
+function tutoriame_privatemsg_permission() {
+  return array(
+    'administer tutoriame_privatemsg settings' => array(
+      'title' => t('Administrar privatemsg para Tutoriame'),
+      'description' => t('Configurar la utilización de Privatemsg para Tutoriame'),
+    ),
+  );
+}
+
+function tutoriame_privatemsg_menu() {
+  $items['consultar/%user'] = array(
+    'title' => t('Consultar'),
+    'title callback' => 'tutoriame_privatemsg_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_privatemsg_consultar_page', 1),
+    'file' => 'tutoriame_privatemsg.pages.inc',
+    'access callback' => 'tutoriame_privatemsg_consultar_access',
+    'access arguments' => array(1),
+  );
+  $items['admin/tutoriame/config/privatemsg'] = array(
+    'title' => t('Mensajería'),
+    'description' => t('Configure la mensajería entre usuarios de Tutoriame.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_privatemsg_admin_settings'),
+    'file' => 'tutoriame_privatemsg.admin.inc',
+    'access arguments' => array('administer tutoriame_privatemsg settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  /**
+   * Deshabilito las rutas de privatemsg
+   */
+  $items['messages'] = array(
+    'access callback' => false,
+  );
+  $items['messages/list'] = array(
+    'access callback' => false,
+  );
+  $items['messages/view/%privatemsg_thread'] = array(
+    'access callback' => false,
+  );
+  $items['messages/delete/%privatemsg_thread/%privatemsg_message'] = array(
+    'access callback' => false,
+  );
+  $items['messages/new'] = array(
+    'access callback' => false,
+  );
+  $items['messages/autocomplete'] = array(
+    'access callback' => false,
+  );
+  $items['user/%/messages'] = array(
+    'access callback' => false,
+  );
+
+  return $items;
+}
+
+function tutoriame_privatemsg_page_title($account) {
+  $username = '';
+
+  if (is_object($account)) {
+    $username = format_username($account);
+    
+    if ($profile = profile2_load_by_user($account)) {
+      if (!empty($profile['main'])) {
+        $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+      }
+    }
+  }
+
+  return t('Consultar a @s', array('@s' => $username));
+}
+
+function tutoriame_privatemsg_consultar_access($account) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_privatemsg');
+
+  $to_user = (is_object($account)) ? ($account) : (user_load((int) $account));
+
+  return tutoriame_privatemsg_puede_contactar($user, $to_user);
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function tutoriame_privatemsg_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'tutoriame_privatemsg') . '/views',
+  );
+}
+
+function tutoriame_privatemsg_privatemsg_block_message($author, $recipients, $context = array()) {
+  $blocked = array();
+
+  module_load_include('inc', 'tutoriame_privatemsg');
+
+  if (!empty($context['thread_id'])) {
+    $message = privatemsg_message_load($context['thread_id']);
+
+    if (!empty($message)) {
+      if ($message->author->uid == $author->uid) {
+        $from_user_original = $author;
+      } else {
+        $to_user_original = $author;
+      }
+    }
+    foreach ($recipients as $recipient) {
+      if (!empty($from_user_original)) {
+        $from_user = $from_user_original;
+        $to_user = $recipient;
+      } elseif (!empty($to_user_original)) {
+        $from_user = $recipient;
+        $to_user = $to_user_original;
+      } else {
+        $from_user = $recipient;
+        $to_user = $recipient;
+      }
+
+      if (!tutoriame_privatemsg_puede_responder($message, $from_user, $to_user)) {
+        $blocked[] = array(
+          'recipient' => 'user_' . $recipient->uid,
+          'message' => t('Ya no puedes comunicarte con %recipient.', array('%recipient' => privatemsg_recipient_format($recipient, array('plain' => true)))),
+        );
+      }
+    }
+  }
+
+  return $blocked;
+}
+
+function tutoriame_privatemsg_privatemsg_message_validate($message, $form = false) {
+  $messages['error'] = array();
+
+  $datosProhibidos = array(
+    'email' => array(
+      'regex' => '/[a-z0-9](?:(?:[\.]?[a-z0-9_\-]+)*)(?:@| arroba )(?:[a-z0-9]+)(?:(?:[\.\-]?[a-z0-9]+)*)\.(?:[a-z]{2,})/i',
+      'mensaje' => t('No puedes enviar direcciones de correo electrónico en tus mensajes.'),
+    ),
+    'url' => array(
+      'regex' => '/((?:www\.)?[a-z0-9]{1,}\.[a-z]{2,4})/',
+      'mensaje' => t('No puedes enviar direcciones URL en tus mensajes.'),
+    ),
+    'telefono' => array(
+      'regex' => '/(?:[0-9]{1,3})?(?:[\s-])?(?:[0-9]{3,4})?(?:[\s-])?[0-9]{3,4}(?:[\s-])?[0-9]{3,4}/',
+      'mensaje' => t('No puedes enviar teléfonos en tus mensajes.'),
+    ),
+  );
+
+  $body = $message->body;
+  foreach ($datosProhibidos as $unDato) {
+    if (preg_match_all($unDato['regex'], $body, $match)) {
+      if ($form) {
+        form_set_error('body', $unDato['mensaje']);
+      } else {
+        $messages['error'][] = $unDato['mensaje'];
+      }
+    }
+  }
+
+  $largoMaximo = variable_get('tutoriame_privatemsg_largo_mensaje', 0);
+  if (($largoMaximo > 0) && (strlen($body) > $largoMaximo)) {
+    $error = t('El mensaje no puede superar los %largoMaximo caracteres', array('%largoMaximo' => $largoMaximo));
+    if ($form) {
+      form_set_error('body', $error);
+    } else {
+      $messages['error'][] = $error;
+    }
+  }
+
+  return $messages;
+}
+
+function tutoriame_privatemsg_block_info() {
+  $blocks['tutoriame_privatemsg-consultar'] = array(
+    'info' => t('Consultar'),
+  );
+  $blocks['tutoriame_privatemsg-threads'] = array(
+    'info' => t('Mis conversaciones'),
+  );
+
+  return $blocks;
+}
+
+function tutoriame_privatemsg_block_configure($delta = '') {
+  $form = array();
+
+  switch ($delta) {
+    case 'tutoriame_privatemsg-consultar':
+      $form[$delta . '_enlace'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace'),
+        '#description' => t('Texto a utilizar en el enlace del bloque'),
+        '#default_value' => variable_get($delta . '_enlace', t('Consultar')),
+      );
+      break;
+    case 'tutoriame_privatemsg-threads':
+      $form[$delta . '_cantidad'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Cantidad por página'),
+        '#description' => t('Cantidad de conversaciones a mostrar por página'),
+        '#default_value' => variable_get($delta . '_cantidad', 5),
+      );
+      break;
+  }
+
+  return $form;
+}
+
+function tutoriame_privatemsg_block_save($delta = '', $edit = array()) {
+  switch ($delta) {
+    case 'tutoriame_privatemsg-consultar':
+      variable_set($delta . '_enlace', $edit[$delta . '_enlace']);
+      break;
+    case 'tutoriame_privatemsg-threads':
+      variable_set($delta . '_cantidad', $edit[$delta . '_cantidad']);
+      break;
+  }
+}
+
+function tutoriame_privatemsg_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'tutoriame_privatemsg-consultar':
+      $block['subject'] = t('Consultar');
+      $block['content'] = tutoriame_privatemsg_block_contents($delta);
+      break;
+    case 'tutoriame_privatemsg-threads':
+      $block['subject'] = t('Mis conversaciones');
+      $block['content'] = tutoriame_privatemsg_block_contents($delta);
+      break;
+  }
+
+  return $block;
+}
+
+function tutoriame_privatemsg_block_contents($delta) {
+  switch ($delta) {
+    case 'tutoriame_privatemsg-consultar':
+      $block = tutoriame_privatemsg_block_consultar($delta);
+      break;
+    case 'tutoriame_privatemsg-threads':
+      $block = tutoriame_privatemsg_block_threads($delta);
+      break;
+  }
+
+  return $block;
+}
+
+function tutoriame_privatemsg_block_consultar($delta) {
+  $block = '';
+
+  global $user;
+
+  module_load_include('inc', 'tutoriame_privatemsg');
+
+  $mod = arg(0);
+  $uid = arg(1);
+  if (($mod == 'user') && (!empty($uid))) {
+    if ($to_user = user_load($uid)) {
+      if (tutoriame_privatemsg_puede_contactar($user, $to_user)) {
+        $block .= l(variable_get($delta . '_enlace', t('Consultar')), url('consultar/' . $to_user->uid . '', array('absolute' => true)));
+      }
+    }
+  }
+
+  return $block;
+}
+
+function tutoriame_privatemsg_block_threads($delta) {
+  $block = '';
+
+  global $user;
+
+  $thread_id = arg(1);
+  if (empty($thread_id)) {
+    $query = _privatemsg_assemble_query('list', $user, 'list');
+    $query->addExpression('MAX(pmi.mid)', 'last_message');
+
+    $fields = privatemsg_get_enabled_headers();
+    if (!in_array('participants', $fields)) {
+      if (db_driver() == 'pgsql') {
+        $query->addExpression("array_to_string(array(SELECT DISTINCT pmia.type || '_' || pmia.recipient
+                                                            FROM {pm_index} pmia
+                                                            WHERE pmia.type <> 'hidden' AND pmia.thread_id = pmi.thread_id AND pmia.recipient <> :current), ',')", 'participants', array(':current' => $user->uid));
+      } else {
+        $query->addExpression("(SELECT GROUP_CONCAT(DISTINCT CONCAT(pmia.type, '_', pmia.recipient))
+                                       FROM {pm_index} pmia
+                                       WHERE pmia.type <> 'hidden' AND pmia.thread_id = pmi.thread_id AND pmia.recipient <> :current)", 'participants', array(':current' => $user->uid));
+      }
+    }
+
+    $query->limit(variable_get($delta . '_cantidad', 5));
+
+    $mids = $uids = $messages = $users = array();
+    foreach ($query->execute() as $row) {
+      if (!empty($row->participants)) {
+        $participants = explode(',', $row->participants);
+        $row->participants = array();
+
+        foreach ($participants as $participant) {
+          $participant = explode('_', $participant);
+
+          if (
+            (count($participant) == 2) &&
+            ($participant[0] == 'user')
+          ) {
+            $participant = intval($participant[1]);
+
+            $row->participants[] = $participant;
+            $uids[] = $participant;
+          }
+        }
+      }
+
+      $mids[] = $row->last_message;
+      unset($row->last_message);
+
+      $messages[$row->thread_id] = $row;
+    }
+
+    /**
+     * Cargo el último mensaje y el proyecto relacionado
+     */
+    if (
+      (!empty($mids)) &&
+      ($fullMessages = privatemsg_message_load_multiple($mids))
+    ) {
+      $nids = array();
+      foreach ($fullMessages as $aMessage) {
+        $nids[] = $aMessage->field_proyecto_consultado['und'][0]['value'];
+      }
+
+      $proyectos = node_load_multiple($nids);
+      foreach ($fullMessages as $aMessage) {
+        $messages[$aMessage->thread_id]->last_message = $aMessage;
+
+        if (
+          (isset($messages[$aMessage->thread_id])) &&
+          (isset($proyectos[$aMessage->field_proyecto_consultado['und'][0]['value']]))
+        ) {
+          $messages[$aMessage->thread_id]->proyecto_consultado = $proyectos[$aMessage->field_proyecto_consultado['und'][0]['value']];
+          $messages[$aMessage->thread_id]->proyecto_consultado->field_estado_del_proyecto['und'][0]['label'] = workflow_get_sid_label($messages[$aMessage->thread_id]->proyecto_consultado->field_estado_del_proyecto['und'][0]['value']);
+        }
+      }
+    }
+
+    if ($contactedUsers = user_load_multiple(array_unique($uids))) {
+      foreach ($contactedUsers as $aUser) {
+        if ($profiles = profile2_load_by_user($aUser)) {
+          if (!empty($profiles['main'])) {
+            $imagen_perfil = usuarios_get_imagen($profiles['main'], 'privatemsg_list_image', 'field_imagen_perfil');
+            $aUser->imagen_perfil = render($imagen_perfil);
+            $aUser->nombre = t('@nombre, @inicial.', array(
+              '@nombre' => $profiles['main']->field_nombres['und'][0]['value'],
+              '@inicial' => substr($profiles['main']->field_apellido['und'][0]['value'], 0, 1),
+            ));
+          }
+
+          $aUser->profiles = $profiles;
+        }
+
+        $users[$aUser->uid] = $aUser;
+      }
+    }
+
+    $block = theme('tutoriame_privatemsg_list', array(
+      'messages' => $messages,
+      'users' => $users,
+      'pager' => theme('pager'),
+    ));
+  } else {
+    if ($thread = privatemsg_thread_load($thread_id, $user)) {
+      /**
+       * Invierto el orden por defecto de privatemsg
+       */
+      $messages = array_reverse($thread['messages'], true);
+
+      foreach ($messages as $pmid => $message) {
+        /**
+         * Marco el mensaje como leído
+         */
+        if (!empty($message->is_new)) {
+          privatemsg_message_change_status($pmid, PRIVATEMSG_READ, $thread['user']);
+        }
+
+        /**
+         *  Renderizo los adjuntos
+         */
+        if ($attachments = field_get_items('privatemsg_message', $message, 'field_adjunto')) {
+          $message->adjuntos = array();
+
+          $display = array(
+            'type' => 'file_table',
+          );
+
+          foreach ($attachments as $attachment) {
+            $field_value = field_view_value('privatemsg_message', $message, 'field_adjunto', $attachment, $display);
+            $message->adjuntos[] = render($field_value);
+          }
+        }
+      }
+
+      $users = $tutors = array();
+      foreach ($thread['participants'] as $aUser) {
+        if ($profiles = profile2_load_by_user($aUser)) {
+          if (!empty($profiles['main'])) {
+            $imagen_perfil = usuarios_get_imagen($profiles['main'], 'privatemsg_view_image', 'field_imagen_perfil');
+            $aUser->imagen_perfil = render($imagen_perfil);
+            $aUser->nombre = t('@nombre, @inicial.', array(
+              '@nombre' => $profiles['main']->field_nombres['und'][0]['value'],
+              '@inicial' => substr($profiles['main']->field_apellido['und'][0]['value'], 0, 1),
+            ));
+
+            if ($aUser->uid != $user->uid) {
+              $tutors[] = l(t('@nombre @apellido', array(
+                '@nombre' => $profiles['main']->field_nombres['und'][0]['value'],
+                '@apellido' => $profiles['main']->field_apellido['und'][0]['value'],
+              )),
+              'user/' . $aUser->uid);
+            }
+          }
+
+          $aUser->profiles = $profiles;
+        }
+
+        $users[$aUser->uid] = $aUser;
+      }
+
+      $form = '';
+      if (
+        (privatemsg_user_access('write privatemsg')) ||
+        (privatemsg_user_access('reply only privatemsg'))
+      ) {
+        module_load_include('inc', 'privatemsg', 'privatemsg.pages');
+
+        $form = drupal_get_form('privatemsg_form_reply', $thread);
+
+        $first_message = reset($thread['messages']);
+        if (
+          (!$project = node_load($first_message->field_proyecto_consultado['und'][0]['value'])) ||
+          (!tutoriame_privatemsg_get_proyecto_en_curso($first_message->field_proyecto_consultado['und'][0]['value']))
+        ) {
+          hide($form['field_adjunto']);
+        }
+
+        $form = render($form);
+      }
+
+      $pager = '';
+      if (
+        ($thread['to'] != $thread['message_count']) ||
+        (!empty($thread['start']))
+      ) {
+        $thread_url = format_string('@base_url/@mid', array(
+          '@base_url' => variable_get('tutoriame_privatemsg_urls_base_url', 'messages/view'),
+          '@mid' => $thread['thread_id'],
+        ));
+
+        $older = '';
+        if (isset($thread['older_start'])) {
+          $options = array(
+            'query' => array('start' => $thread['older_start']),
+            'attributes' => array(
+              'title' => t('Display older messages'),
+            ),
+          );
+
+          $older = l(t('>>'), $thread_url, $options);
+        }
+
+        $newer = '';
+        if (isset($thread['newer_start'])) {
+          $options = array(
+            'query' => array('start' => $thread['newer_start']),
+            'attributes' => array(
+              'title' => t('Display newer messages'),
+            ),
+          );
+
+          $newer = l(t('<<'), $thread_url, $options);
+        }
+
+        $substitutions = array(
+          '@from' => $thread['from'],
+          '@to' => $thread['to'],
+          '@total' => $thread['message_count'],
+          '!newer_link' => $newer,
+          '!older_link' => $older,
+        );
+
+        $pager = t('!newer_link Displaying messages @from - @to of @total !older_link', $substitutions);
+      }
+
+      $block = theme('tutoriame_privatemsg_view', array(
+        'title' => t('Tutoría con !tutores', array('!tutores' => implode(', ', $tutors))),
+        'messages' => $messages,
+        'users' => $users,
+        'user' => $users[$user->uid],
+        'form' => $form,
+        'pager' => $pager,
+      ));
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_field_attach_form
+ */
+function tutoriame_privatemsg_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  if ($entity_type == 'privatemsg_message') {
+    if (isset($form['body'])) {
+      $form['body']['#format'] = 'plain_text';
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tutoriame_privatemsg_theme() {
+  $path = drupal_get_path('module', 'tutoriame_privatemsg') . '/theme';
+  $templates = array(
+    'tutoriame_privatemsg_list' => array(
+      'variables' => array(
+        'messages' => NULL,
+        'users' => NULL,
+      ),
+      'template' => 'tutoriame_privatemsg-list',
+      'path' => $path,
+    ),
+    'tutoriame_privatemsg_view' => array(
+      'variables' => array(
+        'title' => t('Tutoría'),
+        'messages' => NULL,
+        'users' => NULL,
+        'user' => NULL,
+        'form' => NULL,
+        'pager' => NULL,
+      ),
+      'template' => 'tutoriame_privatemsg-view',
+      'path' => $path,
+    ),
+  );
+
+  return $templates;
+}
+/**
+ * Implements hook_cron().
+ */
+function tutoriame_privatemsg_cron() {
+  if (variable_get('tutoriame_privatemsg_reminders', false)) {
+    $horas = variable_get('tutoriame_privatemsg_reminders_interval', 12);
+
+    $query = db_select('pm_message', 'pm');
+    $query->join('pm_index', 'pmi', '(pm.mid = pmi.mid AND pm.author != pmi.recipient)');
+    $query->addField('pm', 'author');
+    $query->addField('pmi', 'mid');
+    $query->addField('pmi', 'recipient');
+    $query->where('pmi.deleted = 0')
+            ->where('pmi.is_new = 1')
+            ->where('pm.timestamp >= :oldFrom', array(':oldFrom' => (variable_get('tutoriame_privatemsg_cron_last', 0) - ($horas * 3600))))
+            ->where('pm.timestamp < :oldTo', array(':oldTo' => (REQUEST_TIME - ($horas * 3600))));
+
+    $queue = DrupalQueue::get('tutoriame_privatemsg_reminders');
+    foreach ($query->execute() as $data) {
+      $queue->createItem($data);
+    }
+
+    variable_set('tutoriame_privatemsg_cron_last', REQUEST_TIME);
+  }
+
+  if (variable_get('tutoriame_privatemsg_flush', false)) {
+    $dias = variable_get('tutoriame_privatemsg_flush_ttl', 30);
+
+    $query = db_select('pm_message', 'pm');
+    $query->join('pm_index', 'pmi', 'pmi.mid = pm.mid');
+    $query->addField('pmi', 'thread_id');
+    $query->groupBy('pmi.thread_id')
+            ->where('pmi.deleted = 0')
+            ->having('MIN(pm.timestamp) < :old', array(':old' => (REQUEST_TIME - ($dias * 86400))));
+
+    $queue = DrupalQueue::get('tutoriame_privatemsg_flush');
+    foreach ($query->execute()->fetchCol() as $thread_id) {
+      $queue->createItem($thread_id);
+    }
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function tutoriame_privatemsg_cron_queue_info() {
+  $queues['tutoriame_privatemsg_reminders'] = array(
+    'worker callback' => 'tutoriame_privatemsg_reminders',
+    'time' => 60,
+  );
+  $queues['tutoriame_privatemsg_flush'] = array(
+    'worker callback' => 'tutoriame_privatemsg_flush',
+    'time' => 60,
+  );
+
+  return $queues;
+}
+
+function tutoriame_privatemsg_reminders($data) {
+  if (
+    ($author = user_load($data->author)) &&
+    ($recipient = user_load($data->recipient)) &&
+    ($message = privatemsg_message_load($data->mid, $recipient))
+  ) {
+    $params = array();
+
+    $params['privatemsg_author'] = $author;
+    $params['privatemsg_recipient'] = $recipient;
+    $params['privatemsg_message'] = $message;
+
+    $options = array('language' => user_preferred_language($params['privatemsg_recipient']));
+    $from = trim(token_replace(variable_get('pm_email_notify_from', ''), $params, $options));
+
+    drupal_mail('tutoriame_privatemsg', 'reminder_emprendedor', $author->mail, user_preferred_language($author), $params, ((!empty($from)) ? ($from) : (NULL)));
+    drupal_mail('tutoriame_privatemsg', 'reminder_tutor', $recipient->mail, user_preferred_language($recipient), $params, ((!empty($from)) ? ($from) : (NULL)));
+  }
+}
+
+function tutoriame_privatemsg_flush($thread_id) {
+  db_update('pm_index')
+    ->fields(array(
+      'deleted' => REQUEST_TIME,
+    ))
+    ->condition('thread_id', $thread_id)
+    ->condition('deleted', '0')
+    ->execute();
+}
+
+/**
+ * Implements hook_mail().
+ */
+function tutoriame_privatemsg_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'reminder_emprendedor':
+      $options = array(
+        'language' => user_preferred_language($params['privatemsg_author']),
+        'sanitize' => false,
+        'privatemsg-display-invalid' => false,
+      );
+
+      $message['subject'] = trim(token_replace(variable_get('tutoriame_privatemsg_reminders_emprendedor_subject', 'El tutor aún no ha respondido tu consulta'), $params, $options));
+      $message['body'][] = trim(token_replace(variable_get('tutoriame_privatemsg_reminders_emprendedor_body', 'Te recomendamos contactar a otros tutores.'), $params, $options));
+      break;
+    case 'reminder_tutor':
+      $options = array(
+        'language' => user_preferred_language($params['privatemsg_recipient']),
+        'sanitize' => false,
+        'privatemsg-display-invalid' => false,
+      );
+
+      $message['subject'] = trim(token_replace(variable_get('tutoriame_privatemsg_reminders_tutor_subject', 'Tienes una consulta de un emprendedor sin responder'), $params, $options));
+      $message['body'][] = trim(token_replace(variable_get('tutoriame_privatemsg_reminders_tutor_body', 'Por favor, respóndele a la brevedad.'), $params, $options));
+      break;
+  }
+}
+

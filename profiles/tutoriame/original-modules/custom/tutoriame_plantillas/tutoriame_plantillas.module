@@ -1,0 +1,25 @@
+<?php
+
+function tutoriame_plantillas_permission() {
+  return array(
+    'administer tutoriame_plantillas settings' => array(
+      'title' => t('Administrar plantillas para Tutoriame'),
+      'description' => t('Configurar la utilización de plantillas para Tutoriame'),
+    ),
+  );
+}
+
+function tutoriame_plantillas_menu() {
+  $items['admin/tutoriame/config/plantillas'] = array(
+    'title' => t('Plantillas'),
+    'description' => t('Configure las plantillas para mensajería de Tutoriame.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_plantillas_admin_settings'),
+    'file' => 'tutoriame_plantillas.admin.inc',
+    'access arguments' => array('administer tutoriame_plantillas settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+

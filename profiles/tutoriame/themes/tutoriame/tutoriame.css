@@ -1,0 +1,4027 @@
+/*==================================
+******* SITE DEFAULT TEMPLATE
+==================================*/
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+	line-height: 24px;
+	color: #666;
+}
+
+
+a,
+a:hover {
+	color: #52BE9C;
+}
+
+
+/* --- Header -- */
+
+
+/*redes sociales*/
+
+.header {
+	margin-bottom: 0px;
+}
+
+.front .header {
+	margin-bottom: 0px;
+}
+
+#header-top {
+	border-bottom: 1px solid #d1cfce;
+	BACKGROUND: #F7F7F7;
+}
+
+#header-top .item-redes {
+    border-left: 1px solid #D1CFCE;
+    text-align: center;
+    padding-bottom: 6px;
+    padding-top: 6px;
+}
+
+.redes-list {
+	padding-left: 21px;
+}
+
+/*slogan*/
+
+#slogan {
+margin-top: 7px;
+text-transform: uppercase;
+font-size: 13px;
+color: #bebebe;
+width: 260px;
+}
+
+/*logo*/
+#logo {
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+/*enlaces login logout*/
+
+#registro-ingreso {
+margin-top: 7px;
+text-align: right;
+font-size: 13px;
+width: 690px;
+}
+
+
+/* --- HeaderRow -- */
+
+.header-row {
+	margin-bottom: 15px;
+}
+
+/* footer */
+
+.footer {
+	background: #5B5C60;
+	padding: 20px 0px 0px 0px;
+	margin-top: 50px;
+	border-top: 7px solid #F47667;
+}
+
+.footer h2, .footer h4 {
+margin: 0px;
+color: #f8f8f8;
+font-size: 19px;
+}
+
+
+/*==================================
+******* HOME
+==================================*/
+
+.pasos-ttm {
+color: #e6e6e6;
+font-size: 24px;
+margin-top: -8px;
+}
+
+iframe {
+border: 0px inset;
+}
+
+.pasos-ttm-content {
+background: #5F5F5F;
+padding: 45px 0px;
+border-bottom: 7px solid #45B18F;
+}
+
+.pasos-ttm .ttm-pasos-mas {
+	text-align: center;
+}
+
+.pasos-ttm .ttm-pasos-mas,
+.ttm-grupos-afinidad {
+	color: #787979;
+}
+
+.ttm-grupos-afinidad {
+	margin-top: 20px;
+}
+
+#auspicios-home {
+	border-top: 2px solid #60c7ab;
+	padding-top: 20px;
+	margin-top: 30px;
+}
+
+
+#auspicios-home .jcarousel-skin-tango .jcarousel-container-horizontal,
+#auspicios-home .jcarousel-skin-tango .jcarousel-clip-horizontal {
+	width: 621px;
+}
+
+#auspicios-home .jcarousel-skin-tango .jcarousel-container-horizontal {
+	padding: 0px 20px 0px 35px;
+	height: 43px;
+}
+
+#auspicios-home .jcarousel-skin-tango .jcarousel-container {
+	background: transparent;
+	border: none;
+}
+
+#auspicios-home li {
+	width: 100px !important;
+}
+
+#auspicios-home .jcarousel-skin-tango .jcarousel-item-horizontal {
+	margin-right: 20px;
+}
+
+#auspicios-home .jcarousel-skin-tango .jcarousel-item {
+	border: none;
+	display: table;
+	vertical-align: middle;
+	height: 43px;
+}
+
+#auspicios-home .views-field-field-logo {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#auspicios-home .jcarousel-prev,
+#auspicios-home .jcarousel-next {
+	display: none;
+}
+
+
+
+
+
+/*==================================
+******* MENÚes
+==================================*/
+
+/* menú principal */
+
+#ttm-menu ul {
+background: url(http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/css/images/menu1.jpg);
+text-align: center;
+padding: 13px 0px 13px 0px;
+}
+
+#ttm-menu ul li {
+display: inline;
+margin-right: -2px;
+padding: 15px 15px;
+text-align: center;
+}
+
+#ttm-menu ul li.last {
+	margin-right: 0px;
+}
+
+#ttm-menu ul li:hover {
+	background: #96d2bf;
+}
+
+#ttm-menu ul li.active {
+background: #f05f55;
+background: url(http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/css/images/menu2.jpg);
+}
+
+#ttm-menu a,
+#ttm-menu a:hover {
+	color: #fff;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+#ttm-menu .nav > li > a {
+	display: inline;
+}
+
+#ttm-menu .nav > li > a:hover {
+	background: transparent;
+}
+
+.menu-home .nav {
+	margin-bottom: 0px;
+}
+
+/* menú de usuario */
+
+#menu-de-usuario ul {
+	background: #f0f0f0;
+	border-bottom: 4px solid #52be9c;
+}
+
+#menu-de-usuario li,
+#menu-de-usuario li a {
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #000;
+}
+
+#menu-de-usuario li a {
+	padding: 5px 20px;
+}
+
+#menu-de-usuario li a.active {
+	color: #52be9c;
+	font-weight: bold;
+	border-left: 4px solid #52b39c;
+}
+
+#menu-de-usuario li {
+	border-top: 1px solid #656666;
+}
+
+#menu-de-usuario li a:hover {
+	background: #e0e0e0;
+	font-weight: bold;
+}
+
+/* menues footer */
+
+.footer li a:hover {
+	background: transparent;
+	text-decoration: underline;
+}
+
+.footer li a: {
+	background: transparent;
+	text-decoration: underline;
+	color:#FFFFFF;
+	
+}
+
+/*==================================
+******* TEXTOS
+==================================*/
+
+/* --- Títulos -- */
+
+h1,
+.titulo-uno {
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 32px;
+}
+
+h1.plus,
+.titulo-uno.plus {
+	font-size: 32px;
+	font-weight: bold;
+	line-height: 34px;
+}
+
+
+h2, .titulo-dos {
+font-size: 26px;
+font-weight: bold;
+line-height: 26px;
+margin-left: 10px;
+}
+
+h2.plus,
+.titulo-dos.plus {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+h3,
+.titulo-tres {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+h4,
+.titulo-cuatro {
+	font-size: 14px;
+	font-weight: bold;
+
+}
+
+h5,
+.titulo-cinco {
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 15px;
+}
+
+/* --- Size -- */
+
+.min {
+	font-size: 11px;
+}
+
+.normal-min {
+	font-size: 12px;
+}
+
+.normal {
+	font-size: 13px;
+	line-height: 17px;
+}
+
+.normal-plus {
+	font-size: 14px;
+	line-height: 18px;
+}
+
+.medium {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.medium-plus {
+	font-size: 18px;
+	line-height: 21px;
+}
+
+.large {
+	font-size: 20px;
+	line-height: 23px;
+}
+
+/* --- Estilos -- */
+
+.weight-normal.
+.titulo-dos.weight-normal {
+	font-weight: normal;
+}
+
+.bold {
+	font-weight: 700;
+}
+
+.semibold {
+	font-weight: 600;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.lowercase {
+	text-transform: lowercase;
+}
+
+.underline,
+a.underline,
+a.underline:hover {
+	text-decoration: underline;
+}
+
+.align-right {
+	text-align: right;
+}
+
+/* --- Colores -- */
+
+.verde {
+	color: #52BE9C;
+}
+
+.gris-uno {
+	color: #F0F0F0;
+}
+
+.gris-dos {
+	color: #E1E1E1;
+}
+
+.gris-tres,
+.gris-tres a,
+.a.gris-tres {
+	color: #666666;
+}
+
+.nodo-contenido-content-body.gris-tres a {
+	color: #52BE9C;
+}
+
+.gris-cuatro {
+	color: #7b7c7f;
+}
+
+.gris-cinco {
+color: #fff;
+}
+
+.gris-seis, .gris-seis a, a.gris-seis {
+color: #8E8F91;
+}
+
+
+.black,
+a.black,
+.black a {
+	color: #000;
+}
+
+.rojo,
+a.rojo,
+.rojo a {
+	color: #F05F55;
+}
+
+.white,
+a.white,
+.white a {
+	color: #fff;
+}
+
+/* --- Background -- */
+
+.bg-gris-uno {
+	background: #f0f0f0;
+}
+
+.bg-white {
+	background: #fff;
+}
+
+.bg-rojo {
+	background: #f05f55;
+}
+
+/*==================================
+******* ÍCONOS
+==================================*/
+
+.icono-activo {
+	background: url(images/icono-activo.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.icono-finalizado {
+	background: url(images/icono-finalizado.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.normal-min .icono-finalizado {
+	font-size: 11px;
+	padding-bottom: 1px;
+}
+
+.icono-horas {
+	background: url(images/icono-horas.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.icono-usuario {
+	background: url(images/icono-usuario.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.icono-conversacion {
+	background: url(images/icono-conversaciones.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.conversaciones-creadas.icono-conversacion {
+    line-height: 16px;
+    padding-right: 5px;
+	background: url(images/icono-conversaciones.png) no-repeat left 20% transparent;
+}
+
+.icono-puntos-ttm {
+	background: url(images/icono-puntos-ttm.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+.icono-vistas {
+	background: url(images/icono-vistas.png) no-repeat left top transparent;
+	padding-left: 20px;
+}
+
+.icono-contenidos {
+	background-image: url(images/icono-contenidos.png);
+	background-position: left top;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+.icono-contrato {
+	background: url(images/icono-contrato.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+/*==================================
+******* PERFIL USUARIOS
+==================================*/
+
+/* Edición */
+
+.encabezado-perfil-titulo {
+	color: #52BE9C;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 40px;
+}
+
+.encabezado-perfil-titulo h2 {
+	margin: 0px;
+	width: 157px;
+	float: left;
+	font-size: 30px;
+}
+
+.encabezado-perfil-titulo .pane-content:before {
+	content: '"';
+}
+
+.encabezado-perfil-titulo .pane-content:after {
+	content: '",';
+}
+
+
+.page-user-edit .pane-pane-messages .tabs,
+.page-user .pane-pane-messages .tabs { /*oculto tabs usuarios */
+	display: none;
+}
+
+
+/*==================================
+******* PERFIL GENERALES
+==================================*/
+
+/*bloque institucion a la que pertenece*/
+
+#usuario-institucion {
+	border-top: 1px solid #656666;
+	padding-bottom: 20px;
+	background: #f0f0f0;
+}
+
+#usuario-institucion h2 {
+	margin: 0px;
+}
+
+#usuario-institucion h5 {
+	margin: 10px 0px 0px 20px;
+}
+
+#usuario-institucion a {
+	padding-left: 20px;
+	font-size: 14px;
+	color: #000;
+}
+
+/*==================================
+******* PERFIL PRIVADO EMPRENDEDOR
+==================================*/
+
+#info-usuario {
+	background: #f0f0f0;
+	border-top: 5px solid #52be9c;
+}
+
+.info-usuario-content {
+	padding: 20px;
+}
+
+.info-usuario-content h1 {
+	margin-top: 0px;
+}
+
+
+#perfil-enlace-edit a {
+	background: url(images/icon-lapiz-black.png) no-repeat left center transparent;
+	padding-left: 20px;
+}
+
+#perfil-completado {
+	color: #000;
+    font-size: 10px;
+    line-height: 13px;
+}
+
+#perfil-completado .pcp-profile2 {
+	text-transform: uppercase;
+	font-weight: 700;
+	line-height: 24px;
+	font-size: 12px;
+}
+
+#perfil-completado em {
+	line-height: 13px;
+}
+
+.pcp-percent-bar-wrapper {
+	background: #e1e1e1;
+	border: none;
+    float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+    padding: 0px;
+    width: 48px;
+}
+
+.pcp-percent-bar {
+    background-color: #52BE9C;
+}
+
+
+.mis-proyectos-vacio .mis-proyectos-titulo {
+	margin-bottom: 30px;
+}
+
+/* bloque usuarios de la institucion y bloque mis tutores */
+
+
+#perfil-usuarios-institucion {
+	margin-right: 20px;
+}
+
+.usuarios-institucion,
+#perfil-mis-tutores table {
+	width: 100%;
+}
+
+.usuarios-institucion tr,
+#perfil-mis-tutores tr {
+	border-bottom: 1px solid #656666;
+}
+
+.usuarios-institucion .usuario-enlace td,
+#perfil-mis-tutores .usuario-enlace td {
+	padding: 5px 15px;
+}
+
+.usuarios-institucion .encabezado td,
+#perfil-mis-tutores .encabezado td,
+#perfil-mis-tutores .mis-proyectos-titulo {
+	padding: 10px 15px;
+	vertical-align: top;
+}
+
+#perfil-mis-tutores p {
+	margin-right: 15px;
+	margin-left: 15px;
+}
+
+
+#mis-tutores .perfil-mis-tutores-encabezado {
+    border-bottom: 1px solid #656666;
+	padding-bottom: 7px;
+}
+
+#perfil-mis-tutores .encabezado td,
+#perfil-mis-tutoriados .encabezado td,
+#perfil-mis-tutores .mis-proyectos-titulo {
+	height: 35px;
+}
+
+#perfil-mis-tutoriados .mis-proyectos-titulo {
+	border: none;
+}
+
+#perfil-mis-tutoriados .encabezado td {
+	height: 42px;
+	vertical-align: top;
+}
+
+.usuarios-institucion .usuario-imagen,
+#perfil-mis-tutores .usuario-imagen,
+#perfil-mis-tutoriados .usuario-imagen {
+	width: 26px;
+	float: left;
+	margin-right: 10px;
+}
+
+.usuarios-institucion .usuario-nombre a,
+#perfil-mis-tutores .usuario-nombre a,
+#perfil-mis-tutoriados .usuario-nombre a {
+	color: #000;
+	font-size: 13px;
+/*  word-break: break-all;*/
+}
+
+#perfil-mis-tutoriados .table th, 
+#perfil-mis-tutoriados .table td {
+	border: none;
+	padding: 0px;
+	line-height: 24px;
+}
+
+#perfil-mis-tutoriados .usuario-enlace {
+	border-bottom: 1px solid #656666;
+	padding: 5px 0px;
+	width: 250px;
+}
+
+#perfil-mis-tutoriados .view {
+	margin: 10px 20px 0px 20px;
+}
+
+
+/*==================================
+******* PERFIL PÚBLICO EMPRENDEDOR
+==================================*/
+
+#info-usuario.publico-emprendedor {
+border-top: none;
+border-bottom: 5px solid #52be9c;
+margin-top: 0px;
+MARGIN-TOP: 25PX;
+}
+
+
+#perfil-publico-emprendedor-actividad {
+	padding-bottom: 30px;
+}
+
+#perfil-publico-emprendedor-actividad h2.pane-title {
+	margin: 0px;
+}
+
+#perfil-publico-emprendedor-actividad h3,
+#perfil-publico-emprendedor-proyectos-activos h3,
+#perfil-publico-emprendedor-proyectos-en-curso h3,
+#perfil-publico-emprendedor-proyectos-finalizados h3 {
+	margin-top: 0px;
+} 
+
+#perfil-publico-emprendedor-actividad .table {
+	margin-bottom: 0px;
+}
+
+#perfil-publico-emprendedor-actividad .table td {
+	border: none;
+	padding: 0px;
+}
+
+#perfil-publico-emprendedor-actividad #proyectos-publicados {
+	border-top: 1px solid #666;
+}
+
+#perfil-publico-emprendedor-actividad #proyectos-finalizados {
+	border-bottom: 1px solid #666;
+	padding-bottom: 4px;
+}
+
+#perfil-publico-emprendedor-actividad, #perfil-publico-emprendedor-proyectos-activos, #perfil-publico-emprendedor-proyectos-en-curso, #perfil-publico-emprendedor-proyectos-finalizados {
+margin-bottom: 20px;
+MARGIN-TOP: 25PX;
+}
+
+#perfil-publico-emprendedor-proyectos-en-curso,
+#perfil-publico-emprendedor-proyectos-finalizados {
+	padding-bottom: 25px;
+}
+
+#perfil-publico-emprendedor-proyectos-activos .table td {
+	border: none;
+	padding: 0px;
+}
+
+#perfil-publico-emprendedor-proyectos-activos .proyecto-content {
+	padding: 20px 15px 15px 15px;
+	margin-bottom: 10px;
+/*  word-break: break-all;*/
+}
+
+#perfil-publico-emprendedor-proyectos-en-curso .proyecto-content {
+	padding: 0px;
+/*  word-break: break-all;*/
+}
+
+#perfil-publico-emprendedor-proyectos-activos .proyecto-content h3,
+#perfil-publico-emprendedor-proyectos-en-curso .proyecto-content h3,
+#perfil-publico-emprendedor-proyectos-finalizados .proyecto-content h3 {
+	margin-bottom: 0px;
+	line-height: 26px;
+/*  word-break: break-all;*/
+}
+
+
+/*==================================
+******* PERFIL PÚBLICO TUTOR
+==================================*/
+
+#info-usuario-tutor-publico {
+	border-bottom: 5px solid #52BE9C;
+	border-top: 5px solid #52BE9C; 
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#info-usuario.publico-tutor {
+	border: none;
+	padding: 0px;
+}
+
+#info-usuario.publico-tutor .info-usuario-content {
+	padding: 0px;
+
+}
+
+#info-usuario.publico-tutor .info-usuario-content-basic {
+	margin-bottom: 25px;
+}
+
+#info-usuario.publico-tutor .info-usuario-tarifa {
+	border-top: 1px solid #656666;
+	padding-top: 9px;
+	padding-bottom: 9px;
+}
+
+
+#info-usuario.publico-tutor .puntos-value {
+	border: 4px solid #F05F55;
+	-webkit-border-radius: 26px;
+	-moz-border-radius: 26px;
+	border-radius: 26px;
+	padding: 7px;
+}
+
+#info-usuario-tutor-publico #articulos-publicados {
+	border-top: 1px solid #656666;
+	padding-top: 10px;
+}
+
+#publico-tutor-servicio-content {
+	padding: 10px 0px 20px 0px;
+}
+
+#publico-tutor-servicio-content .servicio-titulo {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+}
+
+#formacion-usuario-tutor-publico,
+#experiencia-usuario-tutor-publico,
+#contenidos-usuario-tutor-publico {
+	margin-top: 30px;
+}
+
+#formacion-usuario-tutor-publico .views-row,
+#experiencia-usuario-tutor-publico .views-row,
+#contenidos-usuario-tutor-publico .views-row,
+.contenidos-publicados-overlay .views-row {
+	margin-top: 15px;
+}
+
+#contenidos-usuario-tutor-publico .views-row,
+.contenidos-publicados-overlay .views-row {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 10px;
+}
+
+#formacion-usuario-tutor-publico .views-row.views-row-first,
+#experiencia-usuario-tutor-publico .views-row.views-row-first {
+	margin-top: 0px;
+}
+
+#contenidos-usuario-tutor-publico .contenidos-info-item-odd,
+.contenidos-publicados-overlay .contenidos-info-item-odd {
+	margin-right: 5px;
+}
+
+#contenidos-usuario-tutor-publico .contenidos-info-item-even,
+.contenidos-publicados-overlay .contenidos-info-item-even {
+	margin-left: 5px;
+}
+
+.experiencia-laboral-overlay,
+.contenidos-publicados-overlay {
+	margin-bottom: 20px;
+}
+
+#usuario-estadisticas .usuario-publico-contenidos-publicados {
+	margin-left: 8px;
+}
+
+#contenidos-usuario-tutor-publico .ver-mas {
+	margin-top: 20px;
+}
+
+#usuario-estadisticas td.icono-contenidos {
+	padding-right: 0px;
+	background-position: left center;
+}
+
+#usuario-estadisticas .icono-contenidos .normal-min {
+	line-height: 13px;
+}
+
+.proyectos-tutoriame-activos-encabezado,
+.proyectos-tutoriame-titulo {
+    border-bottom: 1px solid #656666;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+}
+
+#proyectos-activos-publico-tutor {
+	margin-bottom: 30px;
+}
+
+/*==================================
+******* FORMULARIOS
+==================================*/
+
+/* --- Generales -- */
+
+.help-block {
+	font-size: 10px;
+	line-height: 12px;
+}
+
+input, 
+button, 
+select, 
+textarea,
+.skype .selectyzeValue {
+	font-family: 'Source Sans Pro',sans-serif;
+	color: #666;
+	font-size: 16px;
+}
+
+#contrato-node-form .skype .selectyzeValue {
+	width: 386px;
+}
+
+#contrato-node-form .DivSelectyze.skype {
+	width: 412px;
+}
+
+#tutoriame-privatemsg-consultar-page .DivSelectyze.skype {
+	width: 500px;
+}
+
+.skype .selectyzeValue {
+	width: 474px;
+}
+
+.formulario .field-name-field-formacion .skype .selectyzeValue {
+	width: 419px;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  color: #666;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  color: #666;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  color: #666;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+textarea {
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	background-color: #f0f0f0;
+	border: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-o-transition: none;
+	transition: none;
+	font-size: 16px;
+	color: #666;
+}
+
+.uc-cart-checkout-form textarea,
+.uc-cart-checkout-form input,
+.uc-cart-checkout-form select {
+	background-color: #fff;
+}
+
+
+div.autocomplete-deluxe-multiple {
+	background: #f0f0f0;
+	border: none;
+	width: 488px;
+	padding: 4px 6px;
+}
+
+div.autocomplete-deluxe-container input.autocomplete-deluxe-form {
+	background: #f0f0f0;
+	padding: 2px;
+	margin: 0px;
+}
+
+.autocomplete-deluxe-item {
+	background-image: none;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus,
+.control-group.error input:focus, 
+.control-group.error select:focus,
+.control-group.error textarea:focus {
+	border-color: transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+
+html.js input.form-autocomplete {
+	background-position: 100% 8px;
+}
+
+html.js input:focus.form-autocomplete {
+	background-position: 100% -13px;
+}
+
+input.autocomplete {
+	z-index: 999;
+}
+
+#autocomplete {
+    z-index: 99999;
+}
+#autocomplete .selected {
+    background:#52BE9C;
+}
+
+#autocomplete li {
+    white-space: normal;
+}
+
+/*titulos colapsables*/
+
+fieldset legend {
+	border: none;
+}
+
+/*fieldset.collapsed legend a {
+	background-image: url(images/icon-lapiz.png);
+	background-repeat: no-repeat;
+	background-color: #f0f0f0;
+	background-position: 98% center;
+	color: #666;
+}*/
+
+fieldset.collapsed legend a:hover,
+fieldset legend a:hover {
+	background-image: url(images/icon-lapiz-white.png);
+	background-color: #666;
+	color: #fff;
+	text-decoration: none;
+}
+
+fieldset legend a {
+	font-size: 16px;
+	line-height: 24px;
+	font-family: 'Source Sans Pro', sans-serif;
+	padding-left: 10px;
+	width: 489px;
+	background-image: url(images/icon-lapiz-white.png);
+	background-repeat: no-repeat;
+	background-color: #666;
+	background-position: 98% center;	
+	display: block;
+	color: #fff;
+}
+
+/*botones*/
+
+.btn-primary,
+.btn {
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #52be9c;
+  background-image: none;
+  border-color: none;
+  *background-color: #52be9c;
+}
+
+.btn-primary:hover,
+.btn:hover,
+#nodo-proyecto-buscar-tutores a:hover {
+  color: #ffffff;
+  background-color: #96d2bf;
+  *background-color: #96d2bf;
+}
+
+.btn {
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+font-size: 25px;
+text-transform: uppercase;
+font-family: 'Source Sans Pro';
+font-weight: 600;
+margin-left: 10px;
+}
+
+.form-actions {
+	background-color: transparent;	
+	border: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled] {
+	color: #ffffff;
+	background-color: #f05f55;
+	*background-color: #f05f55;
+}
+
+.botones-proyecto {
+	margin-top: 20px;
+}
+
+#mi-cuenta-ttm .btn {
+	font-size: 13px;
+	text-transform: none;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#boton-me-interesa span a {
+	padding: 0px 8px;
+}
+
+#boton-consulta {
+	margin-bottom: 20px;
+}
+
+#boton-consulta,
+#boton-me-interesa span,
+#boton-contratar-usuario {
+	padding: 5px 0px;
+	background: #F05F55;
+	text-align: center;
+}
+
+#boton-contratar-usuario a,
+#boton-contratar-nodo a,
+#boton-contratar a,
+#boton-calificar a {
+	padding: 5px 8px;
+	line-height: 18px;
+}
+
+#boton-contratar-nodo a,
+#boton-contratar a,
+#boton-calificar a {
+	background: #F05F55;
+	text-align: center;
+
+}
+
+#boton-contratar a {
+	margin-right: 20px;
+}
+
+#boton-consulta a,
+#boton-me-interesa span a,
+#nodo-proyecto-buscar-tutores a,
+#boton-contratar-nodo a,
+#boton-contratar-usuario a,
+#boton-contratar a,
+#boton-calificar a {
+	text-transform: uppercase;
+	color: #fff;
+	font-weight: 600;
+	font-size: 18px;
+}
+
+#nodo-proyecto-buscar-tutores a {
+	background: #52BE9C;
+	padding: 4px 10px;
+}
+
+#nodo-proyecto-buscar-tutores a:hover {
+	text-decoration: none;
+}
+
+#nodo-proyecto-buscar-tutores {
+	line-height: 30px;
+	padding-bottom: 15px;
+}
+
+.flag-message {
+    width:1px;
+}
+
+/*LOGIN */
+
+.page-user .formulario, .page-user-login .formulario {
+margin-bottom: 25px;
+margin-top: 25px;
+margin-left: 25px;
+}
+
+.page-user #overlay-content, .page-user-login #overlay-content {
+  padding: 10px 30px;
+  color: #666;
+  font-size: 16px;
+  MARGIN-TOP: 0PX;
+}
+
+h2.user-login-title {
+	color: #52bd9b;
+	font-size: 25px;
+	line-height: 35px;
+	margin-bottom: 0px;
+}
+
+.overlay #skip-link {
+  margin-top: 80px;
+}
+
+.user-login-title-desc {
+
+	margin-bottom: 30px;
+}
+
+.user-login-title-desc a,
+.user-login-title-desc a:hover {
+	color: #666;
+	text-decoration: underline;
+}
+
+.span20 {
+  width: 800px;
+}
+
+#overlay-content .btn.oauthconnector-facebook {
+	background-image: url(images/connector-facebook.png);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	width: 109px;
+	padding: 2px 0px 2px 0px;
+	font-size: 1px;
+	border: none;
+	margin-right: 30px;
+	margin-left: 5px;
+}
+
+#overlay-content .btn.oauthconnector-google {
+	background-image: url(images/connector-google.png);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	width: 109px;
+	padding: 2px 0px 2px 0px;
+	font-size: 1px;
+	border: none;
+}
+
+#overlay-content .btn.oauthconnector-google:hover,
+#overlay-content .btn.oauthconnector-facebook:hover {
+	background-position: 0px;
+}
+
+
+form#connector-button-form {
+	border-bottom: 1px solid #d9d7d6;
+	padding-bottom: 30px;
+	margin-bottom: 40px;
+}
+
+.page-user label,
+.page-user-login label {
+	font-size: 16px;
+}
+
+.page-user .formulario input,
+.page-user-login .formulario input,
+.page-user .formulario .form-type-password input,
+.page-user-login .formulario .form-type-password input {
+	width: 65%;
+}
+
+.page-user input[type="text"], 
+.page-user-login input[type="text"], 
+.page-user input[type="password"],
+.page-user-login input[type="password"] {
+	margin-bottom: 0px;
+}
+
+.page-user .help-block,
+.page-user-login .help-block {
+	display: none;
+}
+
+.page-user .form-type-checkbox,
+.page-user-login .form-type-checkbox,
+.page-user .user-login-forgot-password,
+.page-user-login .user-login-forgot-password {
+	width: 100%;
+	float: left;
+}
+
+.page-user .checkbox input[type="checkbox"],
+.page-user-login .checkbox input[type="checkbox"] {
+	width: 20px;
+}
+
+.page-user .user-login-forgot-password,
+.page-user-login .user-login-forgot-password {
+	color: #ef5f55;
+	font-size: 16px;
+	font-weight: bold;
+	height: 26px;
+}
+
+.page-user .btn,
+.page-user-login .btn {
+	margin-top: 20px;
+}
+
+#user-login .form-item-name {
+	margin-bottom: 10px;
+}
+
+/* NODO CONTENIDO EDICION - CREACION */
+
+#formulario-contenido .form-actions {
+  text-align: center;
+  margin-top: 30px;
+  margin-left: -670px;
+}
+
+#formulario-contenido .field-name-field-categoria select {
+  margin-bottom: 0px;
+  width: 748px;
+}
+
+
+#formulario-contenido .form-item-title input {
+  margin-bottom: 30px;
+  width: 789px;
+}
+
+
+#formulario-contenido .field-name-field-resumen-del-contenido,
+#formulario-contenido .field-name-body,
+#formulario-contenido .field-name-field-imagen-articulo {
+	margin-bottom: 30px;
+}
+
+#formulario-contenido .field-name-field-imagen-articulo legend,
+#formulario-contenido .field-name-field-documento legend {
+	font-weight: normal;
+	font-size: 16px;
+	color: #666;
+	border-bottom: none;
+	line-height: 20px;
+}
+
+#formulario-contenido .ckeditor_links,
+#formulario-contenido .filter-wrapper,
+#formulario-contenido .field-name-field-documento label,
+#formulario-contenido .field-name-field-imagen-articulo label,
+#formulario-contenido .tabledrag-toggle-weight-wrapper,
+#formulario-contenido .field-name-field-imagen-articulo table th,
+#formulario-contenido .field-name-field-documento table th {
+	display: none !important;
+}
+
+#formulario-contenido .field-name-field-imagen-articulo .btn,
+#formulario-contenido .field-name-field-documento .btn {
+	font-size: 11px;
+}
+
+/*NODO PÁGINA */
+
+#nodo-pagina h1 {
+	margin-bottom: 40px;
+}
+
+/*NODO PROYECTO EDICION - CREACION */
+
+#formulario-proyecto.formulario {
+	margin-top: 20px;
+}
+
+#formulario-proyecto .filter-wrapper,
+#formulario-proyecto .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+.formulario .field-name-field-disponibilidad {
+	color: #52be9c;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.formulario .field-name-field-disponibilidad table {
+	margin-top: 30px;
+}
+
+.formulario .field-name-field-disponibilidad label.control-label {
+	border-bottom: 1px solid #656666;
+	font-weight: bold;
+	font-size: 16px;
+	padding-bottom: 5px;
+	
+}
+
+
+.formulario .field-name-field-categoria td,
+#contrato-node-form .field-name-field-fechas-videoconferencia td,
+.formulario .field-name-field-formacion td {
+	padding-right: 0px;
+	border: none;
+}
+
+#contrato-node-form .field-name-field-fechas-videoconferencia td {
+	padding-left: 0px;
+}
+
+.formulario .field-name-field-disponibilidad td {
+	padding: 0px;
+	border: none;
+}
+
+.formulario .field-name-field-formacion .DivSelectyze {
+	margin-right: 0px;
+}
+
+.formulario .field-name-field-disponibilidad th {
+	text-align: center;
+	text-transform: lowercase;
+	border: none;
+	padding: 0px 0px 10px 0px;
+}
+
+.formulario .field-name-field-disponibilidad td label.control-label {
+	padding: 0px;
+	border: none;
+	width: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 1px;
+}
+
+.formulario .field-name-field-disponibilidad .table-striped tbody > tr:nth-child(2n+1) > td, 
+.formulario .field-name-field-disponibilidad .table-striped tbody > tr:nth-child(2n+1) > th,
+.formulario .field-name-field-categoria .table-striped tbody > tr:nth-child(2n+1) > td, 
+.formulario .field-name-field-categoria .table-striped tbody > tr:nth-child(2n+1) > th,
+#contrato-node-form .field-name-field-fechas-videoconferencia .table-striped tbody > tr:nth-child(2n+1) > td,
+#contrato-node-form .field-name-field-fechas-videoconferencia .table-striped tbody > tr:nth-child(2n+1) > th {
+	background-color: transparent;
+}
+
+.formulario .field-name-field-disponibilidad .checkbox input[type="checkbox"] {
+	margin-left: 0px;
+}
+
+.formulario .field-name-field-categoria .table th,
+#contrato-node-form .field-name-field-fechas-videoconferencia .table th {
+	padding-right: 0px;
+}
+
+
+.formulario .field-name-field-habilidades-requeridas label,
+.formulario .field-name-field-categoria label,
+.formulario .field-name-field-fecha-inicio legend,
+.formulario .field-name-field-fecha-inicio label,
+.formulario .field-name-field-imagen-perfil label,
+.formulario .field-name-field-experiencia-laboral label,
+.formulario .field-name-field-formacion label,
+#formulario-contenido .field-name-field-categoria label  {
+	color: #52be9c;
+	border-bottom: 1px solid #656666;
+	font-weight: bold;
+	font-size: 16px;
+	padding-bottom: 5px;
+	line-height: 20px;
+}
+
+.formulario .field-name-field-categoria .control-group label {
+	display: none;
+}
+
+.formulario .field-name-field-experiencia-laboral .form-type-checkbox label {
+	color: #666;
+	border-bottom: none;
+	font-weight: normal;
+	font-size: 14px;
+	padding-bottom: 5px;
+	line-height: 18px;
+}
+
+.formulario .field-name-field-experiencia-laboral legend,
+.formulario .field-name-field-formacion .field-name-field-formacion-institucion label {
+    color: #52BE9C;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+	border: none;
+}
+
+.formulario .field-name-field-experiencia-laboral .container-inline-date .date-padding {
+	padding: 0px;
+}
+
+.formulario .field-name-field-experiencia-laboral .container-inline-date .form-item input {
+	margin-right: 0px;
+}
+
+.formulario .field-name-field-experiencia-laboral .table td {
+	padding-right: 0px;
+}
+
+.formulario .field-name-field-fecha-inicio .end-date-wrapper label,
+.field-name-field-experiencia-laboral .end-date-wrapper label {
+	border: none;
+}
+
+.formulario .field-name-field-categoria select {
+	margin-right: 3px;
+}
+
+#formulario-contenido.formulario #edit-field-categoria {
+	margin-bottom: 20px;
+}
+
+.formulario #edit-field-categoria,
+.formulario #edit-field-habilidades-requeridas {
+	margin-bottom: 10px;
+}
+
+.formulario #edit-field-categoria .btn,
+.formulario .field-name-field-categoria .btn,
+.formulario .field-name-field-formacion .btn,
+.formulario .field-name-field-experiencia-laboral .btn,
+#contrato-node-form .field-name-field-fechas-videoconferencia .btn  {
+	text-transform: none;
+	font-size: 11px;
+	margin-left: 51px;
+}
+
+.formulario .field-type-file .btn,
+.formulario .field-type-image .btn {
+	text-transform: none;
+	font-size: 11px;
+}
+
+.formulario .field-name-field-formacion .btn.btn-danger,
+.formulario .field-name-field-categoria .btn.btn-danger,
+.formulario .field-name-field-experiencia-laboral .btn.btn-danger {
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+.formulario .field-name-field-imagen-perfil .btn {
+	font-size: 11px;
+	margin-bottom: 5px;
+}
+
+
+.formulario .field-name-field-fecha-inicio .container-inline-date .date-padding {
+	padding: 0px;
+}
+
+.formulario .field-name-field-fecha-inicio .container-inline-date .form-item, .container-inline-date .form-item input {
+	width: 488px;
+}
+
+.formulario .field-name-field-fecha-inicio .help-block {
+	display: none;
+}
+
+
+.formulario .skype li a {
+	height: auto;
+}
+
+.formulario .skype .UlSelectize {
+	max-height: 250px;
+	overflow: auto;
+}
+
+/*PERFILES REGISTROS */
+
+#registro-titulo {
+	margin-bottom: 40px;
+}
+
+.pane-boxes-encabezado-registro {
+	margin-bottom: 40px;
+}
+
+#registro-botones-redes form#connector-button-form {
+	border-bottom: none;
+	padding-bottom: 0px;
+}
+
+#registro-botones-redes {
+	margin-bottom: 20px;
+}
+
+
+#registro-botones-redes h2 {
+    float: left;
+    margin: 0px 20px 0px 0px;
+    width: 166px;
+}
+
+#registro-botones-redes #connector-button-form {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#registro-botones-redes .btn.oauthconnector-facebook {
+	background-image: url(images/connector-facebook.png);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	width: 109px;
+	padding: 2px 0px 2px 0px;
+	font-size: 1px;
+	border: none;
+	margin-right: 30px;
+}
+
+#registro-botones-redes .btn.oauthconnector-google {
+	background-image: url(images/connector-google.png);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	width: 109px;
+	padding: 2px 0px 2px 0px;
+	font-size: 1px;
+	border: none;
+}
+
+#registro-botones-redes .btn.oauthconnector-google:hover,
+#registro-botones-redes .btn.oauthconnector-facebook:hover {
+	background-position: 0px;
+}
+
+.formulario .form-item-name {
+/*	height: 38px;*/
+}
+
+/*PERFILES EDICIÓN*/
+
+.formulario {
+margin-bottom: 0px;
+margin-right: 20px;
+margin-left: 20px;
+}
+
+#perfil-edit-form.formulario {
+	margin-top: 50px;
+}
+
+.formulario input, .formulario .uneditable-input, .field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-calle.form-item input, .field-name-field-domicilio .location .form-item input.location_auto_province, .formulario .confirm-parent, .formulario .password-parent {
+width: 488px;
+margin-top: 10px;
+}
+
+.field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-delete-location {
+    display: none;
+}
+
+.formulario #edit-profile-tutor-field-experiencia-laboral input,
+.formulario .field-name-field-formacion input {
+	width: 433px;
+}
+
+.formulario .form-type-password input,
+.formulario .form-item-mail input,
+.formulario input.username {
+/*    float: left;*/
+    margin-right: 10px;
+    width: 300px;
+}
+
+.formulario .form-type-password p,
+.formulario .form-item-mail p,
+.formulario .form-item-name p {
+	width: 300px;
+}
+
+.formulario .form-type-password-confirm h3,
+.formulario .form-type-password-confirm ul#password-policy-requirements,
+.formulario .form-type-password-confirm .help-block {
+	display: none;
+}
+
+.formulario .form-type-password {
+	height: 38px;
+}
+.page-registro .formulario .form-type-password {
+	height:auto;
+}
+#user-profile-form .formulario .form-type-password {
+    height:auto;
+}
+
+.formulario .form-item-mail {
+/*	height: 51px;*/
+}
+
+.formulario .form-checkboxes input,
+.formulario .form-type-checkbox input {
+	width: auto !important;
+}
+
+.field-name-field-pais .control-group,
+.field-name-field-pais .controls {
+	display: inline;
+	width: 250px;
+	float: left;
+	clear: right;
+
+}
+
+/*.DivSelectyze {
+	z-index: 3 !important;
+}*/
+
+.field-name-field-pais .DivSelectyze.skype {
+	width: 200px;
+	margin-right: 0px;
+}
+
+.formulario .field-name-field-pais .skype .selectyzeValue {
+	width: 223px;
+}
+
+.field-name-field-pais .location .form-item input,
+.field-name-field-referente input {
+	width: 238px;
+	display: block;
+	float: left;
+}
+
+.field-name-field-mail-referente input {
+    margin-left: 10px;
+    width: 228px;
+}
+
+.field-name-field-pais .skype .UlSelectize {
+	left: 18%;
+	width: 100%;
+
+}
+
+#user-profile-form #edit-profile-tutor-field-experiencia-laboral th {
+    text-indent:-10000px;
+    overflow:hidden;
+    font-size:1px;
+    color:#FFF;
+}
+
+#user-profile-form #edit-profile-tutor-field-experiencia-laboral th.field-label {
+    text-indent:0;
+}
+
+#user-profile-form #edit-profile-tutor-field-formacion th {
+    text-indent:-10000px;
+    overflow:hidden;
+}
+
+#user-profile-form #edit-profile-tutor-field-formacion th.field-label {
+    text-indent:0;
+}
+
+html.js fieldset.collapsed {
+	height: auto;
+}
+
+#edit-account {
+	border-bottom: 2px solid #52BE9C;
+	margin-bottom: 40px;
+	padding-bottom: 10px;
+}
+
+.formulario .password-strength,
+.formulario div.password-confirm {
+	width: 180px;
+	margin-top: 0px;
+	font-size: 11px;
+	line-height: 17px;
+}
+
+.formulario .password-strength {
+    width:160px;
+}
+
+.formulario .password-confirm {
+	margin-right: 105px;
+}
+
+.formulario .password-suggestions {
+	font-size: 11px;
+}
+
+.formulario div.form-item div.password-suggestions {
+	border: none;
+}
+
+.formulario fieldset.captcha legend {
+    display:none;
+}
+.formulario fieldset.captcha .fieldset-description {
+    margin-bottom:5px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}
+
+.formulario fieldset#edit-mimemail, 
+.formulario #edit-locale,
+.formulario #edit-timezone { /*oculto conf de mail, locale y timezone*/
+	display: none;
+}
+
+.field-name-field-tarifa input,
+.field-name-field-presupuesto input {
+	width: 120px;
+	margin-right: 10px;
+}
+
+
+.formulario textarea {
+  width: 800px;
+}
+
+.formulario .resizable-textarea .grippie {
+  width: 798px;
+  margin-bottom: 10px;
+}
+
+.formulario .form-type-managed-file .btn {
+	margin-top: 8px;
+}
+
+.field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-calle-numero.form-item,
+.field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-piso.form-item,
+.field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-depto.form-item,
+.field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-postal-code.form-item {
+	display: inline;
+}
+
+.field-name-field-pais .location .form-item label,
+.field-name-field-domicilio .form-type-select label {
+	display: none;
+}
+
+.field-name-field-pais .help-block {
+  display: none;
+}
+
+.field-name-field-domicilio .location .form-item input {
+	width: 105px;
+    display: block;
+    float: left;
+	margin-right: 10px;
+}
+
+.formulario .control-group {
+margin-bottom: 40px;
+}
+
+.formulario legend {
+	margin-bottom: 0px;
+}
+
+.formulario #profile-main-field-pais-add-more-wrapper .fieldset-wrapper {
+	margin-top: 0px;
+}
+
+.formulario .fieldset-wrapper
+
+.formulario .field-name-field-datos-cuenta-bancaria .fieldset-wrapper {
+	margin-top: 0px;
+}
+
+.formulario fieldset {
+	margin-bottom: 10px;
+}
+
+.formulario fieldset.collapsed legend {
+	margin-bottom: 0px;
+}
+
+.formulario fieldset legend {
+	margin-bottom: 10px;
+}
+
+.formulario fieldset .fieldset-wrapper {
+    position: relative;
+}
+
+#edit-profile-main legend,
+.field-name-field-pais legend,
+.field-name-field-domicilio legend,
+.field-name-field-datos-cuenta-bancaria legend,
+#edit-legal legend {
+	display: none;
+}
+
+
+.formulario .field-name-field-categoria .selectyzeValue {
+	width: 473px;
+	margin-right: 0px;
+}
+
+.formulario .field-name-field-categoria .skype .selectyzeValue {
+	width: 436px;
+}
+
+.field-name-field-categoria .DivSelectyze {
+	margin-right: 0px;
+}
+
+.field-name-field-fecha-de-nacimiento legend {
+    color: #666666;
+    font-family: 'Source Sans Pro',sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+	text-transform: uppercase;
+	margin-bottom: 0px;
+}
+
+.field-name-field-fecha-de-nacimiento .container-inline-date .date-padding {
+	padding: 0px;
+}
+
+.field-name-field-fecha-de-nacimiento input {
+	margin-bottom: 0px;
+}
+
+.field-name-field-telefonos {
+	height: 40px;
+}
+
+.field-name-field-telefonos input {
+    display: block;
+    float: left;
+    margin-right: 10px;
+    text-align: left;
+    width: 148px;
+}
+
+#edit-profile-tutor-field-categoria .tabledrag-toggle-weight-wrapper,
+#edit-profile-tutor-field-experiencia-laboral .tabledrag-toggle-weight-wrapper,
+.formulario .field-name-field-formacion .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+#edit-profile-tutor-field-categoria {
+	margin-bottom: 10px;
+}
+
+#edit-profile-tutor-field-categoria .table-striped tbody > tr:nth-child(2n+1) > td, 
+#edit-profile-tutor-field-categoria .table-striped tbody > tr:nth-child(2n+1) > th,
+#edit-profile-tutor-field-experiencia-laboral .table-striped tbody > tr:nth-child(2n+1) > td,
+#edit-profile-tutor-field-experiencia-laboral .table-striped tbody > tr:nth-child(2n+1) > th,
+.formulario .field-name-field-formacion .table-striped tbody > tr:nth-child(2n+1) > td,
+.formulario .field-name-field-formacion .table-striped tbody > tr:nth-child(2n+1) > th {
+	background-color: transparent;
+}
+
+#edit-profile-tutor-field-categoria .table th, 
+#edit-profile-tutor-field-categoria .table td,
+#edit-profile-tutor-field-experiencia-laboral .table th,
+#edit-profile-tutor-field-experiencia-laboral .table td,
+.formulario .field-name-field-formacion .table th,
+.formulario .field-name-field-formacion .table td {
+	border: none;
+}
+
+#edit-profile-main .field-name-field-sexo .form-required {
+	display: none;
+}
+
+.formulario .field-name-field-newsletter-emprendedor legend,
+.formulario .field-name-field-newsletter-tutor legend {
+	color: #52be9c;
+	border-bottom: 1px solid #656666;
+	font-weight: bold;
+	font-size: 16px;
+	padding-bottom: 5px;
+	line-height: 20px;
+}
+
+/*==================================
+******* MENSAJES
+==================================*/
+
+.alert-danger, 
+.alert-error {
+	background-color: #f0f0f0;
+	border: none;
+	color: #666;
+	display:none;
+	
+}
+
+/*==================================
+******* NODOS
+==================================*/
+
+
+/** Contrato **/
+
+#nodo-contrato {
+	margin-bottom: 40px;
+}
+
+.contrato-item {
+    border-bottom: 1px solid #656666;
+    padding-bottom: 15px;
+	margin-top: 15px
+}
+
+.contrato-videoconferencias.contrato-item td {
+	vertical-align: top;
+}
+
+/* - confirmacion de contrato */
+
+#tutoriame-contratar-contrato-aprobar-page .btn.form-submit {
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+
+
+#tutoriame-contratar-contrato-aprobar-page a#edit-cancel {
+    float: left;
+    margin-right: 10px;
+}
+
+/** Evento **/
+
+#nodo-evento {
+	padding: 25px 0px 50px 0px;
+	border-top: 4px solid #52be9c;
+	border-bottom: 4px solid #52be9c;
+}
+
+#nodo-evento h2 {
+	margin-bottom: 40px;
+}
+
+
+.evento-nodo-fecha-inicio,
+.evento-nodo-fecha-fin,
+.evento-nodo-titulo,
+.evento-nodo-ubicacion,
+.evento-nodo-descripcion {
+	margin-bottom: 10px;
+}
+
+.evento-nodo-titulo,
+.evento-nodo-ubicacion,
+.evento-nodo-descripcion {
+	background: #fff;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.evento-nodo-fecha-inicio .fecha-inicio-label span,
+.evento-nodo-fecha-fin .fecha-fin-label span {
+	padding-left: 15px;
+}
+
+.evento-nodo-fecha-inicio .fecha-inicio,
+.evento-nodo-fecha-fin .fecha-fin {
+	margin-left: 15px;
+	margin-right: 10px;
+}
+
+.evento-nodo-fecha-inicio .fecha-inicio span,
+.evento-nodo-fecha-fin .fecha-fin span,
+.evento-nodo-fecha-inicio .hora-inicio span,
+.evento-nodo-fecha-fin .hora-fin span {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.evento-nodo-imagenes .imagen-uno,
+.evento-nodo-imagenes .imagen-dos {
+	margin-left: 15px;
+}
+
+/** Contenido **/
+
+td.nodo-contenido-content-encabezado-autor-nombre span {
+	margin-left: 10px;
+}
+
+td.nodo-contenido-content-encabezado-detalle {
+	border-left: 4px solid #52BE9C;
+}
+
+.nodo-contenido-content-encabezado-detalle-post,
+.nodo-contenido-content-encabezado-detalle-categoria {
+	margin-left: 15px;
+}
+
+h1.nodo-contenido-content-titulo {
+	margin: 50px 0px 0px 0px;
+}
+
+.nodo-contenido-content-resumen {
+	margin-top: 20px;
+}
+
+.nodo-contenido-content-body {
+border-top: 1px solid #d0cecd;
+padding-top: 30px;
+margin-top: 30px;
+width: 770px;
+}
+
+#nodo-contenido {
+margin-bottom: 20px;
+width: 67%;
+}
+
+#nodo-contenido-imagenes .views-row {
+	margin-bottom: 25px;
+}
+
+#nodo-contenido-imagenes .views-row-odd {
+	margin-right: 25px;
+}
+
+#nodo-contenido-archivos .file-icon {
+	display: none;
+}
+
+#nodo-contenido-archivos a {
+	color: #666;
+	text-decoration: underline;
+}
+
+/** Proyecto **/
+
+#info-proyecto {
+border-bottom: 4px solid #f05f55;
+padding: 20px 0px;
+MARGIN-TOP: 25PX;
+}
+
+h2.proyecto-titulo {
+	margin-top: 0px;
+	margin-bottom: 0px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.proyecto-categoria td {
+	vertical-align: top;
+	padding-right: 5px;
+}
+
+.proyecto-info {
+	border-top: 1px solid #656666;
+	padding-top: 25px;
+	margin-top: 15px;
+}
+
+.proyecto-info table {
+	margin-bottom: 30px;
+}
+
+.proyecto-info tr {
+	border-bottom: 1px solid #656666;
+}
+
+.proyecto-info .proyecto-disponibilidad tr {
+	border: none;
+}
+
+.proyecto-disponibilidad .disponibilidad-titulo {
+	border-bottom: 1px solid #656666;
+	line-height: 24px;
+}
+
+.proyecto-disponibilidad .table-striped tbody > tr:nth-child(2n+1) > td, 
+.proyecto-disponibilidad .table-striped tbody > tr:nth-child(2n+1) > th {
+	background-color: transparent;
+}
+
+.proyecto-disponibilidad .table td.matrix-col-header {
+	font-weight: bold;
+}
+
+.proyecto-disponibilidad .table th {
+	padding: 5px 0px 0px 0px;
+}
+
+.proyecto-disponibilidad .table td {
+	padding: 0px;
+	border-bottom: 1px solid #656666;
+}
+
+.proyecto-disponibilidad .table th, 
+.proyecto-disponibilidad .table td {
+	line-height: 24px;
+	border-top: 0px;
+}
+
+/* info usuario autor */
+
+#proyecto-autor {
+border-bottom: 4px solid #f05f55;
+padding: 20px 0px 30px 0px;
+MARGIN-TOP: 25PX;
+background: #7B7C7F;
+color: #fff;
+}
+
+
+#autor-perfil {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 20px;
+	margin-bottom: 25px;
+}
+
+/*info usuarios autor privado */
+
+#proyecto-autor-privado {
+	margin-top: -4px;
+	padding: 30px 0px 30px 0px;
+	border-bottom: 4px solid #f05f55;
+	border-top: 1px solid #656666;
+}
+
+/* info categorías */
+
+#nodo-proyecto-categorias {
+	margin-top: 20px;
+	padding: 20px 0px;
+} 
+
+#categoria-actual-proyecto {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 20px;
+}
+
+#categoria-proyectos-publicados {
+	margin-top: 15px;
+	color: #656666;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.categoria-proyectos-publicados-titulo {
+	line-height: 14px;
+	margin-bottom: 15px;
+}
+
+#categoria-proyectos-publicados table a {
+	color: #000;
+}
+
+#categoria-proyectos-publicados td {
+	padding: 0px;
+}
+
+#categoria-proyectos-publicados .categorias-proyecto-ver-todas {
+	margin-top: 15px;
+}
+
+#categoria-proyectos-publicados span,
+.categoria-proyecto-todas span {
+	line-height: 16px;
+}
+
+.page-categorias-proyecto-todas {
+	margin-bottom: 20px;
+	font-size: 14px;
+}
+
+.categorias-proyecto-todas span {
+	color: #656666;
+	font-weight: bold;
+}
+
+.categorias-proyecto-todas span a,
+.categorias-proyecto-todas span a span {
+	color: #000;
+}
+
+/* calificaciones en proyecto */
+
+.calificacion-proyecto {
+	margin-top: 20px;
+}
+
+.calificacion-proyecto .bg-gris-uno {
+	padding: 15px 20px;
+}
+
+.calificacion-usuario-nombre {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.calificacion-proyecto-label {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.calificacion-proyecto-detalle .mensaje-gris-light {
+    background-color: transparent;
+    background-image: url("images/mensaje-gris-light.png");
+    background-position: left 10%;
+    background-repeat: no-repeat;
+	padding-left: 10px;
+}
+
+/*==================================
+******* CALENDARIOS
+==================================*/
+
+#calendario-eventos {
+	background: #f0f0f0;
+}
+
+#calendario-eventos h2 {
+	margin: 0px;
+}
+
+#calendario-eventos h5 {
+	margin: 0px;
+	padding: 3px 10px;
+	border-bottom: 4px solid #FFFFFF;
+}
+
+#calendario-eventos h3,
+#calendario-eventos h3 a {
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #000;
+}
+
+#calendario-eventos .view .date-nav-wrapper {
+	margin-top: 0px;
+}
+
+#calendario-eventos .date-nav {
+	padding-bottom: 0px;
+	border-bottom: 1px solid #656666;
+	margin-bottom: 0px;
+}
+
+#calendario-eventos .pager {
+	margin: 0px;
+}
+
+#calendario-eventos .view .date-nav-wrapper .date-prev {
+	width: 15px;
+	left: 0;
+	background: transparent;
+}
+
+#calendario-eventos .view .date-nav-wrapper .date-next {
+	width: 15px;
+	background: transparent;
+}
+
+#calendario-eventos .pager li > a, 
+#calendario-eventos .pager li > span {
+	background: transparent;
+	border: none;
+	padding: 0px;
+	color: #F05F55;
+}
+
+#calendario-eventos .pager li .ajax-progress-throbber {
+    display: none;
+}
+
+#calendario-eventos .calendar-calendar th.days {
+	border: none;
+	color: #656666;
+	background-color: #f0f0f0;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+#calendario-eventos .calendar-calendar tr,
+#calendario-eventos .calendar-calendar table.mini td.empty {
+	background: transparent;
+	border: none;
+}
+
+#calendario-eventos .calendar-calendar td {
+	color: #000;
+	font-size: 12px;
+	text-align: center;
+}
+
+#calendario-eventos table .mini-day-on a {
+	font-weight: bold;
+	color: #f05f55;
+	text-decoration: none;
+}
+
+#calendario-eventos .calendar-calendar tr td.today, 
+#calendario-eventos .calendar-calendar tr.odd td.today, 
+#calendario-eventos .calendar-calendar tr.even td.today {
+	background-color: transparent;
+}
+
+/* calendario día */
+
+.calendario-dia {
+	background: #f0f0f0;
+	border-top: 4px solid #52be9c;
+	border-bottom: 4px solid #52be9c;
+}
+
+.calendario-dia .calendar-calendar tr,
+.calendario-dia .calendar-calendar .week-view #multi-day-container, 
+.calendario-dia .calendar-calendar .week-view #single-day-container,
+.calendario-dia .calendar-calendar .day-view #multi-day-container,
+.calendario-dia .calendar-calendar .day-view #single-day-container,
+.calendario-dia .calendar-calendar div.calendar {
+	background-color: transparent;
+}
+
+
+.view.calendario-dia .date-nav-wrapper .date-nav {
+	margin: 20px 0px;
+	padding: 0px;
+}
+
+.view.calendario-dia .date-nav-wrapper .date-heading h3 {
+	color: #52be9c;
+	font-size: 24px;
+}
+
+.calendario-dia .pager {
+	margin: 0px;
+}
+
+.view.calendario-dia .date-nav-wrapper .date-prev {
+	left: 0;
+    right: auto;
+}
+
+.view.calendario-dia .date-nav-wrapper .date-next,
+.view.calendario-dia .date-nav-wrapper .date-prev {
+	width: 30px;
+	background: transparent;
+    padding:5px 0;
+}
+
+.view.calendario-dia .date-nav-wrapper .date-prev a, 
+.view.calendario-dia .date-nav-wrapper .date-next a {
+	display: block;
+    width: 1px;
+    height: 0;
+    overflow: hidden;
+    padding: 20px 9px 0 0;
+}
+
+.calendario-dia .pager li > a {
+	border: none;
+}
+
+.calendario-dia .pager li.date-prev > a {
+    float: left;
+	background: url(images/calendario-prev.png) no-repeat left center transparent;
+}
+
+.calendario-dia .pager li.date-next > a {
+    float: right;
+	background: url(images/calendario-next.png) no-repeat right center transparent;
+}
+
+.calendario-dia .calendar-calendar .day-view #multi-day-container,
+.calendario-dia .calendar-calendar .day-view #single-day-container {
+	border: none;
+}
+
+.calendario-dia .calendar-calendar .week-view .full div.calendar-agenda-hour, 
+.calendario-dia .calendar-calendar .day-view .full div.calendar-agenda-hour, 
+.calendario-dia .calendar-calendar .week-view .full div.calendar-agenda-items, 
+.calendario-dia .calendar-calendar .day-view .full div.calendar-agenda-items {
+	border-top: 1px solid #656666;
+}
+
+.calendario-dia td.first {
+	border: none;
+}
+
+.calendario-dia .calendar-calendar .day-view div.single-day .i_0.md_0 .view-item .calendar {
+	width: 87% !important;
+}
+
+.calendario-dia .calendar-calendar .week-view #single-day-container table td, 
+.calendario-dia .calendar-calendar .day-view #single-day-container table td {
+	border: none;
+}
+
+.calendario-dia .calendar-calendar td {
+	text-align: center;
+	color: #000;
+	font-size: 12px;
+}
+
+
+.calendario-dia .calendar-calendar .day-view .full .inner .dayview {
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.calendario-dia .calendar-calendar .day-view .full div.single-day div.dayview {
+	background: #fff;
+}
+
+.calendario-dia .calendar-calendar .day-view .full div.single-day div.dayview {
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+	border-left: 4px solid #52BE9C;
+}
+
+
+.calendario-dia .views-field-title a,
+.calendario-dia .calendar-calendar div.calendar {
+	color: #000;
+	font-size: 12px;
+}
+
+.calendario-dia .views-field-title a {
+	text-transform: uppercase;
+}
+
+.calendario-dia .single-day-footer .grippie, .header-body-divider .grippie,
+.calendario-dia .calendar-calendar .day-view .single-day-footer, 
+.calendario-dia .calendar-calendar .day-view .header-body-divider {
+	background: transparent;
+	border: none;
+}
+
+#multi-day-container {
+	display: none;
+}
+
+
+/*==================================
+******* ESTADISTICAS USUARIOS
+==================================*/
+
+#usuario-estadisticas {
+	border-bottom: 5px solid #f05f55;
+	margin-bottom: 20px;
+	padding: 15px 0px 20px 0px;
+}
+
+#usuario-estadisticas .estado-proyecto,
+#usuario-estadisticas .puntos-ttm,
+#usuario-estadisticas .contratos-realizados,
+#usuario-estadisticas .conversaciones-creadas,
+#usuario-estadisticas .contenidos-publicados,
+#usuario-estadisticas .horas-tutoria,
+#usuario-estadisticas .puntos-vendidos {
+	margin-left: 8px;
+}
+
+/*==================================
+******* MIS PROYECTOS - MIS CONUSULTORIAS
+==================================*/
+
+#mis-proyectos-abiertos,
+#mis-proyectos-en-curso,
+#mis-proyectos-finalizados,
+#mis-consultorias-en-curso,
+#mis-consultorias-finalizadas {
+	padding: 20px 0px;
+	margin-bottom: 20px;
+}
+
+#mis-proyectos-abiertos .mis-proyectos-content,
+#mis-proyectos-en-curso .mis-proyectos-content,
+#mis-proyectos-finalizados .mis-proyectos-content,
+#mis-consultorias-en-curso .mis-proyectos-content,
+#mis-consultorias-finalizadas .mis-proyectos-content {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 10px;
+	margin-top: 10px;
+}
+
+.mis-proyectos-titulo {
+	padding-bottom: 7px;
+	border-bottom: 1px solid #656666;
+/*  word-break: break-all;*/
+}
+
+#mis-proyectos-abiertos table,
+#mis-proyectos-en-curso table,
+#mis-proyectos-finalizados table,
+#mis-consultorias-en-curso table,
+#mis-consultorias-finalizadas table {
+	font-size: 13px;
+	line-height: 19px;
+  /*word-break: break-all;*/
+}
+
+#mis-proyectos-abiertos td,
+#mis-proyectos-en-curso td,
+#mis-proyectos-finalizados td,
+#mis-consultorias-en-curso td,
+#mis-consultorias-finalizadas td {
+	vertical-align: top;
+	padding: 0px;
+/*  word-break: break-all;*/
+}
+
+.mis-proyectos-content-detalle {
+	border-right: 4px solid #52be9c;
+}
+
+.mis-proyectos-content-detalle-content {
+	margin-right: 15px;
+}
+
+.mis-proyectos-content-descripcion-descripcion {
+	margin-left: 15px;
+}
+
+.mis-proyectos-content-detalle span,
+.mis-proyectos-content-detalle-presupuesto {
+	color: #000;
+}
+
+.mis-proyectos-content-detalle-categoria span.valor-campo {
+	font-weight: 600;
+}
+
+.mis-proyectos-content-detalle-estado span.valor-campo {
+	color: #f05f55;
+	font-weight: 600;
+}
+
+.mis-proyectos-content-descripcion-descripcion {
+	color: #52be9c;
+	font-weight: 600;
+}
+
+/*==================================
+******* MIS CONTENIDOS - TUTOR
+==================================*/
+
+#mis-contenidos {
+	padding: 20px 0px 20px 0px;
+/*  word-break: break-all;*/
+}
+
+#mis-contenidos h2 {
+	margin-top: 20px;
+}
+
+#mis-contenidos .lista-contenido-content {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+}
+
+td.lista-contenido-content-encabezado-detalle {
+	border-left: 4px solid #52BE9C;
+}
+
+.lista-contenido-content-encabezado-detalle-post,
+.lista-contenido-content-encabezado-detalle-categoria {
+	margin-left: 15px;
+}
+
+
+
+/*==================================
+******* MI CUENTA TTM - PUNTOS
+==================================*/
+
+#mi-cuenta-ttm {
+	padding-bottom: 30px;
+	font-size: 16px;
+}
+
+#mi-cuenta-ttm h2 {
+	margin-top: 20px;
+}
+
+#mi-cuenta-ttm .table th {
+	color: #f05f55;
+}
+
+#mi-cuenta-ttm .table th, 
+#mi-cuenta-ttm .table td {
+	padding: 3px 5px 3px 0px;
+}
+
+#mi-cuenta-ttm .cuenta-tutor-tabla .table th,
+.cuenta-tutor-tabla a {
+	color: #666;
+}
+
+#mi-cuenta-ttm .table td {
+	border-top: 1px solid #656666;
+	line-height: 17px;
+/*  word-break: break-all;*/
+}
+
+#mi-cuenta-ttm .table td.views-field-points {
+    text-align: right;
+}
+
+.cuenta-tutor-encabezado {
+	border-bottom: 1px solid #656666;
+	margin-top: 25px;
+}
+
+.cuenta-tutor-encabezado .puntos {
+	text-align: right;
+}
+
+.cuenta-tutor-tabla .views-field.views-field-field-puntos {
+	text-align: right;
+}
+
+/*==================================
+******* FORO
+==================================*/
+
+/* lista de tópicos */
+
+#forum {
+	font-family: 'Source Sans Pro',sans-serif;
+	background: #f0f0f0;
+	padding: 15px 0px;
+	font-size: 13px;
+	color: #000;
+}
+
+.foro-institucion-encabezado {
+	padding-bottom: 10px;
+	margin-bottom: 25px;
+	border-bottom: 4px solid #52BE9C;
+}
+
+.foro-institucion-encabezado td.foro-imagen {
+	padding: 5px 10px 5px 0px;
+}
+
+.foro-institucion-encabezado td.foro-nombre {
+	padding: 5px 0px 5px 10px;
+}
+
+.forum-add-forum .af-button-large span {
+	padding-left: 0px;
+	background: transparent;
+}
+
+#forum a.username {
+	color: #666;
+}
+
+.forum-table a .forum-topic-title {
+	font-weight: bold;
+}
+
+.forum-table th {
+	padding-right: 10px;
+}
+
+.forum-table thead tr a, 
+.forum-table thead tr a:visited, 
+.forum-table thead tr a:link {
+	color: #666;
+	font-family: 'Source Sans Pro',sans-serif;
+}
+
+.forum-table .views-field-last-updated img {
+	padding-left: 10px;
+}
+
+.forum-table tr.even, 
+.forum-table tr.odd,
+.forum-table-wrap .forum-table-superheader, 
+.forum-table-topics thead tr {
+	background: #f0f0f0;
+}
+
+.forum-table,
+.forum-table td,
+.forum-table-wrap .forum-table-superheader, 
+.forum-table-topics thead tr {
+	border: none;
+}
+
+.forum-table tr.even, 
+.forum-table tr.odd {
+	border-top: 1px solid #656666;
+}
+
+.forum-table td {
+	padding: 10px;
+}
+
+#forum .af-button-large, 
+#forum .af-button-small, 
+#forum .author-pane-link {
+	color: #ffffff;
+	text-shadow: none;
+	background-color: #52be9c;
+	background-image: none;
+	border-color: none;
+	*background-color: #52be9c;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-family: 'Source Sans Pro';
+	font-weight: 600;
+}
+
+#forum .af-button-large:hover, 
+#forum .af-button-small:hover, 
+#forum .author-pane-link:hover {
+  color: #ffffff;
+  background-color: #96d2bf;
+  *background-color: #96d2bf;
+}
+
+.forum-node-create-links-top {
+	padding-top: 0px;
+	margin-bottom: 30px;
+}
+
+.forum-node-create-links,
+.forum-tools {
+	display: none;
+}
+
+.forum-node-create-links.forum-node-create-links-top {
+	display: inline;
+}
+
+/* nodo */
+
+.nodo-foro-contenido-content-encabezado {
+	margin-bottom: 30px;
+}
+
+.nodo-foro-contenido-content {
+	border-bottom: 1px solid #D0CECD;
+	padding-bottom: 15px;
+	margin-bottom: 30px;
+}
+
+.forum-post-footer,
+.text-format-wrapper .filter-wrapper,
+#nodo-tema-de-foro-comentarios .forum-in-reply-to {
+	display: none;
+}
+
+#nodo-temas-de-foro-comentar .control-group {
+	font-size: 13px;
+	line-height: 19px;
+}
+
+#nodo-temas-de-foro-comentar .username {
+    color: #F05F55;
+    font-weight: bold;
+}
+
+#nodo-temas-de-foro-comentar #comment-form label {
+    float: left;
+    margin-right: 10px;
+}
+
+#nodo-temas-de-foro-comentar textarea {
+    color: #000000;
+    font-size: 13px;
+    line-height: 19px;
+}
+
+#nodo-tema-de-foro-comentarios .forum-post-info {
+	background: transparent;
+	border: none;
+	color: #666;
+}
+
+#nodo-tema-de-foro-comentarios .forum-post-number a {
+	color: #666 !important;
+}
+
+#nodo-tema-de-foro-comentarios .forum-post-panel-main {
+	background: #f0f0f0;
+}
+
+#nodo-tema-de-foro-comentarios div.forum-post {
+	border: none;
+}
+
+#nodo-tema-de-foro-comentarios .forum-post-wrapper {
+    color: #000000;
+    font-size: 13px;
+    line-height: 19px;
+	padding: 15px 0px;
+	background: #f0f0f0;
+	margin-bottom: 20px;
+}
+
+#nodo-tema-de-foro-comentarios .forum-post-panel-main {
+	min-height: auto;
+	border-left: 4px solid #52BE9C;
+}
+
+
+/*==================================
+******* BUSCAR PROYECTOS
+==================================*/
+
+.buscar-proyectos-detalle {
+	border-right: 4px solid #52be9c;
+}
+
+#buscar-proyectos-listado .formulario-orden .DivSelectyze.skype {
+	float: right;
+	margin-top: 30px;
+}
+
+#buscar-proyectos-listado .formulario-orden .skype .selectyzeValue {
+	width: 250px;
+}
+
+#buscar-proyectos-listado td {
+	vertical-align: top;
+}
+
+#buscar-proyectos-listado .view-content {
+background: #FFF;
+padding: 15px 0px;
+MARGIN-TOP: 25PX;
+width: 795PX;
+}
+
+
+.buscar-proyectos-descripcion-content {
+	margin-left: 15px;
+}
+
+.buscar-proyectos-descripcion-content p {
+	margin-bottom: 0px;
+}
+
+.buscar-proyectos-detalle-content {
+	margin-right: 15px;
+}
+
+.buscar-proyecto-encabezado-proyecto {
+	margin-bottom: 5px;
+}
+
+.buscar-proyecto-bottom-proyecto {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+
+/*==================================
+******* BUSCAR TUTORES / MIS TUTORES
+==================================*/
+
+#buscar-tutores-listado .formulario-orden .DivSelectyze.skype {
+	float: right;
+}
+
+#buscar-tutores-listado .formulario-orden .skype .selectyzeValue {
+	width: 250px;
+}
+
+#buscar-tutores-filtros .formulario {
+	margin: 0px;
+}
+
+#buscar-proyectos-filtros .views-widget-sort-by,
+#buscar-tutores-filtros .views-widget-sort-by {
+  display: none;
+}
+
+#buscar-tutores-listado .views-row,
+#mis-tutores .views-row,
+#mis-tutoriados .views-row {
+	background: #f0f0f0;
+	padding-bottom: 20px;
+	padding-top: 20px;
+}
+
+
+
+#mis-tutores .perfil-mis-tutores-encabezado,
+#mis-tutoriados .perfil-mis-tutores-encabezado {
+	margin-right: 25px;
+	margin-left: 25px;
+}
+
+#mis-tutores .mis-proyectos-titulo,
+#mis-tutoriados .mis-proyectos-titulo {
+    margin-left: 25px;
+    margin-right: 25px;
+    padding-top: 30px;
+}
+
+#mis-tutores .mis-proyectos-vacio p,
+#mis-tutoriados .mis-proyectos-vacio p {
+	margin-left: 25px;
+	margin-right: 25px;
+}
+
+/*.perfil-mis-tutores-encabezado {
+	margin-left: 25px;
+}*/
+
+#buscar-tutores-listado .views-row {
+	border-bottom: 4px solid #f05f55;
+}
+
+#mis-tutores .views-row,
+#mis-tutoriados .views-row {
+	border-bottom: 4px solid #52BE9C;
+}
+
+#buscar-tutores-listado .view-tutores-proyectos-finalizados .views-row,
+#mis-tutores .view-tutores-proyectos-finalizados .views-row,
+#mis-tutoriados .view-tutores-proyectos-finalizados .views-row {
+	background: transparent;
+	border-bottom: none;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+#buscar-tutores-listado .views-row.views-row-first,
+#mis-tutores .perfil-mis-tutores-encabezado,
+#mis-tutoriados .perfil-mis-tutores-encabezado {
+	padding-top: 30px;
+}
+
+#buscar-tutores-listado .view-tutores-proyectos-finalizados .views-row.views-row-first,
+#mis-tutores .view-tutores-proyectos-finalizados .views-row.views-row-first,
+#mis-tutoriados .view-tutores-proyectos-finalizados .views-row.views-row-first {
+	padding-top: 0px;
+}
+
+#buscar-tutores-listado td,
+#mis-tutores td {
+	vertical-align: top;
+}
+
+.buscar-tutores-imagen {
+	padding-top: 7px;
+}
+
+.buscar-tutores-detalle-tutor-encabezado {
+	border-bottom: 1px solid #656666;
+	margin-bottom: 10px;
+}
+
+.buscar-tutores-detalle-turtor {
+	padding-left: 10px;
+}
+
+
+/*==================================
+******* PAGINADORES
+==================================*/
+
+#mis-contenidos .pager,
+#mis-proyectos-en-curso .pager,
+#mis-proyectos-abiertos .pager,
+#mis-proyectos-finalizados .pager,
+#buscar-proyectos-listado .pager,
+#buscar-tutores-listado .pager,
+.page-categorias-proyecto-todas .pager,
+#mis-consultorias-finalizadas .pager,
+#mis-consultorias-en-curso .pager,
+#mis-tutores .pager,
+#mi-cuenta-ttm .pager {
+	text-align: right;
+	font-size: 13px;
+	margin-bottom: 0px;
+}
+
+#mi-cuenta-ttm .pager {
+	margin-right: 0px;
+}
+
+#mis-contenidos .pager,
+#mis-proyectos-en-curso .pager,
+#mis-proyectos-abiertos .pager,
+#mis-proyectos-finalizados .pager,
+#buscar-proyectos-listado .pager,
+#buscar-tutores-listado .pager,
+.page-categorias-proyecto-todas .pager,
+#mis-consultorias-finalizadas .pager,
+#mis-consultorias-en-curso .pager,
+#mis-tutores .pager {
+	margin-right: 25px;
+}
+
+.publico-tutor-proyectos .pager {
+	margin-right: 25px;
+	font-size: 13px;
+	margin-bottom: 0px;
+}
+
+#buscar-proyectos-listado ul.pager {
+	margin: 0px;
+	padding-right: 25px;
+	padding-bottom: 8px;
+	background: #f0f0f0;
+}
+
+#mis-contenidos .pager a,
+#mis-proyectos-en-curso .pager a,
+#mis-proyectos-abiertos .pager a,
+#mis-proyectos-finalizados .pager a,
+#buscar-proyectos-listado .pager a,
+.page-categorias-proyecto-todas .pager a,
+#mis-consultorias-finalizadas .pager a,
+#mis-consultorias-en-curso .pager a,
+#mi-cuenta-ttm .pager a {
+	color: #F05F55;
+	font-weight: bold;
+}
+
+#mi-cuenta-ttm .cuenta-tutor-tabla .pager a {
+	color: #666;
+}
+
+#buscar-tutores-listado .pager a,
+#mis-tutores .pager a,
+.publico-tutor-proyectos .pager a {
+	font-weight: bold;
+}
+
+#mis-contenidos .pager .pager-current,
+#mis-proyectos-en-curso .pager .pager-current,
+#mis-proyectos-abiertos .pager .pager-current,
+#mis-proyectos-finalizados .pager .pager-current,
+#mis-consultorias-finalizadas .pager .pager-current,
+#mis-consultorias-en-curso .pager .pager-current,
+.page-categorias-proyecto-todas .pager .pager-current,
+#mis-tutores .pager .pager-current,
+.publico-tutor-proyectos .pager .pager-current,
+#mi-cuenta-ttm .pager .pager-current {
+	display: none;
+}
+
+#mis-contenidos .pager li > a, 
+#mis-contenidos .pager li > span,
+#mis-proyectos-en-curso .pager li > a,
+#mis-proyectos-en-curso .pager li > span,
+#mis-proyectos-abiertos .pager li > a,
+#mis-proyectos-abiertos .pager li > span,
+#mis-proyectos-finalizados .pager li > a,
+#mis-proyectos-finalizados .pager li > span,
+#mis-consultorias-finalizadas .pager li > a,
+#mis-consultorias-finalizadas .pager li > span,
+#mis-consultorias-en-curso .pager li > a,
+#mis-consultorias-en-curso .pager li > span,
+#buscar-proyectos-listado .pager li > a,
+#buscar-proyectos-listado .pager li > span,
+#buscar-tutores-listado .pager li > span,
+#buscar-tutores-listado .pager li > a,
+.page-categorias-proyecto-todas .pager li > a, 
+.page-categorias-proyecto-todas .pager li > span,
+#mis-tutores .pager li > a,
+#mis-tutores .pager li > span,
+.publico-tutor-proyectos .pager li > a,
+.publico-tutor-proyectos .pager li > span,
+#mi-cuenta-ttm .pager li > a,
+#mi-cuenta-ttm .pager li > span {
+	background: transparent;
+	border: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	padding: 0px;
+}
+
+
+#mis-conversaciones .pagination ul {
+	box-shadow: none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+#mis-conversaciones .pagination ul > li > a, 
+#mis-conversaciones .pagination ul > li > span {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: transparent;
+	border: none;
+    float: left;
+    line-height: 20px;
+    padding: 4px 4px;
+    text-decoration: none;
+	color: #F05F55;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+#mis-conversaciones .pagination ul > .active > a, 
+#mis-conversaciones .pagination ul > .active > span {
+	color: #F05F55;
+}
+
+#mis-conversaciones .pagination.pagination-centered {
+    margin-right: 25px;
+    text-align: right;
+}
+
+/*==================================
+******* FILTROS EXPUESTOS
+==================================*/
+
+#buscar-proyectos-filtros .formulario,
+#buscar-proyectos-filtros .formulario {
+	margin: 0px;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-combine input,
+#buscar-tutores-filtros .views-widget-filter-combine input {
+	width: 95%;
+	background-image: url(images/lupa.png);
+	background-repeat: no-repeat;
+	background-position: 97% center;
+	padding-left: 10px;
+	margin-bottom: 25px;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
+#buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value input,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value_1 input {
+	width: 96%;
+}
+
+#buscar-proyectos-filtros .views-exposed-form .views-exposed-widget,
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget {
+	padding-top: 30px;
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 100%;
+}
+
+#buscar-proyectos-filtros .views-exposed-form .views-exposed-widget label,
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget label,
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget .label-tarifa {
+	margin: 0px 10px 10px 10px;
+	font-size: 16px;
+	color: #7b7c7f;
+}
+
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget .label-tarifa {
+    line-height:20px;
+    font-weight:bold;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid,
+#buscar-proyectos-filtros .views-widget-filter-country,
+#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
+#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
+#buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid,
+#buscar-tutores-filtros .views-widget-filter-country,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value_1,
+#buscar-tutores-filtros .views-widget-filter-field_calificacion_general_tutor_rating {
+	background: #f0f0f0;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth select,
+#buscar-proyectos-filtros .views-widget-filter-country select,
+#buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
+#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth select,
+#buscar-tutores-filtros .views-widget-filter-country select,
+#buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value input,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value_1 input,
+#buscar-tutores-filtros .views-widget-filter-field_calificacion_general_tutor_rating select {
+	background-color: #fff;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth .controls,
+#buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid .controls,
+#buscar-proyectos-filtros .views-widget-filter-country .controls,
+#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth .controls,
+#buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid .controls,
+#buscar-tutores-filtros .views-widget-filter-country .controls,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value .controls,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value_1 .controls,
+#buscar-tutores-filtros .views-widget-filter-field_calificacion_general_tutor_rating .controls {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid,
+#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
+#buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid {
+	padding-bottom: 2px;
+}
+
+#buscar-proyectos-filtros .views-widget-filter-country,
+#buscar-tutores-filtros .views-widget-filter-country,
+#buscar-tutores-filtros .views-widget-filter-field_tarifa_value_1 {
+	padding-bottom: 30px;
+}
+
+#buscar-proyectos-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-shs_term_node_tid_depth,
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-shs_taxonomy_entity_index_tid_depth {
+	padding-top: 10px;
+}
+
+
+.formulario-expuesto .DivSelectyze {
+	margin-right: 0px;
+}
+
+.formulario-expuesto .skype .selectyzeValue {
+	width: 91%;
+	background-color: #fff;
+}
+
+#mi-cuenta-ttm input {
+	background-image: url(images/arrow-down.png);
+	background-repeat: no-repeat;
+	background-position: 97% center;
+	background-color: #fff;
+	width: 195px;
+}
+
+#mi-cuenta-ttm .control-group.form-item {
+	width: 215px;
+	float: left;
+}
+
+#mi-cuenta-ttm .views-exposed-form .views-exposed-widget {
+	width: 90%;
+	padding: 0px;
+}
+
+#mi-cuenta-ttm .views-exposed-form .views-exposed-widget.views-submit-button {
+	width: auto;
+}
+
+.views-exposed-form .views-exposed-widget .form-submit {
+	margin-top: -60px;
+}
+
+
+
+/*==================================
+******* CONTRATO TUTOR
+==================================*/
+
+#contrato-node-form {
+	color: #666;
+}
+
+#contrato-node-form legend {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 23px;
+	color: #666666;
+}
+
+#contrato-node-form .fieldset-legend em {
+	color: #52BE9C;
+}
+
+#contrato-node-form input, 
+#contrato-node-form .uneditable-input {
+	width: 400px;
+}
+
+#contrato-node-form .field-name-field-fecha-acordada label {
+	color: #52be9c;
+	font-weight: bold;
+}
+
+#contrato-node-form textarea {
+	width: 410px;
+}
+
+#contrato-node-form .resizable-textarea .grippie {
+	width: 408px;
+}
+
+#contrato-node-form .tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+#contrato-node-form .field-name-field-horas-acordadas input,
+#contrato-node-form .field-name-field-puntos input {
+    margin-right: 10px;
+    width: 348px;
+}
+
+#contrato-node-form select {
+	width: 412px;
+}
+
+#contrato-node-form #edit-field-fecha-acordada legend,
+#contrato-node-form #edit-field-proyecto label,
+#contrato-node-form #edit-field-fechas-videoconferencia label {
+	color: #52be9c;
+	border-bottom: 1px solid #656666;
+	font-weight: bold;
+	font-size: 16px;
+	padding-bottom: 5px;
+	line-height: 20px;
+	width: 412px;
+	margin-bottom: 10px;
+}
+
+#contrato-node-form #edit-field-fechas-videoconferencia .control-group label {
+	border-bottom: none;
+	padding-left: 10px;
+}
+
+#contrato-node-form #edit-field-fechas-videoconferencia .end-date-wrapper label {
+	width: 375px;
+}
+
+#contrato-node-form #edit-field-fecha-acordada .container-inline-date .date-padding {
+	padding: 0px;
+}
+
+#contrato-node-form .help-block {
+	margin-bottom: 0px;
+}
+
+#contrato-node-form tbody legend {
+	display: none;
+}
+
+#contrato-node-form #edit-field-fechas-videoconferencia input {
+	width: 169px;
+}
+
+#contrato-node-form #edit-field-fechas-videoconferencia th {
+    text-indent:-10000px;
+    overflow:hidden;
+}
+
+#contrato-node-form #edit-field-fechas-videoconferencia th.field-label {
+    text-indent:0;
+}
+
+#contrato-node-form button.field-add-more-submit {
+	margin-bottom: 20px;
+}
+
+.node-type-contrato .botones-proyecto {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+/*==================================
+******* 403 404 MANTENIMIENTO
+==================================*/
+
+#pagina-error {
+	background: #f0f0f0;
+	border-bottom: 4px solid #f05f55;
+	padding: 30px 0px;
+	margin-top: 50px;
+	margin-bottom: 60px;
+}
+
+.pagina-error-mensaje {
+	margin-top: 30px;
+}
+
+/*==================================
+******* BOTÓN COMPRAR PUNTOS
+==================================*/
+
+.comprar-puntos .form-text {
+	width: 83px;
+}
+
+#perfil-boton-comprar-puntos .formulario {
+	margin: 0px 0px 25px 0px;
+}
+
+#perfil-boton-comprar-puntos input {
+	margin-bottom: 0px;
+	font-size: 14px;
+}
+
+#perfil-boton-comprar-puntos .btn-primary, 
+#perfil-boton-comprar-puntos .btn {
+    font-size: 11px;
+    margin-left: 4px;
+    padding: 3px 9px;
+    text-transform: none;
+}
+
+/*==================================
+******* CHECKOUT
+==================================*/
+
+#uc-cart-checkout-form legend {
+	color: #F05F55;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+#uc-cart-checkout-form fieldset {
+	margin-bottom: 30px;
+}
+
+#uc-cart-checkout-form .fieldset-description {
+	margin-bottom: 20px;
+}
+
+.order-review-table .review-button-row td {
+	text-align: center;
+}
+
+/*==================================
+******* MIS CONVERSACIONES
+==================================*/
+
+#mis-conversaciones {
+	padding: 20px 0px;
+	background: #f0f0f0;
+}
+
+#mis-conversaciones h2 {
+	margin: 0px;
+}
+
+#mis-conversaciones h3 {
+	border-bottom: 1px solid #656666;
+	padding-bottom: 7px;
+	line-height: 22px;
+	margin-top: 0px;
+}
+
+#mis-conversaciones {
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 17px;
+}
+
+#mis-conversaciones .privatemsg-authors,
+#mis-conversaciones .privatemsg-author-avatar {
+	margin-right: 10px;
+}
+
+#mis-conversaciones .privatemsg-project-state {
+	color: #f05f55;
+}
+
+#mis-conversaciones .privatemsg-author-name,
+#mis-conversaciones .privatemsg-message-date {
+	color: #000;
+}
+
+#mis-conversaciones .privatemsg-project-name {
+	text-transform: uppercase;
+	font-size: 12px;
+/*  word-break: break-all;*/
+}
+
+#mis-conversaciones .privatemsg-author-name,
+#mis-conversaciones .privatemsg-message-date,
+#mis-conversaciones .privatemsg-project-state {
+	line-height: 15px;
+}
+
+#mis-conversaciones .privatemsg-thread {
+    border-bottom: 1px solid #656666;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+#conversacion .pane-tutoriame-privatemsg-tutoriame-privatemsg-threads h3 {
+	display: none;
+}
+
+#conversacion .privatemsg-title {
+	font-weight: normal;
+	color: #231f20;
+	font-size: 16px;
+	margin-top: 0px;
+	margin-bottom: 40px;
+}
+
+#main-content #conversacion {
+	background: #f0f0f0;
+	padding: 10px 25px 25px 25px;
+	color: #666666;
+}
+
+#conversacion .privatemsg-message-information-inner {
+    background: none repeat scroll 0 0 #FFFFFF;
+    padding: 10px 25px 0;
+}
+
+
+#conversacion .privatemsg-message-participants,
+#conversacion .privatemsg-message-participants a {
+	font-size: 16px;
+	color: #231f20;
+	border-bottom: none;
+}
+
+#conversacion .privatemsg-message-information {
+	background-image: url(images/mensaje.png);
+	background-repeat: no-repeat;
+	background-position: left 10px;
+	background-color: transparent;
+	padding-left: 12px;
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+
+#conversacion .privatemsg-message-body p {
+	margin-bottom: 0px;
+}
+
+#conversacion .privatemsg-message-information,
+#conversacion ul.privatemsg-message-actions {
+	border-bottom: none;
+	margin-bottom: 0px;
+}
+
+#conversacion .privatemsg-message-body {
+	padding: 20px 25px 25px 0px;
+}
+
+#conversacion .privatemsg-author-name {
+	color: #f05f55;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+#conversacion .privatemsg-author-name a {
+	color: #52be9c;
+}
+
+#conversacion .privatemsg-message-date {
+	font-size: 14px;
+}
+
+#conversacion #privatemsg-form-reply,
+#conversacion #privatemsg-form-reply--2 {
+	background-image: url(images/mensaje-gris.png);
+	background-repeat: no-repeat;
+	background-position: left 10%;
+	background-color: transparent;
+	padding-left: 11px;
+	margin-left: 0px;
+}
+
+#conversacion #privatemsg-form-reply div,
+#conversacion #privatemsg-form-reply--2 div {
+	background: #e1e1e1;
+	padding: 10px 25px 20px 25px;
+}
+
+#conversacion #privatemsg-form-reply #edit-field-adjunto div,
+#conversacion #privatemsg-form-reply--2 #edit-field-adjunto div {
+	padding:0;
+}
+
+#conversacion #privatemsg-form-reply div#edit-field-proyecto-consultado,
+#conversacion #privatemsg-form-reply--2 div#edit-field-proyecto-consultado {
+	padding: 0px;
+}
+
+#conversacion #privatemsg-form-reply div.text-format-wrapper,
+#conversacion #privatemsg-form-reply--2 div.text-format-wrapper,
+#conversacion #privatemsg-form-reply div.controls,
+#conversacion #privatemsg-form-reply--2 div.controls,
+#conversacion #privatemsg-form-reply div.control-group,
+#conversacion #privatemsg-form-reply--2 div.control-group,
+#conversacion #privatemsg-form-reply div.form-textarea-wrapper,
+#conversacion #privatemsg-form-reply--2 div.form-textarea-wrapper {
+	padding: 0px;
+	background: transparent;
+}
+
+#conversacion #privatemsg-form-reply textarea,
+#conversacion #privatemsg-form-reply--2 textarea {
+	padding: 10px;
+	background: #fff;
+}
+
+#conversacion h2.privatemsg-reply {
+	margin-bottom: 20px;
+}
+
+#conversacion #privatemsg-form-reply div.grippie,
+#conversacion #privatemsg-form-reply--2 div.grippie {
+	padding: 0px;
+}
+
+#conversacion #privatemsg-form-reply .btn-primary,
+#conversacion #privatemsg-form-reply--2 .btn-primary,
+#conversacion #privatemsg-form-reply .btn,
+#conversacion #privatemsg-form-reply--2 .btn {
+	background-color: #f05f55;
+	font-size: 15px;
+	text-transform: none;
+}
+
+#conversacion #privatemsg-form-reply h2,
+#conversacion #privatemsg-form-reply--2 h2 {
+	font-size: 18px;
+	color: #000;
+}
+
+#conversacion .privatemsg-message {
+	margin-bottom: 20px;
+}
+
+#conversacion #mis-conversaciones .privatemsg-message-date,
+#conversacion #mis-conversaciones .privatemsg-message-body {
+	color: #666;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 20px;
+}
+
+
+/*==================================
+******* CALIFICACIONES
+==================================*/
+
+/* generales */
+
+div.fivestar-widget .star, 
+div.fivestar-widget .star a,
+div.fivestar-widget-static .star {
+	background: transparent;
+}
+
+.div.fivestar-widget .star, 
+div.fivestar-widget .star a,
+div.fivestar-widget .star a:hover,
+div.fivestar-widget-static .star span.off {
+	background: url(images/voto-verde-borde-grande.png) no-repeat center center transparent;
+}
+
+div.fivestar-widget div.on a,
+div.fivestar-widget-static .star span.on {
+	background: url(images/voto-verde-grande.png) no-repeat center center transparent;
+}
+
+div.fivestar-widget div.hover a,
+div.rating div a:hover {
+	background-position: center center;
+}
+
+#calificacion .DivSelectyze {
+	display: none;
+}
+
+div.fivestar-widget-static .star,
+div.fivestar-widget .cancel, 
+div.fivestar-widget .star {
+	width: 20px;
+}
+
+div.fivestar-widget-static .star span.on {
+	width: 100% !important;
+}
+
+/* perfil público tutor left */
+
+#info-usuario #calificacion {
+	margin-bottom: 5px;
+}
+
+/* perfil publico tutor right */
+
+#calificacion .formulario {
+	margin: 0px;
+}
+
+
+#calificacion.publico-tutor {
+	border-bottom: 5px solid #F05F55;
+    margin-bottom: 20px;
+    padding: 15px 0 20px;
+}
+
+#mis-tutores #calificacion.publico-tutor {
+	border-bottom: none;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+#calificacion.publico-tutor span.views-label {
+	font-weight: 600;
+	font-size: 12px;
+	color: #000;
+}
+
+#calificacion.publico-tutor .views-row {
+	padding: 0px 15px;
+}
+
+#calificacion.publico-tutor .div.fivestar-widget .star, 
+#calificacion.publico-tutor div.fivestar-widget .star a,
+#calificacion.publico-tutor div.fivestar-widget .star a:hover,
+#calificacion.publico-tutor div.fivestar-widget-static .star span.off {
+	background: url(images/voto-verde-borde.png) no-repeat center center transparent;
+}
+
+#calificacion.publico-tutor div.fivestar-widget div.on a,
+#calificacion.publico-tutor div.fivestar-widget-static .star span.on {
+	background: url(images/voto-verde.png) no-repeat center center transparent;
+
+}
+
+#calificacion.publico-tutor div.fivestar-widget-static .star,
+#calificacion.publico-tutor div.fivestar-widget .cancel, 
+#calificacion.publico-tutor div.fivestar-widget .star {
+	width: 13px;
+}
+
+/* busqueda tutores */
+
+#calificacion.rojo .div.fivestar-widget .star, 
+#calificacion.rojo div.fivestar-widget .star a,
+#calificacion.rojo div.fivestar-widget .star a:hover,
+#calificacion.rojo div.fivestar-widget-static .star span.off {
+	background: url(images/voto-rojo-borde.png) no-repeat center center transparent;
+}
+
+#calificacion.rojo div.fivestar-widget div.on a,
+#calificacion.rojo div.fivestar-widget-static .star span.on {
+	background: url(images/voto-rojo.png) no-repeat center center transparent;
+
+}
+
+#calificacion.rojo div.fivestar-widget-static .star,
+#calificacion.rojo div.fivestar-widget .cancel, 
+#calificacion.rojo div.fivestar-widget .star {
+	width: 17px;
+}
+
+.buscar-tutores-detalle-tutor-encabezado-calificacion {
+	font-size: 15px;
+	line-height: 22px;
+}
+
+#mis-tutores .buscar-tutores-detalle-tutor-encabezado-calificacion {
+	font-size: 13px;
+	line-height: 17px;
+}
+
+#mis-tutores #calificacion .control-group,
+#mis-tutores #calificacion p {
+	margin-bottom: 0px;
+}
+
+.buscar-tutores-detalle-tutor-encabezado-calificacion .fivestar-average-stars {
+	margin-left: 15px;
+}
+
+/* pagina calificar usuario */
+
+#calificacion-node-form .field-type-fivestar  label {
+	float: left;
+	width: 300px;
+}
+
+#calificacion-node-form .field-type-fivestar {
+	margin-bottom: 10px;
+}
+
+#calificacion-node-form .field-name-field-calif-privada-tutor {
+	margin-top: 20px;
+}
+
+#calificacion-node-form .form-actions {
+	text-align: center;
+}
+
+/*
+ * Datepicker
+ */
+#ui-datepicker-div { z-index:10000 !important; }
+
+/*
+ * Puntos
+ */
+#puntos-comprar-page .comprar-puntos-titulo legend {
+    color: #52BE9C;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 23px;
+}
+#puntos-comprar-page .control-group {
+    width:100%;
+}
+#puntos-comprar-page .control-group .control-label {
+    width:250px;
+    float:left;
+    font-weight:bold;
+}
+#puntos-comprar-page .control-group .controls {
+    float:left;
+    width:250px;
+}
+#puntos-comprar-page .control-group .controls input {
+    width:90%;
+}
+#puntos-comprar-page #edit-subtitulo {
+	color: #F05F55;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom:15px;
+    border-bottom:1px solid #000;
+}
+#puntos-comprar-page #edit-subtitulo .controls {
+    width:100%;
+    float:none;
+}

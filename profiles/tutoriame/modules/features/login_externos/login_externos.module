@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Code for the login_externos feature.
+ */
+
+include_once 'login_externos.features.inc';
+
+function login_externos_oauthconnector_fields_alter(&$fields){
+  $fields['email'] = array(
+    'title' => t('Email'),
+    'description' => t('Email for this user.'),
+    'required' => FALSE,
+  );
+}

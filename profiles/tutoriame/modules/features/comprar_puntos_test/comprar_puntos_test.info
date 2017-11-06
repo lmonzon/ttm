@@ -1,0 +1,14 @@
+name = comprar_puntos_test
+description = habilita la compra de puntos para el gateway de test
+core = 7.x
+package = Tutoriame desarrollo
+version = 7.x-1.0
+project = comprar_puntos_test
+dependencies[] = ctools
+dependencies[] = strongarm
+dependencies[] = test_gateway
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = uc_payment_credit_gateway
+features[variable][] = uc_pg_test_gateway_cc_txn_type
+features[variable][] = uc_pg_test_gateway_enabled

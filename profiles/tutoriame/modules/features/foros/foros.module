@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file
+ * Code for the Foros feature.
+ */
+
+include_once 'foros.features.inc';
+
+function foros_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == "forum_node_form") {
+    hide($form['taxonomy_forums']);
+  }
+}
+function foros_node_submit($node, $form, &$form_state) {
+  global $user;
+  if($node->form_id ==  "forum_node_form" && $user->uid != 1) {
+    $node->taxonomy_forums['und'][0]['tid'] = array_shift(mis_foros())->tid; 
+  }
+}
+
+function mis_foros(){ 
+  global $user;
+  $user_main_profile = profile2_load_by_user($user->uid, 'main');
+  $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+  if(!empty($vocabulary)) {
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'taxonomy_term', '=')
+     ->propertyCondition('vid', $vocabulary->vid, '=')
+     ->fieldCondition('field_institucion', 'target_id', $user_main_profile->field_institucion['und'][0]['target_id'], '=')
+     ->execute();
+    return $result['taxonomy_term'];
+  }
+  return array();
+}
+

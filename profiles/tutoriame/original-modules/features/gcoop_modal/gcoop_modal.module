@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the gcoop_modal feature.
+ */
+
+include_once 'gcoop_modal.features.inc';

@@ -1,0 +1,211 @@
+<?php
+
+module_load_include('inc', 'node', 'node.pages');
+module_load_include('inc', 'tutoriame_calificar', 'tutoriame_calificar.form');
+
+function tutoriame_calificar_action_info() {
+  $info['tutoriame_calificar_node_update_action'] = array(
+    'type' => 'node',
+    'label' => t('Actualizar alias de URL de calificación para los nodos'),
+    'configurable' => false,
+  );
+
+  return $info;
+}
+
+function tutoriame_calificar_node_insert($node) {
+  unset($node->uri);
+  tutoriame_calificar_node_update_alias($node, 'insert');
+
+  if ($node->type == 'calificacion') {
+    if ($perfil_tutor = profile2_load($node->field_perfil_tutor['und'][0]['target_id'])) {
+      $tutor = user_load($perfil_tutor->uid);
+    }
+    if ($perfil_emprendedor = profile2_load($node->field_perfil_emprendedor['und'][0]['target_id'])) {
+      $emprendedor = user_load($perfil_emprendedor->uid);
+    }
+    if (
+      (!empty($tutor)) &&
+      (!empty($emprendedor))
+    ) {
+      $proyecto = node_load($node->field_proyecto_calificado['und'][0]['target_id']);
+      rules_invoke_event('ttm_rules_calificacion_creada', $tutor, $emprendedor, $proyecto, $node);
+    }
+  }
+}
+
+function tutoriame_calificar_node_update($node) {
+  tutoriame_calificar_node_update_alias($node, 'update');
+}
+
+function tutoriame_calificar_node_delete($node) {
+  pathauto_path_delete_all("calificar/{$node->nid}");
+}
+
+function tutoriame_calificar_node_operations() {
+  $operations['tutoriame_calificar_update_alias'] = array(
+    'label' => t('Actualizar URLs de calificación para el nodo'),
+    'callback' => 'tutoriame_calificar_node_update_alias_multiple',
+    'callback arguments' => array('bulkupdate', array('message' => true)),
+  );
+
+  return $operations;
+}
+
+function tutoriame_calificar_node_update_alias(stdClass $node, $op, array $options = array()) {
+  module_load_include('inc', 'pathauto');
+
+  $options += array(
+    'language' => LANGUAGE_NONE,
+  );
+
+  if (!pathauto_pattern_load_by_entity('tutoriame_calificar', $node->type, $options['language'])) {
+    return;
+  }
+
+  $options += array(
+    'language' => pathauto_entity_language('node', $node),
+  );
+
+  pathauto_create_alias('tutoriame_calificar', $op, "calificar/$node->nid", array('node' => $node), $node->type, $options['language']);
+}
+
+function tutoriame_calificar_node_update_alias_multiple(array $nids, $op, array $options = array()) {
+  $options += array('message' => false);
+
+  $nodes = node_load_multiple($nids);
+  foreach ($nodes as $node) {
+    tutoriame_calificar_node_update_alias($node, $op, $options);
+  }
+
+  if (!empty($options['message'])) {
+    drupal_set_message(format_plural(count($nids), 'Se actualizó el alias de URL de calificación para 1 nodo.', 'Se actualizacion los aliases de calificación para @count nodos.'));
+  }
+}
+
+function tutoriame_calificar_node_update_action($node, $context = array()) {
+  tutoriame_calificar_node_update_alias($node, 'bulkupdate', array('message' => true));
+}
+
+function tutoriame_calificar_permission() {
+  return array(
+    'administer tutoriame_calificar settings' => array(
+      'title' => t('Administrar calificaciones en Tutoriame'),
+      'description' => t('Configurar las calificaciones realizadas entre usuarios de Tutoriame.'),
+    ),
+  );
+}
+
+function tutoriame_calificar_menu() {
+  $items['calificar/%node'] = array(
+    'title' => t('Calificar'),
+    'title callback' => 'tutoriame_calificar_calificar_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'tutoriame_calificar_calificar_page',
+    'page arguments' => array(1),
+    'file' => 'tutoriame_calificar.pages.inc',
+    'access callback' => 'tutoriame_calificar_calificar_access',
+    'access arguments' => array(1),
+  );
+  $items['admin/tutoriame/config/calificar'] = array(
+    'title' => t('Calificaciones'),
+    'description' => t('Configure las calificaciones entre usuarios de Tutoriame.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_calificar_admin_settings'),
+    'file' => 'tutoriame_calificar.admin.inc',
+    'access arguments' => array('administer tutoriame_calificar settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function tutoriame_calificar_calificar_page_title($node) {
+  $title = (is_object($node)) ? ($node->title) : ('');
+
+  return t('Calificar el proyecto @s', array('@s' => $title));
+}
+
+function tutoriame_calificar_calificar_access($node) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_calificar');
+
+  $node = (is_object($node)) ? ($node) : (node_load((int) $node));
+
+  return tutoriame_calificar_puede_calificar($user, $node);
+}
+
+function tutoriame_calificar_block_info() {
+  $blocks = array(
+    'ttm_calificar-calificar' => array(
+      'info' => t('Calificar un nodo'),
+    ),
+  );
+
+  return $blocks;
+}
+
+function tutoriame_calificar_block_configure($delta = '') {
+  $form = array();
+
+  switch ($delta) {
+    case 'ttm_calificar-calificar':
+      $form[$delta . '_enlace'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace'),
+        '#description' => t('Texto a utilizar en el enlace del bloque'),
+        '#default_value' => variable_get($delta . '_enlace', t('Calificar')),
+      );
+      break;
+  }
+
+  return $form;
+}
+
+function tutoriame_calificar_block_save($delta = '', $edit = array()) {
+  switch ($delta) {
+    case 'ttm_calificar-calificar':
+      variable_set($delta . '_enlace', $edit[$delta . '_enlace']);
+      break;
+  }
+}
+
+function tutoriame_calificar_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'ttm_calificar-calificar':
+      $block['subject'] = t('Calificar');
+      $block['content'] = tutoriame_calificar_block_contents($delta);
+      break;
+  }
+
+  return $block;
+}
+
+function tutoriame_calificar_block_contents($delta) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_calificar');
+
+  $block = '';
+
+  switch ($delta) {
+    case 'ttm_calificar-calificar':
+      $mod = arg(0);
+      $nid = arg(1);
+      if (($mod == 'node') && (!empty($nid))) {
+        if ($node = node_load($nid)) {
+          if (tutoriame_calificar_puede_calificar($user, $node)) {
+            $enlace = t(variable_get($delta . '_enlace', t('Calificar')));
+            $block .= l($enlace, url('calificar/' . $node->nid . '', array('absolute' => true)));
+          }
+        }
+      }
+      break;
+  }
+
+  return $block;
+}
+

@@ -1,0 +1,217 @@
+# Spanish translation of Tutoriame
+# Copyright (c) 2014 by gcoop
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Tutoriame\n"
+"POT-Creation-Date: 2014-08-06 18:00-0300\n"
+"PO-Revision-Date: 2014-08-06 18:00-0300\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+# Userpoints Ubercart
+msgid "A user purchased !product containing !amount points."
+msgstr "Compra de puntos"
+
+# PCP
+msgid "!complete% Complete"
+msgstr "!complete% Completado"
+
+msgid "Filling out <em>!empty-field</em> will bring your profile to !complete% complete"
+msgstr "Completando <em>!empty-field</em> tu perfil estará !complete% completo"
+
+msgid "Profile Complete"
+msgstr "Perfil Completo"
+
+# Captcha
+msgid "The answer you entered for the CAPTCHA was not correct."
+msgstr "El código de seguridad ingresado no es correcto."
+
+# Privatemsg
+msgid "Reply"
+msgstr "Responder"
+
+msgid "You can not reply to this conversation because all recipients are blocked."
+msgstr "Ya no puedes continuar con esta conversación."
+
+msgid "A message has been sent to !recipients."
+msgstr "Se envió el mensaje a !recipients."
+
+msgid "A message has been sent to @user."
+msgstr "Se envió el mensaje a @user."
+
+msgid "Display older messages"
+msgstr "Ver mensajes anteriores"
+
+msgid "Display newer messages"
+msgstr "Ver mensajes siguientes"
+
+msgid "!newer_link Displaying messages @from - @to of @total !older_link"
+msgstr "!newer_link Mensajes @from - @to de @total !older_link"
+
+msgid "You must include a message in your reply."
+msgstr "Debes ingresar un mensaje."
+
+# SHS
+msgctxt "shs"
+msgid "- Select a value -"
+msgstr "- Selecciona un valor -"
+
+msgctxt "shs"
+msgid "- None -"
+msgstr "- Ninguno -"
+
+msgid "You need to select a term from the deepest level in field %field_name."
+msgstr "Debe seleccionar un valor del nivel más profundo en el campo Categoría."
+
+# Userpoints
+msgid "You just earned a !point and now have %total !points in the %category category."
+msgid_plural "You just earned @count !points and now have %total !points in the %category category."
+msgstr[0] "Has comprado un punto y ahora tienes %total puntos."
+msgstr[1] "Has comprado @count puntos y ahora tienes %total puntos."
+
+# Location
+msgid "The specified province was not found in the specified country."
+msgstr "La provincia seleccionada no pertenece al país especificado."
+
+# Node clone
+msgid "Clone content"
+msgstr "Copiar plantilla"
+
+msgid "Clone of"
+msgid_plural "Clone @count of"
+msgstr[0] "Copia de"
+msgstr[1] "Copia @count de"
+
+msgid "Clone of !title"
+msgstr "Copia de !title"
+
+# Date
+msgid "Show End Date"
+msgstr "Completar fecha de egreso"
+
+msgid "Format: @date"
+msgstr "Fomato: @date"
+
+msgid "!start-date to !end-date"
+msgstr "!start-date a !end-date"
+
+msgid "E.g., @date"
+msgstr "Ej., @date"
+
+msgid "Empty 'End date' values will use the 'Start date' values."
+msgstr "Si no completa la fecha de finalización se utilizará la fecha de inicio."
+
+msgctxt "datetime"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "datetime"
+msgid "Time"
+msgstr "Hora"
+
+msgid "The End date must be greater than the Start date."
+msgstr "La fecha de finalización debe ser mayor a la de inicio."
+
+msgid "There are errors in @field_name:"
+msgstr "Existen errores en @field_name:"
+
+msgid "There are errors in @field_name value #@delta:"
+msgstr "Existen errores en el valor #@delta de @field_name:"
+
+msgid "The value input for field %field is invalid:"
+msgstr "El campo %field es inválida:"
+
+msgid "The value @date does not match the expected format."
+msgstr "El valor @date no coincide con el formato esperado."
+
+msgid "The year is invalid. Please check that entry includes four digits."
+msgstr "El año es inválido. Por favor verifique que tenga cuatro dígitos."
+
+msgid "A 'Start date' date is required if an 'end date' is supplied for field %field #%delta."
+msgstr "Debes ingresar una 'Fecha de inicio' en el campo %field #%delta."
+
+msgid "Start date"
+msgstr "fecha de inicio"
+
+# pm_email_notify
+msgid "E-mail notify"
+msgstr "Notificaciones de mensajes"
+
+msgid "Customize the email messages sent to users upon receipt of a new private message."
+msgstr "Personalice los mensajes que se enviarán a los usuarios cuando reciban un mensaje privado."
+
+msgid "Your current password is missing or incorrect; it's required to change the %name"
+msgstr "Su contraseña actual es incorrecta o bien la ha olvidado; es necesario cambiar la %name."
+
+msgid "No payment methods available"
+msgstr "No hay métodos de pago disponibles"
+
+msgid "You cannot check out without selecting a payment method."
+msgstr "No se puede revisar sin seleccionar un método de pago."
+
+msgid "Back"
+msgstr "Volver"
+
+# fivestar
+msgid "No stars"
+msgstr "Sin calificación"
+
+msgid "1 star"
+msgstr "1 estrella"
+
+msgid "@count stars"
+msgstr "@count estrellas"
+
+# Password policy
+msgid "Password compliance:"
+msgstr "Requisitos contraseña:"
+
+msgid "Password does not match the following requirements:"
+msgstr "La contraseña debe cumplir con los siguientes requisitos:"
+
+msgid "Password must be at least %length characters."
+msgstr "La contraseña debe tener al menos %length caracteres."
+
+msgid "Password must have at least 1 digit(s)."
+msgstr "La contraseña debe tener al menos un dígito."
+
+msgid "Password must have at least 8 character(s)."
+msgstr "La contraseña debe tener al menos 8 caracteres."
+
+msgid "Password must have at least @alpha_count letter(s)."
+msgstr "La contraseña debe tener al menos @alpha_count letras."
+
+msgid "Password must have at least @char_count character(s)."
+msgstr "La contraseña debe tener al menos @char_count caracteres."
+
+msgid "Password must have at least @int_count digit(s)."
+msgstr "La contraseña debe tener al menos @int_count dígitos."
+
+msgid "Password must have at least @symbol_count symbol(s)."
+msgstr "La contraseña debe tener al menos @symbol_count símbolos."
+
+msgid "Password must have upper and lower case letters."
+msgstr "La contraseña debe tener letras en mayúsculas y minúsculas."
+
+msgid "Password must match a Drupal strength level."
+msgstr "La contraseña debe tener un nivel de fortaleza de Drupal."
+
+msgid "Password must not contain their username."
+msgstr "La contraseña no debe contener el nombre de usuario."
+
+msgid "@sus_count of @total"
+msgstr "@sus_count de @total"
+
+msgid "Password cannot match certain disallowed passwords."
+msgstr "La contraseña no puede coincidir con ciertas contraseñas prohibidas."
+
+msgid "Password cannot match @past_passwords past passwords."
+msgstr "La contraseña no puede coincidir con las últimas @past_passwords contraseñas."
+
+msgid "Password cannot match this many previous passwords."
+msgstr "La contraseña no puede coincidir con una contraseña anterior."
+

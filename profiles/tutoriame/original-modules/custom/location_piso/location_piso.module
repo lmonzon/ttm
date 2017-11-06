@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Add piso fields to Location address.
+ */
+
+/**
+ * Implements hook_locationapi().
+ */
+function location_piso_locationapi(&$location, $op, $a3 = NULL, $a4 = NULL) {
+  switch ($op) {
+    case 'fields':
+      return array('piso' => t('Piso'));
+
+    case 'defaults':
+      return array(
+        'piso' => array('default' => '', 'collect' => 0, 'weight' => 25),
+      );
+
+    case 'field_expand':
+      if ($a3 == 'piso') {
+        return array(
+          '#type' => 'textfield',
+          '#title' => t('piso'),
+          '#size' => 31,
+          '#maxlength' => 31,
+          '#description' => NULL,
+          '#required' => ($a4['collect'] == 2),
+          '#default_value' => $location,
+        );
+      }
+      break;
+
+    case 'save':
+      db_delete('location_piso')
+        ->condition('lid', $location['lid'])
+        ->execute();
+      if (!empty($location['piso'])) {
+        db_insert('location_piso')
+          ->fields(array(
+            'lid' => $location['lid'],
+            'piso' => $location['piso'],
+          ))
+          ->execute();
+      }
+      break;
+
+    case 'load':
+      $fields = array();
+      $piso = db_query('SELECT piso FROM {location_piso} WHERE lid = :lid', array(':lid' => $location['lid']))->fetchField();
+      $fields['piso'] = $piso ? $piso : '';
+      return $fields;
+
+    case 'delete':
+      db_delete('location_piso')
+        ->condition('lid', $location['lid'])
+        ->execute();
+      break;
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function location_piso_views_api() {
+  return array(
+    'api' => 3,
+  );
+}
+
+/**
+ * Implements hook_token_list().
+ */
+function location_piso_token_list($type = 'all') {
+  if ($type == 'node' || $type == 'user' || $type == 'all') {
+    $tokens['location']['location-piso_N'] = t('Location piso (If there are multiple locations per node, N is the iteration, starting with 0)');
+    return $tokens;
+  }
+}

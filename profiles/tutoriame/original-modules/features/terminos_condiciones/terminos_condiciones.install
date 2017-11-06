@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the terminos_condiciones module.
+ *
+ */
+
+
+/**
+ * Implements hook_install().
+ */
+function terminos_condiciones_install() {
+  // Install system_vocabulary dependency module
+  module_enable(array('legal'));
+
+  module_load_include('inc', 'legal', 'legal.admin');
+
+  variable_set('legal_display', '2');
+  $path = drupal_get_path('module', 'terminos_condiciones');
+  $conditions = file_get_contents($path.'/texto_legal.html', false);
+
+  $version = legal_version('version', 'en');
+  $values = array(
+      'display' => '0',
+      'version'    => $version['version'],
+      'revision'   => $version['revision'],
+      'language'   => 'en',
+      'conditions' => $conditions,
+      'date'       => time(),
+      'extras'     => array(),
+      'changes'    => '',
+  );
+
+  $form_state = array();
+  $form_state['values'] = $values;
+  drupal_form_submit('legal_administration', $form_state);
+  $errors = form_get_errors();
+
+}
+
+function terminos_condiciones_uninstall() {
+  db_query("TRUNCATE legal_conditions");
+}

@@ -1,0 +1,15 @@
+name = formatos_fecha
+core = 7.x
+package = Tutoriame
+version = 7.x-1.0
+project = formatos_fecha
+dependencies[] = ctools
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = date_format_formatos_fecha_dd_de_mes_aaaa
+features[variable][] = date_format_formatos_fecha_dd_mm_aa
+features[variable][] = date_format_formatos_fecha_dd_mm_aaaa
+features[variable][] = date_format_formatos_fecha_dia_dd_mm_aa
+features[variable][] = date_format_formatos_fecha_dia_mes_aaaa_a_las_hh_mm
+features[variable][] = date_format_formatos_fecha_hh_mm

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the presets_imagecache feature.
+ */
+
+include_once 'presets_imagecache.features.inc';

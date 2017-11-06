@@ -1,0 +1,23 @@
+name = Tutoriame Private messages
+description = Módulo de personalización de PrivateMsg para Tutoriame
+package = Mail
+core = 7.x
+version = '7.x-1.0'
+dependencies[] = privatemsg
+dependencies[] = pm_email_notify
+dependencies[] = block
+dependencies[] = flag
+dependencies[] = flujo_de_proyectos
+dependencies[] = profile2
+dependencies[] = views
+
+files[] = tutoriame_privatemsg.inc
+files[] = tutoriame_privatemsg.module
+files[] = tutoriame_privatemsg.admin.inc
+files[] = tutoriame_privatemsg.pathauto.inc
+files[] = tutoriame_privatemsg.pages.inc
+files[] = views/tutoriame_privatemsg.views.inc
+files[] = views/views_handler_field_consultar_link.inc
+
+configure=admin/tutoriame/config/privatemsg
+

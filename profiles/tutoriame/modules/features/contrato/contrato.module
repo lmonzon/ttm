@@ -1,0 +1,172 @@
+<?php
+/**
+ * @file
+ * Code for the contrato feature.
+ */
+
+include_once 'contrato.features.inc';
+
+function validar_fecha_inicio_contrato($value, $instance, $field, $entity) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    if (strlen($date) != 19) {
+      $date .= ' 00:00:00';
+    }
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = strtotime($date->originalTime);
+
+      if ($datetime < REQUEST_TIME) {
+        return false;
+      }
+
+      if (
+        (!empty($entity->field_proyecto['und'][0]['target_id'])) &&
+        ($proyecto = node_load($entity->field_proyecto['und'][0]['target_id']))
+      ) {
+        $date_project = new DateObject($proyecto->field_fecha_inicio['und'][0]['value']);
+
+        if (!empty($date->errors)) {
+          return false;
+        }
+
+        if ($date->difference($date_project, 'seconds', false) > 0) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validar_fecha_fin_contrato($value, $instance, $field, $entity) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    if (strlen($date) != 19) {
+      $date .= ' 00:00:00';
+    }
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = strtotime($date->originalTime);
+
+      if ($datetime < REQUEST_TIME) {
+        return false;
+      }
+
+      if (
+        (!empty($entity->field_proyecto['und'][0]['target_id'])) &&
+        ($proyecto = node_load($entity->field_proyecto['und'][0]['target_id']))
+      ) {
+        $date_project = new DateObject($proyecto->field_fecha_inicio['und'][0]['value2']);
+
+        if (!empty($date->errors)) {
+          return false;
+        }
+
+        if ($date->difference($date_project, 'seconds', false) < 0) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validar_fecha_inicio_videoconferencia($value, $instance, $field, $entity) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    if (!is_numeric($date)) {
+      if (strlen($date) != 19) {
+        $date .= ':00';
+      }
+      $date = strtotime($date);
+    }
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = $date->originalTime;
+
+      if ($datetime < REQUEST_TIME) {
+        return false;
+      }
+
+      if (!empty($entity->field_fecha_acordada['und'][0]['value'])) {
+        $date_contract = new DateObject($entity->field_fecha_acordada['und'][0]['value']);
+
+        if (!empty($date->errors)) {
+          return false;
+        }
+
+        if ($date->difference($date_contract, 'seconds', false) > 86400) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validar_fecha_fin_videoconferencia($value, $instance, $field, $entity) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    if (!is_numeric($date)) {
+      if (strlen($date) != 19) {
+        $date .= ':00';
+      }
+      $date = strtotime($date);
+    }
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = $date->originalTime;
+
+      if ($datetime < REQUEST_TIME) {
+        return false;
+      }
+
+      if (!empty($entity->field_fecha_acordada['und'][0]['value2'])) {
+        $date_contract = new DateObject($entity->field_fecha_acordada['und'][0]['value2']);
+
+        if (!empty($date->errors)) {
+          return false;
+        }
+
+        if ($date->difference($date_contract, 'seconds', false) < -86400) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+

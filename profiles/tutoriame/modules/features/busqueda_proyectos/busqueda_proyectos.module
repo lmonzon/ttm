@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Code for the busqueda_proyectos feature.
+ */
+
+include_once 'busqueda_proyectos.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function busqueda_proyectos_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'views_exposed_form') {
+    $view = $form_state['view'];
+    if ($view->name == 'buscar_proyectos') {
+      drupal_add_js(drupal_get_path('theme', 'tutoriame') . '/js/order_fields.js');
+      ctools_add_js('busqueda_proyectos', 'busqueda_proyectos');
+    }
+  }
+}

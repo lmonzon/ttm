@@ -1,0 +1,15 @@
+name = Tutoriame Rules
+description = Rules events, actions and conditions specific to Tutoriame.
+package = Tutoriame
+core = 7.x
+dependencies[] = mimemail
+dependencies[] = rules
+dependencies[] = smtp
+dependencies[] = taxonomy
+
+files[] = ttm_rules.module
+files[] = ttm_rules.admin.inc
+files[] = includes/ttm_rules.mail.inc
+
+configure=admin/tutoriame/config/rules
+

@@ -1,0 +1,5 @@
+name = Munra social
+description = Bloques de redes sociales (enlaces y compartir)
+package = Munra
+core = 7.x
+dependencies[] = block

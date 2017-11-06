@@ -1,0 +1,22 @@
+name = Bootstrap Everywhere
+description = Bootstrap subtheme providing panels and panels everywhere support
+core = 7.x
+
+base theme = bootstrap
+
+stylesheets[all][] = css/bootstrap_everywhere.css
+
+; Disable the CDN and load our own bootstrap source files.
+settings[cdn_bootstrap] = 0
+stylesheets[all][] = bootstrap/css/bootstrap.min.css
+scripts[] = bootstrap/js/bootstrap.min.js
+
+plugins[panels][layouts] = plugins/layouts
+plugins[panels][styles] = plugins/styles
+
+
+; Information added by drush on 2014-09-05
+version = "unknown"
+project = "bootstrap_everywhere"
+datestamp = "1409954001"
+

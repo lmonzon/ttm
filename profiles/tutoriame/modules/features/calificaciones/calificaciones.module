@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Calificaciones feature.
+ */
+
+include_once 'calificaciones.features.inc';

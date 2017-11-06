@@ -1,0 +1,127 @@
+<?php
+/**
+ * @file
+ * Code for the Proyecto feature.
+ */
+
+include_once 'proyecto.features.inc';
+
+function proyecto_clone_node_alter(&$node, $context) {
+  unset($node->field_estado_del_proyecto['und'][0]);
+  unset($node->field_estado_adm_proyecto['und'][0]);
+  unset($node->date);
+}
+
+/**
+ * Implements hook_node_access
+ */
+function proyecto_node_access($node, $op, $account) {
+  global $user;
+
+  if (
+    (is_object($node)) &&
+    ($node->type == 'proyecto')
+  ) {
+    if ($op == 'update') {
+      if (
+        ($node->uid == $user->uid) &&
+        (flujo_de_proyectos_proyecto_editable($node))
+      ) {
+        /**
+         * El proyecto no debe tener contratos asociados
+         */
+        if (proyecto_tiene_contratos_activos($node)) {
+          return NODE_ACCESS_DENY;
+        } else {
+          return NODE_ACCESS_ALLOW;
+        }
+      } else {
+        return NODE_ACCESS_DENY;
+      }
+    } elseif ($op == 'delete') {
+      return NODE_ACCESS_DENY;
+    }
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Implements hook_date_combo_process_alter().
+ */
+function proyecto_date_combo_process_alter(&$element, &$form_state, $context) {
+  if (
+    ($context['form']['form_id']['#value'] == 'proyecto_node_form') &&
+    ($element['#field_name'] == 'field_fecha_inicio') &&
+    (isset($element['value2']))
+  ) {
+    $element['value2']['#title'] = t('Fecha de finalización requerida');
+  } elseif ($context['form']['form_id']['#value'] == 'contrato_node_form') {
+    if (
+      ($element['#field_name'] == 'field_fecha_acordada') &&
+      (isset($element['value2']))
+    ) {
+      $element['value2']['#title'] = t('Fecha de fin acordada');
+    }
+    if (
+      ($element['#field_name'] == 'field_fechas_videoconferencia') &&
+      (isset($element['value2']))
+    ) {
+      $element['value2']['#title'] = t('a:');
+    }
+  }
+}
+
+function proyecto_tiene_contratos_activos($node) {
+  $query = flujo_de_proyectos_query_contratos_activos();
+  $query->fieldCondition('field_proyecto', 'target_id', $node->nid, '=');
+  $query->count();
+
+  $contratos = $query->execute();
+
+  return $contratos > 0;
+}
+
+function validar_fecha_inicio_proyecto($value, $instance, $field) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $hoy = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
+      $datetime = strtotime($date->originalTime);
+
+      if ($datetime < $hoy) {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validar_fecha_fin_proyecto($value, $instance, $field) {
+  if (!empty($value)) {
+    $date = (is_array($value)) ? ($value['date']) : ($value);
+    $date = new DateObject($date, NULL, date_type_format($field['type']));
+
+    if (empty($date->errors)) {
+      $datetime = strtotime($date->originalTime);
+
+      if ($datetime < REQUEST_TIME) {
+        return false;
+      }
+    }
+  } else {
+    if (!empty($instance['required'])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+

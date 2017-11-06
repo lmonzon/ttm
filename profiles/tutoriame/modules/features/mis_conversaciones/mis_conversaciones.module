@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the mis_conversaciones feature.
+ */
+
+include_once 'mis_conversaciones.features.inc';

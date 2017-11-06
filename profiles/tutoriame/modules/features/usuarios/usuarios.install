@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for usuarios.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function usuarios_install() {
+  // Roles.
+  $roles = _usuarios_roles();
+  ksort($roles);
+  foreach ($roles as $r) {
+    try {
+      $role = (object) $r;
+      user_role_save($role);
+    }
+    catch (Exception $e) {
+      drupal_set_message(t('El rol @role ya existe.', array('@role' => $role->name)), 'warning');
+    }
+  }
+
+  // Actualizamos los pesos de los roles default.
+
+  // Usuario autenticado.
+  db_update('role')
+    ->fields(array('weight' => 10))
+    ->condition('rid', 2)
+    ->execute();
+
+  // Usuario anónimo.
+  db_update('role')
+    ->fields(array('weight' => 90))
+    ->condition('rid', 1)
+    ->execute();
+
+  // Recaptcha para registro.
+  $form_ids = array(
+    'profile2_regpath_form_block_main',
+  );
+
+  $query = db_insert('captcha_points')
+    ->fields(array('form_id', 'module', 'captcha_type'));
+  foreach ($form_ids as $form_id) {
+    $query->values(array(
+      'form_id' => $form_id,
+      'module' => 'recaptcha',
+      'captcha_type' => 'reCAPTCHA',
+    ));
+  }
+  try {
+    $query->execute();
+  }
+  catch (Exception $e) {
+    drupal_set_message('ERROR no se pudieron configurar los ids de formulario para recaptcha.', 'status');
+  }
+}
+
+/**
+ * Define los roles a usar en el sitio.
+ *
+ * La clave en el array es el id que necesita el rol.
+ */
+function _usuarios_roles() {
+  $roles[USUARIOS_ROL_EDITOR] = array(
+    'name' => 'Editor',
+    'weight' => -10,
+  );
+
+  $roles[USUARIOS_ROL_EMPRENDEDOR] = array(
+    'name' => 'Emprendedor',
+    'weight' => 0,
+  );
+
+  $roles[USUARIOS_ROL_TUTOR] = array(
+    'name' => 'Tutor',
+    'weight' => 0,
+  );
+
+  $roles[USUARIOS_ROL_ASPIRANTE_EMPRENDEDOR] = array(
+    'name' => 'Aspirante Emprendedor',
+    'weight' => 5,
+  );
+
+  $roles[USUARIOS_ROL_ASPIRANTE_TUTOR] = array(
+    'name' => 'Aspirante Tutor',
+    'weight' => 5,
+  );
+
+  $roles[USUARIOS_ROL_INSTITUCION] = array(
+    'name' => 'Institucion',
+    'weight' => 5,
+  );
+
+  $roles[USUARIOS_ROL_EMAIL_NO_VERIFICADO] = array(
+    'name' => 'Email no verificado',
+    'weight' => 5,
+  );
+
+  return $roles;
+}

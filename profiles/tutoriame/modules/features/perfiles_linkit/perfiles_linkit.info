@@ -1,0 +1,11 @@
+name = Perfiles Linkit
+core = 7.x
+package = Tutoriame
+version = 7.x-1.0
+project = perfiles_linkit
+dependencies[] = ctools
+dependencies[] = linkit
+features[ctools][] = linkit:linkit_profiles:1
+features[features_api][] = api:2
+features[linkit_profiles][] = enlace
+project path = profiles/tutoriame/modules/features

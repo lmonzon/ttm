@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Code for the Mensajería feature.
+ */
+
+include_once 'mensajer_a.features.inc';
+
+function computed_field_field_proyecto_consultado_compute(&$entity_field, $entity_type, $entity, $field, $instance, $langcode, $items) {
+  if ($entity->mid == $entity->thread_id) {
+    /**
+     * Primer mensaje: utilizo el valor seleccionado en Proyecto
+     */
+    $entity_field[0]['value'] = $entity->proyecto;
+  } else {
+    /**
+     * Mensajes subsiguientes: Copio el proyecto del primer mensaje
+     */
+    $mensajeOriginal = privatemsg_message_load($entity->thread_id);
+
+    $entity_field[0]['value'] = $mensajeOriginal->field_proyecto_consultado['und'][0]['value'];
+  }
+}
+

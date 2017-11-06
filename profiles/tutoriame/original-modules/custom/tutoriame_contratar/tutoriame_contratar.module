@@ -1,0 +1,523 @@
+<?php
+
+module_load_include('inc', 'node', 'node.pages');
+module_load_include('inc', 'tutoriame_contratar', 'tutoriame_contratar.form');
+
+function tutoriame_contratar_action_info() {
+  $info['tutoriame_contratar_node_update_action'] = array(
+    'type' => 'node',
+    'label' => t('Actualizar alias de URL de contratación para los nodos'),
+    'configurable' => false,
+  );
+  $info['tutoriame_contratar_user_update_action'] = array(
+    'type' => 'user',
+    'label' => t('Actualizar alias de URL de contratación'),
+    'configurable' => false,
+  );
+
+  return $info;
+}
+
+function tutoriame_contratar_node_insert($node) {
+  unset($node->uri);
+  tutoriame_contratar_node_update_alias($node, 'insert');
+}
+
+function tutoriame_contratar_node_update($node) {
+  tutoriame_contratar_node_update_alias($node, 'update');
+}
+
+function tutoriame_contratar_node_delete($node) {
+  pathauto_path_delete_all("contratar-para/{$node->nid}");
+  pathauto_path_delete_all("aprobar-contrato/{$node->nid}");
+  pathauto_path_delete_all("rechazar-contrato/{$node->nid}");
+}
+
+function tutoriame_contratar_node_operations() {
+  $operations['tutoriame_contratar_update_alias'] = array(
+    'label' => t('Actualizar URLs de contratación para el nodo'),
+    'callback' => 'tutoriame_contratar_node_update_alias_multiple',
+    'callback arguments' => array('bulkupdate', array('message' => true)),
+  );
+
+  return $operations;
+}
+
+function tutoriame_contratar_node_update_alias(stdClass $node, $op, array $options = array()) {
+  module_load_include('inc', 'pathauto');
+
+  $options += array(
+    'language' => LANGUAGE_NONE,
+  );
+
+  if (!pathauto_pattern_load_by_entity('tutoriame_contratar_node', $node->type, $options['language'])) {
+    return;
+  }
+
+  $options += array(
+    'language' => pathauto_entity_language('node', $node),
+  );
+
+  pathauto_create_alias('tutoriame_contratar_node', $op, "contratar-para/$node->nid", array('node' => $node), $node->type, $options['language']);
+
+  if ($node->type == 'contrato') {
+    pathauto_create_alias('tutoriame_contratar_contrato_aprobar', $op, "aprobar-contrato/$node->nid", array('node' => $node), $node->type, $options['language']);
+    pathauto_create_alias('tutoriame_contratar_contrato_rechazar', $op, "rechazar-contrato/$node->nid", array('node' => $node), $node->type, $options['language']);
+  }
+}
+
+function tutoriame_contratar_node_update_alias_multiple(array $nids, $op, array $options = array()) {
+  $options += array('message' => false);
+
+  $nodes = node_load_multiple($nids);
+  foreach ($nodes as $node) {
+    tutoriame_contratar_node_update_alias($node, $op, $options);
+  }
+
+  if (!empty($options['message'])) {
+    drupal_set_message(format_plural(count($nids), 'Se actualizó el alias de URL de contratación para 1 nodo.', 'Se actualizacion los aliases de contratación para @count nodos.'));
+  }
+}
+
+function tutoriame_contratar_node_update_action($node, $context = array()) {
+  tutoriame_contratar_node_update_alias($node, 'bulkupdate', array('message' => true));
+}
+
+function tutoriame_contratar_user_insert(&$edit, $account, $category) {
+  tutoriame_contratar_user_update_alias($account, 'insert');
+}
+
+function tutoriame_contratar_user_update(&$edit, $account, $category) {
+  tutoriame_contratar_user_update_alias($account, 'update');
+}
+
+function tutoriame_contratar_user_delete($account) {
+  pathauto_path_delete_all("contratar/{$account->uid}");
+}
+
+function tutoriame_contratar_user_operations() {
+  $operations['tutoriame_contratar_update_alias'] = array(
+    'label' => t('Actualizar URL de contratación'),
+    'callback' => 'tutoriame_contratar_user_update_alias_multiple',
+    'callback arguments' => array('bulkupdate', array('message' => true)),
+  );
+
+  return $operations;
+}
+
+function tutoriame_contratar_user_update_alias(stdClass $account, $op, array $options = array()) {
+  module_load_include('inc', 'pathauto');
+
+  if (!pathauto_pattern_load_by_entity('tutoriame_contratar_user')) {
+    return;
+  }
+
+  $options += array(
+    'language' => LANGUAGE_NONE,
+  );
+
+  pathauto_create_alias('tutoriame_contratar_user', $op, "contratar/{$account->uid}", array('user' => $account), NULL, $options['language']);
+}
+
+function tutoriame_contratar_user_update_alias_multiple(array $uids, $op, array $options = array()) {
+  $options += array('message' => false);
+
+  $accounts = user_load_multiple($uids);
+  foreach ($accounts as $account) {
+    tutoriame_contratar_user_update_alias($account, $op, $options);
+  }
+
+  if (!empty($options['message'])) {
+    drupal_set_message(format_plural(count($uids), 'Se actualizó el alias de la URL de contratación para 1 usuario.', 'Se actualizaron los aliases de contratación para @count usuarios.'));
+  }
+}
+
+function tutoriame_contratar_user_update_action($account, $context = array()) {
+  tutoriame_contratar_user_update_alias($account, 'bulkupdate', array('message' => true));
+}
+
+function tutoriame_contratar_permission() {
+  return array(
+    'view all contracts' => array(
+      'title' => t('Ver todos los contratos'),
+      'description' => t('Permite ver los detalles de los contratos, sin participar de estos.'),
+    ),
+    'administer tutoriame_contratar settings' => array(
+      'title' => t('Administrar contrataciones en Tutoriame'),
+      'description' => t('Configurar las contrataciones realizadas entre usuarios de Tutoriame.'),
+    ),
+  );
+}
+
+function tutoriame_contratar_menu() {
+  $items['contratar/%user'] = array(
+    'title' => t('Contratar'),
+    'title callback' => 'tutoriame_contratar_contratar_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'tutoriame_contratar_contratar_page',
+    'page arguments' => array(1),
+    'file' => 'tutoriame_contratar.pages.inc',
+    'access callback' => 'tutoriame_contratar_contratar_access',
+    'access arguments' => array(1),
+  );
+  $items['contratar-para/%node'] = array(
+    'title' => t('Contratar para'),
+    'title callback' => 'tutoriame_contratar_contratar_para_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'tutoriame_contratar_contratar_para_page',
+    'page arguments' => array(1),
+    'file' => 'tutoriame_contratar.pages.inc',
+    'access callback' => 'tutoriame_contratar_contratar_para_access',
+    'access arguments' => array(1),
+  );
+  $items['aprobar-contrato/%node'] = array(
+    'title' => t('Aprobar contrato'),
+    'title callback' => 'tutoriame_contratar_contrato_aprobar_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_contratar_contrato_aprobar_page', 1),
+    'file' => 'tutoriame_contratar.pages.inc',
+    'access callback' => 'tutoriame_contratar_contrato_aprobar_access',
+    'access arguments' => array(1),
+  );
+  $items['rechazar-contrato/%node'] = array(
+    'title' => t('Rechazar contrato'),
+    'title callback' => 'tutoriame_contratar_contrato_rechazar_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_contratar_contrato_rechazar_page', 1),
+    'file' => 'tutoriame_contratar.pages.inc',
+    'access callback' => 'tutoriame_contratar_contrato_rechazar_access',
+    'access arguments' => array(1),
+  );
+  $items['admin/tutoriame/config/contratar'] = array(
+    'title' => t('Contrataciones'),
+    'description' => t('Configure las contrataciones entre usuarios de Tutoriame.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tutoriame_contratar_admin_settings'),
+    'file' => 'tutoriame_contratar.admin.inc',
+    'access arguments' => array('administer tutoriame_contratar settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function tutoriame_contratar_contratar_page_title($account) {
+  $username = '';
+
+  if (is_object($account)) {
+    $username = format_username($account);
+
+    if ($profile = profile2_load_by_user($account)) {
+      if (!empty($profile['main'])) {
+        $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+      }
+    }
+  }
+
+  return t('Contratar a @s', array('@s' => $username));
+}
+
+function tutoriame_contratar_contratar_para_page_title($node) {
+  $title = (is_object($node)) ? ($node->title) : ('');
+
+  return t('Contratar para @s', array('@s' => $title));
+}
+
+function tutoriame_contratar_contrato_aprobar_page_title($node) {
+  $username = $titulo = '';
+
+  if ((is_object($node)) && ($node->type == 'contrato')) {
+    if ($from_user = user_load($node->uid)) {
+      $username = format_username($from_user);
+      if ($profile = profile2_load_by_user($from_user)) {
+        if (!empty($profile['main'])) {
+          $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+        }
+      }
+    }
+
+    if ($proyecto = node_load($node->field_proyecto['und'][0]['target_id'])) {
+      $titulo = $proyecto->title;
+    }
+  }
+
+  return t('Aprobar el contrato con @u por el proyecto @n', array('@u' => $username, '@n' => $titulo));
+}
+
+function tutoriame_contratar_contrato_rechazar_page_title($node) {
+  $username = $titulo = '';
+
+  if ((is_object($node)) && ($node->type == 'contrato')) {
+    if ($from_user = user_load($node->uid)) {
+      $username = format_username($from_user);
+      if ($profile = profile2_load_by_user($from_user)) {
+        if (!empty($profile['main'])) {
+          $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+        }
+      }
+    }
+
+    if ($proyecto = node_load($node->field_proyecto['und'][0]['target_id'])) {
+      $titulo = $proyecto->title;
+    }
+  }
+
+  return t('Rechazar el contrato con @u por el proyecto @n', array('@u' => $username, '@n' => $titulo));
+}
+
+function tutoriame_contratar_contratar_access($account) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_contratar');
+
+  $to_user = (is_object($account)) ? ($account) : (user_load((int) $account));
+
+  return tutoriame_contratar_puede_contratar($user, $to_user, NULL);
+}
+
+function tutoriame_contratar_contratar_para_access($node) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_contratar');
+
+  $node = (is_object($node)) ? ($node) : (node_load((int) $node));
+
+  return tutoriame_contratar_puede_contratar($user, NULL, $node);
+}
+
+function tutoriame_contratar_contrato_aprobar_access($node) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_contratar');
+
+  $node = (is_object($node)) ? ($node) : (node_load((int) $node));
+
+  return tutoriame_contratar_puede_aprobar_contrato($user, $node);
+}
+
+function tutoriame_contratar_contrato_rechazar_access($node) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_contratar');
+
+  $node = (is_object($node)) ? ($node) : (node_load((int) $node));
+
+  return tutoriame_contratar_puede_rechazar_contrato($user, $node);
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function tutoriame_contratar_ctools_plugin_directory($owner, $plugin_type) {
+  if (
+    ($owner == 'ctools') ||
+    ($owner == 'page_manager') ||
+    ($owner == 'panels')
+  ) {
+    switch ($plugin_type) {
+      case 'access':
+          return 'plugins/' . $plugin_type;
+      break;
+    }
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function tutoriame_contratar_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'tutoriame_contratar') . '/views',
+  );
+}
+
+function tutoriame_contratar_block_info() {
+  $blocks = array(
+    'ttm_contratar-contratar' => array(
+      'info' => t('Contratar un usuario'),
+    ),
+    'ttm_contratar-contratar_para' => array(
+      'info' => t('Contratar para un nodo'),
+    ),
+    'ttm_contratar-ver_contrato' => array(
+      'info' => t('Ver el contrato de un proyecto'),
+    ),
+    'ttm_contratar-aprobar_contrato' => array(
+      'info' => t('Aprobar / Rechazar el contrato de un proyecto'),
+    ),
+  );
+
+  return $blocks;
+}
+
+function tutoriame_contratar_block_configure($delta = '') {
+  $form = array();
+
+  switch ($delta) {
+    case 'ttm_contratar-contratar':
+      $form[$delta . '_enlace'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace'),
+        '#description' => t('Texto a utilizar en el enlace del bloque'),
+        '#default_value' => variable_get($delta . '_enlace', t('Contratar a @s')),
+      );
+      break;
+    case 'ttm_contratar-contratar_para':
+      $form[$delta . '_enlace'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace'),
+        '#description' => t('Texto a utilizar en el enlace del bloque'),
+        '#default_value' => variable_get($delta . '_enlace', t('Contratar para @s')),
+      );
+      break;
+    case 'ttm_contratar-ver_contrato':
+      $form[$delta . '_enlace'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace'),
+        '#description' => t('Texto a utilizar en el enlace del bloque'),
+        '#default_value' => variable_get($delta . '_enlace', t('Ver contrato')),
+      );
+      break;
+    case 'ttm_contratar-aprobar_contrato':
+      $form[$delta . '_enlace_aceptar'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace para aceptar el contrato'),
+        '#description' => t('Texto a utilizar en el enlace de aceptar del bloque'),
+        '#default_value' => variable_get($delta . '_enlace_aceptar', t('Aceptar')),
+      );
+      $form[$delta . '_enlace_rechazar'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Texto para el enlace para rechazar el contrato'),
+        '#description' => t('Texto a utilizar en el enlace de rechazar del bloque'),
+        '#default_value' => variable_get($delta . '_enlace_rechazar', t('Rechazar')),
+      );
+      break;
+  }
+
+  return $form;
+}
+
+function tutoriame_contratar_block_save($delta = '', $edit = array()) {
+  switch ($delta) {
+    case 'ttm_contratar-contratar':
+    case 'ttm_contratar-contratar_para':
+      variable_set($delta . '_enlace', $edit[$delta . '_enlace']);
+      break;
+    case 'ttm_contratar-aprobar_contrato':
+      variable_set($delta . '_enlace_aceptar', $edit[$delta . '_enlace_aceptar']);
+      variable_set($delta . '_enlace_rechazar', $edit[$delta . '_enlace_rechazar']);
+      break;
+  }
+}
+
+function tutoriame_contratar_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'ttm_contratar-contratar':
+      $block['subject'] = t('Contratar');
+      $block['content'] = tutoriame_contratar_block_contents($delta);
+      break;
+    case 'ttm_contratar-contratar_para':
+      $block['subject'] = t('Contratar para');
+      $block['content'] = tutoriame_contratar_block_contents($delta);
+      break;
+    case 'ttm_contratar-ver_contrato':
+      $block['subject'] = t('Ver contrato');
+      $block['content'] = tutoriame_contratar_block_contents($delta);
+      break;
+    case 'ttm_contratar-aprobar_contrato':
+      $block['subject'] = t('Aprobar contrato');
+      $block['content'] = tutoriame_contratar_block_contents($delta);
+      break;
+  }
+
+  return $block;
+}
+
+function tutoriame_contratar_block_contents($delta) {
+  global $user;
+
+  module_load_include('inc', 'tutoriame_contratar');
+
+  $block = '';
+
+  switch ($delta) {
+    case 'ttm_contratar-contratar':
+      $mod = arg(0);
+      $uid = arg(1);
+      if (($mod == 'user') && (!empty($uid))) {
+        if ($to_user = user_load($uid)) {
+          if (tutoriame_contratar_puede_contratar($user, $to_user)) {
+            $username = format_username($to_user);
+            if ($profile = profile2_load_by_user($to_user)) {
+              if (!empty($profile['main'])) {
+                $username = $profile['main']->field_apellido['und'][0]['value'] . ', ' . $profile['main']->field_nombres['und'][0]['value'];
+              }
+            }
+
+            $enlace = t(variable_get($delta . '_enlace', t('Contratar a @s')), array('@s' => $username));
+            $block .= l($enlace, url('contratar/' . $to_user->uid . '', array('absolute' => true)));
+          }
+        }
+      }
+      break;
+    case 'ttm_contratar-contratar_para':
+      $mod = arg(0);
+      $nid = arg(1);
+      if (($mod == 'node') && (!empty($nid))) {
+        if ($node = node_load($nid)) {
+          if (tutoriame_contratar_puede_contratar($user, NULL, $node)) {
+            $enlace = t(variable_get($delta . '_enlace', t('Contratar para @s')), array('@s' => $node->title));
+            $block .= l($enlace, url('contratar-para/' . $node->nid . '', array('absolute' => true)));
+          }
+        }
+      }
+      break;
+    case 'ttm_contratar-ver_contrato':
+      $mod = arg(0);
+      $nid = arg(1);
+      if (($mod == 'node') && (!empty($nid))) {
+        if ($node = node_load($nid)) {
+          if (
+            (!tutoriame_contratar_get_proyecto_vencido($node->nid)) &&
+            (
+              ($contratos = tutoriame_contratar_contratos_pendientes($user, NULL, $node)) ||
+              ($contratos = tutoriame_contratar_contratos_pendientes(NULL, $user, $node)) ||
+              ($contratos = tutoriame_contratar_contratos_aceptados($user, NULL, $node)) ||
+              ($contratos = tutoriame_contratar_contratos_aceptados(NULL, $user, $node))
+            ) &&
+            ($contrato = array_shift($contratos))
+          ) {
+            $enlace = t(variable_get($delta . '_enlace', t('Ver contrato')));
+            $block .= l($enlace, url('node/' . $contrato->nid . '', array('absolute' => true)));
+          }
+        }
+      }
+      break;
+    case 'ttm_contratar-aprobar_contrato':
+      $mod = arg(0);
+      $nid = arg(1);
+      if (($mod == 'node') && (!empty($nid))) {
+        if ($node = node_load($nid)) {
+          if (tutoriame_contratar_get_contrato_pendiente($node->nid, $user)) {
+            if (tutoriame_contratar_puede_aprobar_contrato($user, $node)) {
+              $enlace = t(variable_get($delta . '_enlace_aceptar', t('Aceptar')));
+              $block .= l($enlace, url('aprobar-contrato/' . $node->nid . '', array('absolute' => true)));
+            }
+            if (tutoriame_contratar_puede_rechazar_contrato($user, $node)) {
+              $enlace = t(variable_get($delta . '_enlace_rechazar', t('Rechazar')));
+              $block .= l($enlace, url('rechazar-contrato/' . $node->nid . '', array('absolute' => true)));
+            }
+          }
+        }
+      }
+      break;
+  }
+
+  return $block;
+}
+

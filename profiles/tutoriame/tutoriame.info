@@ -1,0 +1,171 @@
+name = Tutoriame
+description = Profile base para desarrollos de gcoop
+core = 7.x
+
+; MODULOS =========================================
+; core
+
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = field_ui
+dependencies[] = file
+
+
+; Core agregados por gcoop
+dependencies[] = node
+dependencies[] = locale
+dependencies[] = filter
+dependencies[] = system
+dependencies[] = user
+dependencies[] = php
+dependencies[] = statistics
+
+; contrib
+dependencies[] = ctools
+dependencies[] = page_manager
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = features
+dependencies[] = field_group
+dependencies[] = backup_migrate
+dependencies[] = diff
+dependencies[] = libraries
+dependencies[] = strongarm
+dependencies[] = panels
+dependencies[] = panels_everywhere
+dependencies[] = jquery_update
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = admin_menu_toolbar
+dependencies[] = pathauto
+dependencies[] = transliteration
+dependencies[] = quicktabs
+dependencies[] = globalredirect
+dependencies[] = boxes
+dependencies[] = panels_mini
+dependencies[] = smtp
+dependencies[] = mimemail
+dependencies[] = metatag
+dependencies[] = metatag_opengraph
+dependencies[] = entityreference
+dependencies[] = adminrole
+dependencies[] = views_slideshow
+dependencies[] = views_slideshow_cycle
+dependencies[] = search_config
+dependencies[] = ckeditor
+dependencies[] = imce
+dependencies[] = uuid
+dependencies[] = uuid_features
+dependencies[] = webform
+dependencies[] = modal_forms
+dependencies[] = fontyourface
+dependencies[] = fontyourface_ui
+dependencies[] = google_fonts_api
+dependencies[] = profile2_regpath
+dependencies[] = profile2_regpath_blocks
+dependencies[] = profile2
+dependencies[] = form_placeholder
+dependencies[] = location
+dependencies[] = field_collection
+dependencies[] = email
+dependencies[] = link
+dependencies[] = composed_field
+dependencies[] = field_permissions
+dependencies[] = jcarousel
+dependencies[] = clone
+dependencies[] = matrix
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = shs
+dependencies[] = calendar
+dependencies[] = date_views
+dependencies[] = userpoints
+dependencies[] = views_conditional
+dependencies[] = advanced_forum
+dependencies[] = rules
+dependencies[] = colorbox
+dependencies[] = computed_field
+dependencies[] = uc_cart
+dependencies[] = uc_order
+dependencies[] = uc_product
+dependencies[] = uc_store
+dependencies[] = uc_payment
+dependencies[] = uc_mercadopago
+dependencies[] = uc_paypal
+dependencies[] = uc_userpoints_product
+dependencies[] = menu_import
+dependencies[] = hierarchical_term_formatter
+dependencies[] = field_validation
+dependencies[] = field_validation_ui
+dependencies[] = views_field_view
+dependencies[] = node_view_permissions
+dependencies[] = better_exposed_filters
+dependencies[] = votingapi
+dependencies[] = fivestar
+dependencies[] = views_data_export
+
+; custom gcoop
+dependencies[] = location_calle
+dependencies[] = location_calle_numero
+dependencies[] = location_depto
+dependencies[] = location_piso
+dependencies[] = tutoriame_plantillas
+dependencies[] = tutoriame_contratar
+dependencies[] = tutoriame_calificar
+
+; features gcoop
+dependencies[] = configuraciones_generales
+dependencies[] = site_default_template
+dependencies[] = usuarios
+dependencies[] = presets_imagecache
+dependencies[] = terminos_condiciones
+dependencies[] = login_externos
+dependencies[] = perfiles_linkit
+dependencies[] = pagina
+dependencies[] = destacado
+dependencies[] = noticia
+dependencies[] = home
+dependencies[] = taxonomias
+dependencies[] = proyecto
+dependencies[] = articulo
+dependencies[] = gcoop_modal
+dependencies[] = proyecto
+dependencies[] = evento
+dependencies[] = flujo_de_proyectos
+dependencies[] = foros
+dependencies[] = me_interesa
+dependencies[] = mensajer_a
+dependencies[] = puntos
+dependencies[] = mis_conversaciones
+dependencies[] = busqueda_proyectos
+dependencies[] = busqueda_tutores
+dependencies[] = formatos_fecha
+dependencies[] = contrato
+dependencies[] = paginas_error
+dependencies[] = permisos
+dependencies[] = calificaciones
+dependencies[] = vistas_administrativas
+dependencies[] = avisos_a_los_usuarios
+
+;
+;; último para evitar errores
+;dependencies[] = l10n_update
+
+; Information added by Drupal.org packaging script on 2014-01-15
+version = "7.27"
+project = "drupal"
+datestamp = "1389815930"

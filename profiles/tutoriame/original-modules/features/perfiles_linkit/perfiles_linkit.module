@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Perfiles Linkit feature.
+ */
+
+include_once 'perfiles_linkit.features.inc';

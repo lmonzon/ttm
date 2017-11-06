@@ -1,0 +1,16 @@
+name = Location Depto / Oficina 
+package = Location
+description = Permite agregar el departamento u oficina a una location.
+dependencies[] = location
+core = 7.x
+files[] = location_depto.module
+files[] = location_depto.install
+files[] = location_depto.views.inc
+
+
+; Information added by Drupal.org packaging script on 2014-03-10
+version = "7.x-3.2"
+core = "7.x"
+project = "location"
+datestamp = "1394459305"
+

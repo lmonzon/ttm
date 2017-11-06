@@ -1,0 +1,19 @@
+name = Tutoriame Calificar
+description = Módulo para la calificación entre usuarios en Tutoriame
+package = Tutoriame
+core = 7.x
+version = '7.x-1.0'
+dependencies[] = block
+dependencies[] = calificaciones
+dependencies[] = flujo_de_proyectos
+dependencies[] = proyecto
+
+files[] = tutoriame_calificar.inc
+files[] = tutoriame_calificar.module
+files[] = tutoriame_calificar.admin.inc
+files[] = tutoriame_calificar.form.inc
+files[] = tutoriame_calificar.pathauto.inc
+files[] = tutoriame_calificar.pages.inc
+
+configure=admin/tutoriame/config/calificar
+

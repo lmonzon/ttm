@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Code for the formatos_fecha feature.
+ */
+
+include_once 'formatos_fecha.features.inc';
+
+/**
+ * Implements hook_date_formats().
+ */
+function formatos_fecha_date_formats() {
+  return array(
+    // Creates a new format for a new, custom format type.
+    array(
+      'type' => 'formatos_fecha_dd_de_mes_aaaa',
+      'format' => 'd \\d\\e F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'formatos_fecha_dd_mm_aa',
+      'format' => 'd/m/y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'formatos_fecha_dd_mm_aaaa',
+      'format' => 'd.m.Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'formatos_fecha_hh_mm',
+      'format' => 'H:i',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'formatos_fecha_dia_mes_aaaa_a_las_hh_mm',
+      'format' => 'd.m.Y \\a \\l\\a\\s H:i \\h\\s',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'formatos_fecha_dia_dd_mm_aa',
+      'format' => 'D d/m/y',
+      'locales' => array(),
+    ),
+  );
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function formatos_fecha_date_format_types() {
+  return array(
+    'formatos_fecha_dd_de_mes_aaaa' => t('d \\d\\e F Y'),
+    'formatos_fecha_dd_mm_aa' => t('dd/mm/aa'),
+    'formatos_fecha_dd_mm_aaaa' => t('dd.mm.aaaa'),
+    'formatos_fecha_hh_mm' => t('hh:mm'),
+    'formatos_fecha_dia_mes_aaaa_a_las_hh_mm' => t('dd.mm.yyyy a las hh:mm'),
+    'formatos_fecha_dia_dd_mm_aa' => t('dia dd/mm/yy'),
+  );
+}
+
+

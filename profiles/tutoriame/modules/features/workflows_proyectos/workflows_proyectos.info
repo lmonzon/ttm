@@ -1,0 +1,12 @@
+name = Workflows Proyectos
+description = Workflows para proyectos
+core = 7.x
+package = Tutoriame
+version = 7.x-1.4
+project = workflows_proyectos
+dependencies[] = entity
+dependencies[] = workflow
+features[Workflow][] = 01_flujo_de_proyecto
+features[Workflow][] = 02_flujo_de_contrato
+features[Workflow][] = 03_flujo_administrativo_de_proyecto
+features[features_api][] = api:2
