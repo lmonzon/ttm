@@ -215,9 +215,9 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'exp_online',
-      'username' => 'exp_online',
-      'password' => 'Arcangel!!',
+      'database' => 'tutoriame2',
+      'username' => 'admin_tutoriame',
+      'password' => 'Admin_7u70r14m3',
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
