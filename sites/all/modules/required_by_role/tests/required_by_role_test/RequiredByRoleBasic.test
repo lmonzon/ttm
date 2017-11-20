@@ -23,6 +23,8 @@ abstract class RequiredByRoleBasic extends DrupalWebTestCase {
    */
   protected function setUp() {
 
+    parent::setUp('field_ui', 'required_by_role_test');
+
     $this->basePermissions = array(
       'access content',
       'create ' . $this->entity_bundle . ' content',
@@ -34,14 +36,6 @@ abstract class RequiredByRoleBasic extends DrupalWebTestCase {
       'post comments',
       'access administration pages',
     );
-
-    $modules = array();
-    $modules[] = 'field';
-    $modules[] = 'field_ui';
-    $modules[] = 'required_by_role';
-    $modules[] = 'required_by_role_test';
-
-    parent::setUp($modules);
 
     // Create Basic page and Article node types.
     if ($this->profile != 'standard') {

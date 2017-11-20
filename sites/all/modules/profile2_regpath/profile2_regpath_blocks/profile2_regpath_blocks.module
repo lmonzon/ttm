@@ -13,7 +13,7 @@ function profile2_regpath_block_info() {
   // Create a user registration block for each profile2 profile type.
   if ($profile2_entity = entity_get_info('profile2')) {
     foreach (profile2_get_types() as $type_name => $profile_type) {
-      $blocks['p2rp_register_' . $type_name] = array(
+      $blocks['p2rp_register_' . $profile_type->id] = array(
         'info' => t('User Register - @label', array('@label' => $profile_type->label)),
       );
     }
@@ -35,12 +35,10 @@ function profile2_regpath_block_view($delta = '') {
     default:
       // Hide the block content from authenticated users.
       if (!$user->uid) {
-        $profile_id = str_replace('p2rp_register_', '', $delta);
-        $profile_entity = entity_load('profile2_type', array($profile_id));
-
-        if ($profile_type = reset($profile_entity)) {
+        $profile_id = (int)str_replace('p2rp_register_', '', $delta);
+        if ($profile_type = reset(entity_load('profile2_type', array($profile_id)))) {
           module_load_include('inc', 'profile2_regpath', 'registration_form');
-
+          
           $block['subject'] = t('Register as @label', array('@label' => $profile_type->label));
           $block['content'] = profile2_regpath_build_block_form($profile_type);
         }
@@ -58,10 +56,9 @@ function profile2_regpath_build_block_form($profile_type) {
   // We build the form with the 'block' argument so that profile2_regpath does not attach fields
   // via hook_form_alter().
   $form_state['profile_type_id'] = $profile_type->id;
-  $form_state['profile_type'] = $profile_type->type;
   $form_state['block_style'] = TRUE;
-  $form = drupal_build_form('profile2_regpath_form_block_'.$profile_type->type, $form_state);
-
+  $form = drupal_build_form('profile2_regpath_form_block_'.$profile_type->id, $form_state);
+  
   return $form;
 }
 

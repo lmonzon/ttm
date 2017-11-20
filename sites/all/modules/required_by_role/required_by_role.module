@@ -43,16 +43,19 @@ function required_by_role_field_widget_form_alter(&$element, &$form_state, $cont
 
     $account = $user;
     $settings = $context['instance']['settings'];
-    $field = $context['field'];
 
-    // Getting the value based on our rules.
-    $is_required = required_by_role_is_required($account, $settings, $field);
+    // Getting the value based on our rules and some contextual information.
+    $is_required = required_by_role_is_required($account, $settings, $context, $form_state);
 
-    // Recreating the whole element.
-    // We need to do that because the hook_field_widget_form_alter acts late in
-    // field_default_form and the element is already created, so the property
-    // is not propagated.
-    _required_by_role_recreate_element($element, $form_state, $context, $is_required);
+    // We dediced to back to search manually the "#required" property.
+    // Obviously it is not the best solution and it needs work but the option of
+    // recreate the element was not  feasible as it was done because the are
+    // running into infinite loops in field_default_form and
+    // field_multiple_value_form as long the hook_field_widget_properties_alter
+    // is not allowing us to modify the $context property and after is late to
+    // act on a non "deployed" element.
+    //
+    _required_by_role_set_property($element, $is_required, $context);
 
     // Give the opportunity to other modules to act on this property.
     drupal_alter('required_property', $element, $field, $is_required);
@@ -61,67 +64,45 @@ function required_by_role_field_widget_form_alter(&$element, &$form_state, $cont
 }
 
 /**
- * Helper function to recreate the element.
- *
- * Mostly copied from field_default_form in field.form.inc file.
+ * Helper function to set the #required property to a given element.
  */
-function _required_by_role_recreate_element(&$element, &$form_state, $context, $is_required) {
+function _required_by_role_set_property(&$element, $is_required, $context) {
 
-  $get_delta = $context['delta'];
+  if ($context['delta'] === 0) {
 
-  $is_required = $is_required !== NULL ? $is_required : $instance['required'];
+    // 0 based widgets.
+    if (isset($element[0]['#required'])) {
+      $element = &$element[0];
+    }
 
-  $field_name = $context['field']['field_name'];
-  $instance = $context['instance'];
-  $field = $context['field'];
-  $langcode = $context['langcode'];
-  $items = $context['items'];
-  $form = $context['form'];
-  $entity = isset($context['form']['#entity']) ? $context['form']['#entity'] : NULL;
-  $parents = $context['form']['#parents'];
+    // "Value" based widgets.
+    if (isset($element['value']['#required'])) {
+      $element = &$element['value'];
+    }
 
-  // Important to set here to be inherited by the children.
-  $instance['required'] = $is_required;
+    // "[0][value]" based widgets.
+    if (isset($element[0]['value']['#required'])) {
+      $element = &$element[0]['value'];
+    }
 
-  // If field module handles multiple values for this form element, and we are
-  // displaying an individual element, process the multiple value form.
-  if (!isset($get_delta) && field_behaviors_widget('multiple values', $instance) == FIELD_BEHAVIOR_DEFAULT) {
-    // Store the entity in the form.
-    $form['#entity'] = $entity;
-    $elements = field_multiple_value_form($field, $instance, $langcode, $items, $form, $form_state);
-  }
-  // If the widget is handling multiple values (e.g Options), or if we are
-  // displaying an individual element, just get a single form element and make
-  // it the $delta value.
-  else {
-    $delta = isset($get_delta) ? $get_delta : 0;
-    $function = $instance['widget']['module'] . '_field_widget_form';
-    if (function_exists($function)) {
-      $element = array(
-        '#entity' => $entity,
-        '#entity_type' => $instance['entity_type'],
-        '#bundle' => $instance['bundle'],
-        '#field_name' => $field_name,
-        '#language' => $langcode,
-        '#field_parents' => $parents,
-        '#columns' => array_keys($field['columns']),
-        '#title' => check_plain($instance['label']),
-        '#description' => field_filter_xss($instance['description']),
-        // Only the first widget should be required.
-        '#required' => $delta == 0 && $is_required,
-        '#delta' => $delta,
-      );
+    // "[email]" based widgets.
+    if (isset($element['email']['#required'])) {
+      $element = &$element['email'];
+    }
 
-      $element = $function($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+    $element['#required'] = $is_required;
 
+    if ($is_required && isset($element['#options']['_none'])) {
+      unset($element['#options']['_none']);
     }
   }
+
 }
 
 /**
  * Central method to figure out if the fields should be required or not based on the current callback.
  */
-function required_by_role_is_required($account, $settings, $field) {
+function required_by_role_is_required($account, $settings, $context, $form_state) {
 
   $is_required = NULL;
 
@@ -130,7 +111,7 @@ function required_by_role_is_required($account, $settings, $field) {
   $required_callback = _required_by_role_get_callback();
 
   if (is_callable($required_callback)) {
-    $is_required = $required_callback($account, $roles, $field);
+    $is_required = $required_callback($account, $roles, $context, $form_state);
   }
 
   return $is_required;
@@ -161,7 +142,7 @@ function required_by_role_required_by_role_callback() {
 /**
  * At least one of $roles values is in the $account->roles array?.
  */
-function _required_by_role_roles_intersect($account, $roles, $field) {
+function _required_by_role_roles_intersect($account, $roles, $context, $form_state) {
 
   $match = array_intersect(array_keys($account->roles), $roles);
   $is_required = !empty($match);
@@ -209,11 +190,10 @@ function required_by_role_form_field_ui_field_edit_form_alter(&$form, $form_stat
     '#options' => $options,
     '#default_value' => $required_by_role,
     '#weight' => $form['instance']['required']['#weight'] + 1,
-    '#disabled' => $form['instance']['required']['#default_value'],
     '#attached' => $attached,
     '#empty' => t('No roles available.'),
     '#attributes' => array(
-      'id' => array('tableselect-required-by-role'),
+      'class' => array('tableselect-required-by-role'),
     ),
   );
 
@@ -227,6 +207,10 @@ function required_by_role_form_field_ui_field_edit_form_alter(&$form, $form_stat
   }
   else {
     $default_value_widget['#required'] = FALSE;
+  }
+
+  if (isset($default_value_widget[0]['value']['#required'])) {
+    $default_value_widget[0]['value']['#required'] = FALSE;
   }
 
 }

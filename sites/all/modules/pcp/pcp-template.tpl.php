@@ -30,6 +30,6 @@
 
 <?php
   if (isset($nextfield_name) && isset($next_percent)) {
-    print t('Filling out <em>!empty-field</em> will bring your profile to !complete% complete', array('!empty-field' => l($nextfield_title, $next_path), '!complete' => $next_percent));
+    print t('Filling out <em>!empty-field</em> will bring your profile to !complete% complete', array('!empty-field' => l($nextfield_title, $next_path, $field_link_option), '!complete' => $next_percent));
   }
 ?>

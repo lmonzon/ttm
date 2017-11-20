@@ -174,7 +174,7 @@ border-bottom: 7px solid #45B18F;
 /* menú principal */
 
 #ttm-menu ul {
-background: url(http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/css/images/menu1.jpg);
+background: url(/profiles/tutoriame/themes/tutoriame/css/images/menu1.jpg);
 text-align: center;
 padding: 13px 0px 13px 0px;
 }
@@ -196,7 +196,7 @@ text-align: center;
 
 #ttm-menu ul li.active {
 background: #f05f55;
-background: url(http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/css/images/menu2.jpg);
+background: url(/profiles/tutoriame/themes/tutoriame/css/images/menu2.jpg);
 }
 
 #ttm-menu a,

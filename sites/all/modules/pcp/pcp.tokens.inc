@@ -47,7 +47,7 @@ function pcp_tokens($type, $tokens, array $data = array(), array $options = arra
 
   switch ($type) {
 
-    case 'user':
+    case 'pcp-user':
       if (empty($data['user'])) {
         break;
       }

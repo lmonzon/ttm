@@ -16,6 +16,7 @@
  */
 function workflow_admin_ui_edit_form($form, &$form_state, $workflow = NULL, $op) {
   $noyes = array(t('No'), t('Yes'));
+  $fieldset_options = array(0 => t('No fieldset'), 1 => t('Collapsible fieldset'), 2 => t('Collapsed fieldset'));
 
   $form = array();
 
@@ -63,6 +64,15 @@ function workflow_admin_ui_edit_form($form, &$form_state, $workflow = NULL, $op)
     '#title' => t('Workflow form settings'),
   );
 
+  $form['basic']['fieldset'] = array(
+    '#type' => 'select',
+    '#options' => $fieldset_options,
+    '#title' => t('Show the form in a fieldset?'),
+    '#default_value' => isset($workflow->options['fieldset']) ? $workflow->options['fieldset'] : 0,
+    '#description' => t("The Widget can be wrapped in a visible fieldset. You'd
+      do this when you use the widget on a Node Edit page."
+    ),
+  );
   $form['basic']['options'] = array(
     '#type' => 'select',
     '#title' => t('How to show the available states'),
@@ -252,7 +262,7 @@ function workflow_admin_ui_edit_form_submit($form, &$form_state) {
   if ($insert) {
     $args = array(
       '%name' => $workflow->getName(),
-      '@url' => url('admin/config/workflow/workflow/edit/' . $workflow->wid),
+      '@url' => url(WORKFLOW_ADMIN_UI_PATH . "/edit/$workflow->wid"),
     );
     watchdog('workflow', 'Created workflow %name', $args);
     drupal_set_message(t('The workflow %name was created. Please maintain the states and transitions.', $args), 'status');
@@ -262,5 +272,5 @@ function workflow_admin_ui_edit_form_submit($form, &$form_state) {
   }
   // This redirect is needed, when changing the workflow name, with name in URL.
   // Also for cloning a workflow.
-  $form_state['redirect'] = 'admin/config/workflow/workflow/manage/' . $workflow->wid;
+  $form_state['redirect'] = WORKFLOW_ADMIN_UI_PATH . "/manage/$workflow->wid";
 }

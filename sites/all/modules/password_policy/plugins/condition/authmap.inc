@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Authmap-based condition for Password Policy module.
@@ -48,9 +49,15 @@ function password_policy_authmap_condition($account, $condition) {
     return TRUE;
   }
 
+  // Always enforce this policy for anonymous users.
+  if ($account->uid == 0) {
+    return TRUE;
+  }
+
   // Otherwise, test if user authmap intersects with any excluded
   // authentication modules.
-  if ($authmaps = user_get_authmaps($account->name)) {
+  $authmaps = user_get_authmaps($account->name);
+  if ($authmaps) {
     return !count(array_intersect_key($authmaps, $authmodules));
   }
   else {

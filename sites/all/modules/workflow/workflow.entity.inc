@@ -17,10 +17,14 @@ function workflow_entity_info() {
     'plural label' => t('Workflows'),
     'entity class' => 'Workflow',
     'controller class' => 'WorkflowController',
+    'metadata controller class' => 'EntityDefaultMetadataController',
     'features controller class' => 'WorkflowFeaturesController',
     'module' => 'workflow',
     'base table' => 'workflows',
+    // Make WorkflowTransition fieldable. The wid is the Transition Type.
     'fieldable' => FALSE,
+    'bundle of' => 'WorkflowTransition',
+
     'exportable' => TRUE,
     'entity keys' => array(
       'id' => 'wid',
@@ -29,21 +33,22 @@ function workflow_entity_info() {
     'label callback' => 'entity_class_label',
     'uri callback' => 'entity_class_uri',
     // The following is added in workflow_admin_ui.module.
-/*
+    /*
     // 'access callback' => 'workflow_access',
     // 'admin ui' => array(
-    //   'path' => 'admin/config/workflow/workflow',
+    //   'path' => WORKFLOW_ADMIN_UI_PATH,
     //   'file' => 'workflow_admin_ui/workflow_admin_ui.pages.inc',
     //   'controller class' => 'EntityWorkflowUIController',
     //   'menu wildcard' => '%workflow',
     // ),
- */
+     */
   );
 
   $entities['WorkflowState'] = array(
     'label' => t('Workflow state'),
     'entity class' => 'WorkflowState',
     'controller class' => 'WorkflowStateController',
+    'metadata controller class' => 'EntityDefaultMetadataController',
     // 'features controller class' => FALSE, //@todo: implement this.
     'module' => 'workflow',
     'base table' => 'workflow_states',
@@ -61,6 +66,7 @@ function workflow_entity_info() {
     'entity class' => 'WorkflowConfigTransition',
     // Add controller Class. 'Workflow' class is the de-facto controller.
     'controller class' => 'WorkflowConfigTransitionController',
+    'metadata controller class' => 'EntityDefaultMetadataController',
     'base table' => 'workflow_transitions',
     'exportable' => FALSE,
     'module' => 'workflow',
@@ -87,28 +93,83 @@ function workflow_entity_info() {
     'label' => t('Workflow executed transition'),
     'entity class' => 'WorkflowTransition',
     'controller class' => 'WorkflowTransitionController',
+    'metadata controller class' => 'EntityDefaultMetadataController',
+    // Do not use 'extra fields controller class'. Use hook_field_extra_fields instead.
+    // 'extra fields controller class' => 'EntityDefaultExtraFieldsController',
     'views controller class' => 'EntityDefaultViewsController',
     'rules controller class' => 'EntityDefaultRulesController',
     'features controller class' => FALSE,
     'base table' => 'workflow_node_history',
+
+    'fieldable' => TRUE,
+    // Bundles are defined by the $types below.
+    'bundles' => array(),
+    // Bundle keys tell the FieldAPI how to extract information from the bundle objects.
+    'bundle keys' => array(
+      'bundle' => 'wid',
+    ),
+
+//    'admin ui' => array(
+//      'path' => WORKFLOW_ADMIN_UI_PATH . '/manage/%workflow_transition/fields2',
+//      'menu wildcard' => '%workflow_transition',
+//      'controller class' => 'EntityDefaultUIController',
+//    ),
+
     'entity keys' => array(
       'id' => 'hid',
+      'bundle'=> 'wid',
     ),
     'label callback' => 'entity_class_label',
     'module' => 'workflow',
   );
 
+  // Add bundle info but bypass entity_load() as we cannot use it here.
+  // (The bundle-setup is copied from the D7 entityform module.)
+  // Get all workflows, keyed by wid.
+  // Use try..catch.. to workaround #1311820, @see #2484325.
+  try {
+    // Add bundle info but bypass entity_load() as we cannot use it here.
+    // (The bundle-setup is copied from the D7 entityform module.)
+    // Get all workflows, keyed by wid.
+    $types = db_select('workflows', 'w')
+      ->fields('w')
+      ->execute()
+      ->fetchAllAssoc('wid');
+  }
+  catch (PDOException $ex) {
+    watchdog(
+      'workflow',
+      'Failed to retrieve workflow types: %exception',
+      array('%exception' => (string)$ex),
+      WATCHDOG_ERROR);
+
+    $types = array();
+  }
+
+  // Build an array of bundles.
+  foreach ($types as $wid => $info) {
+    $entities['WorkflowTransition']['bundles'][$wid] = array(
+      'label' => $info->label,
+      'admin' => array(
+        'path' => WORKFLOW_ADMIN_UI_PATH . '/manage/%workflow',
+        'real path' => WORKFLOW_ADMIN_UI_PATH . "/manage/$wid",
+        'bundle argument' => 5,
+//        'access callback' => 'workflow_access',
+      ),
+    );
+  }
+
   $entities['WorkflowScheduledTransition'] = array(
     'label' => t('Workflow scheduled transition'),
     'entity class' => 'WorkflowScheduledTransition',
     'controller class' => 'WorkflowTransitionController',
+    'metadata controller class' => 'EntityDefaultMetadataController',
     'views controller class' => 'EntityDefaultViewsController',
     'rules controller class' => 'EntityDefaultRulesController',
     'features controller class' => FALSE,
     'base table' => 'workflow_scheduled_transition',
     'entity keys' => array(
-      // This entity does not have a ID yet. Below is to avoid the Notice: Undefined index: id in EntityDefaultMetadataController->entityPropertyInfo()
-      'id' => 'do-not-use',
+      'id' => 'tid',
     ),
     'label callback' => 'entity_class_label',
     'module' => 'workflow',
@@ -135,9 +196,21 @@ function workflow_entity_info() {
 /**
  * Implements hook_entity_property_info_alter().
  *
- * P.S. When adding a new property here, you might delete code from workflow_tokens().
+ * N.B. Keep the following functions aligned when changing properties:
+ * - workflow_tokens()
+ * - workflow_entity_property_info_alter()
+ * - workflow_views_views_data_alter()
  */
 function workflow_entity_property_info_alter(&$info) {
+
+  // Properties for Entites. @todo wrapper: not only nodes.
+//  $info['node']['properties']['workflows'] = array(
+//    'type' => 'list<Workflow>',
+//    'label' => t("Workflow"),
+//    'description' => t("The workflow of the entity."),
+//    'getter callback' => '_workflow_metadata_workflow_get_properties',
+//    'entity token' => FALSE,
+//  );
 
   // Properties for Workflow.
   $info['Workflow']['properties']['wid']['label'] = 'Workflow ID';
@@ -160,6 +233,9 @@ function workflow_entity_property_info_alter(&$info) {
     'getter callback' => '_workflow_metadata_workflow_get_properties',
   );
   unset($info['Workflow']['properties']['tab_roles']['description']);
+  if (!isset($info['Workflow']['properties']['tab_roles']) || !is_array($info['Workflow']['properties']['tab_roles'])) {
+    $info['Workflow']['properties']['tab_roles'] = array();
+  }
   $info['Workflow']['properties']['tab_roles'] += array(
     'type' => 'list<integer>',
     'label' => t("User roles"),
@@ -184,9 +260,18 @@ function workflow_entity_property_info_alter(&$info) {
     'getter callback' => '_workflow_metadata_workflow_get_properties',
     'entity token' => FALSE,
   );
-  // Unify to old_state, new_state.
-  unset($info['WorkflowConfigTransition']['properties']['sid']);
-  unset($info['WorkflowConfigTransition']['properties']['target_sid']);
+  $info['WorkflowConfigTransition']['properties']['wid'] = array(
+    'type' => 'integer',
+    'label' => t("Workflow  ID"),
+    'description' => t("The workflow ID of the transition."),
+    'getter callback' => '_workflow_metadata_workflow_get_properties',
+    'entity token' => FALSE,
+  );
+  // @todo: Unify ID's to old_sid, new_sid.
+  $info['WorkflowConfigTransition']['properties']['sid']['description'] = 'The ID of old state.';
+  $info['WorkflowConfigTransition']['properties']['target_sid']['description'] = 'The ID of new state.';
+
+  // Unify objects to old_state, new_state.
   $info['WorkflowConfigTransition']['properties']['old_state'] = array(
     'type' => 'WorkflowState',
     'label' => t('Old state'),
@@ -207,33 +292,45 @@ function workflow_entity_property_info_alter(&$info) {
   // Properties for WorkflowTransition.
   $info['WorkflowTransition']['properties']['label'] = $info['WorkflowConfigTransition']['properties']['label'];
   $info['WorkflowTransition']['properties']['workflow'] = $info['WorkflowConfigTransition']['properties']['workflow'];
+  $info['WorkflowTransition']['properties']['wid'] = $info['WorkflowConfigTransition']['properties']['wid'];
   $info['WorkflowTransition']['properties']['hid']['label'] = 'Transition ID';
-  // Unify to old_state, new_state.
-  unset($info['WorkflowTransition']['properties']['old_sid']);
-  unset($info['WorkflowTransition']['properties']['sid']);
-  unset($info['WorkflowTransition']['properties']['stamp']);
+
+  // @todo: Unify ID's to old_sid, new_sid.
+  $info['WorkflowTransition']['properties']['old_sid']['description'] = 'The ID of old state.';
+  $info['WorkflowTransition']['properties']['sid']['description'] = 'The ID of new state.';
+  // Unify objects to old_state, new_state.
   $info['WorkflowTransition']['properties']['old_state'] = $info['WorkflowConfigTransition']['properties']['old_state'];
   $info['WorkflowTransition']['properties']['new_state'] = $info['WorkflowConfigTransition']['properties']['new_state'];
+
   $info['WorkflowTransition']['properties']['user'] = array(
     'type' => 'user',
     'label' => t('User'),
-    'description' => t('The user that triggered the transition.'),
     'schema field' => 'uid',
+    'description' => t('The user who triggered the transition.'),
   );
+
+  unset($info['WorkflowTransition']['properties']['stamp']);
   $info['WorkflowTransition']['properties']['timestamp'] = array(
     'type' => 'date',
     'label' => t('Timestamp'),
-    'description' => t('The date, time the transition was executed.'),
     'schema field' => 'stamp',
+    'description' => t('The date, time the transition was executed.'),
+  );
+
+  $info['WorkflowTransition']['properties']['entity'] = array(
+    'type' => 'entity',
+    'label' => t('Entity'),
+    'description' => t("The Entity that this state change applies to."),
+    'getter callback' => '_workflow_metadata_workflow_get_properties',
   );
 
   // Properties for WorkflowScheduledTransition.
   $info['WorkflowScheduledTransition']['properties']['scheduled']['type'] = 'date';
   $info['WorkflowScheduledTransition']['properties']['workflow'] = $info['WorkflowTransition']['properties']['workflow'];
-  // Unify to old_state, new_state.
-  // unset($info['WorkflowScheduledTransition']['properties']['old_sid']);
-  // unset($info['WorkflowScheduledTransition']['properties']['sid']);
-  // unset($info['WorkflowScheduledTransition']['properties']['uid']);
+  // @todo: Unify ID's to old_sid, new_sid.
+  $info['WorkflowScheduledTransition']['properties']['old_sid']['description'] = 'The ID of old state.';
+  $info['WorkflowScheduledTransition']['properties']['sid']['description'] = 'The ID of new state.';
+  // Unify objects to old_state, new_state.
   $info['WorkflowScheduledTransition']['properties']['old_state'] = $info['WorkflowTransition']['properties']['old_state'];
   $info['WorkflowScheduledTransition']['properties']['old_state']['schema field'] = 'old_sid';
   $info['WorkflowScheduledTransition']['properties']['new_state'] = $info['WorkflowTransition']['properties']['new_state'];
@@ -246,6 +343,13 @@ function workflow_entity_property_info_alter(&$info) {
  */
 function _workflow_metadata_workflow_get_properties($entity, array $options, $name, $entity_type, $property) {
   switch ($name) {
+//    // The workflows of a normal entity.
+//    case 'workflows':
+//      $workflow = _workflow_get_workflow_creation_sid($entity_type, $entity, $field_name);
+//      return $workflow;
+//      return $entity->getWorkflow();
+
+    // The workflows of a Workflow entity.
     case 'workflow':
       return $entity->getWorkflow();
 
@@ -269,10 +373,84 @@ function _workflow_metadata_workflow_get_properties($entity, array $options, $na
       // Code copied from 'user' entity.
       return isset($entity->tab_roles) ? array_keys($entity->tab_roles) : array();
 
+    case 'langcode':
+      // Gets the language code of a Workflow Field, hence its State, Transitions.
+      // '$property' is $field_name.
+      $langcode = LANGUAGE_NONE;
+      $wrapper = entity_metadata_wrapper($entity_type, $entity);
+
+      if (!$property || !method_exists($wrapper, $property)) {
+        // Workflow_node. Translations are not supported.
+      }
+      else {
+        // Get language code for a field or property.
+        // getPropertyLanguage() may return NULL if no language is set,
+        // or may not exist on properties.
+
+        if (isset($wrapper->{$property}) && method_exists($wrapper->{$property}, 'getPropertyLanguage')) {
+          if (!$langcode = $wrapper->{$property}->getPropertyLanguage()) {
+            $langcode = LANGUAGE_NONE;
+          }
+        }
+      }
+      return $langcode;
+
+    case 'entity':
+      $entity_wrapper = entity_metadata_wrapper($entity->entity_type, $entity->nid);
+      return $entity_wrapper;
+
     // The following properties need more love. Also test their tokens!
     case 'options':
       return 'n/a';
   }
+}
+
+
+/**
+ * Implements hook_field_extra_fields().
+ *
+ * We do not use 'extra fields controller class', which only adds 'display'
+ * fields, not 'form' fields. Use hook_field_extra_fields instead.
+ *
+ * hook_field_extra_fields() is invoked by _field_extra_fields_pre_render(), which is a pre-render function used by field_attach_form(), and field_attach_view().
+ * @see https://api.drupal.org/api/drupal/modules!field!field.api.php/function/hook_field_extra_fields/7
+ * @see http://drupal.stackexchange.com/questions/10527/how-should-i-use-hook-field-extra-fields
+ *
+ */
+function workflow_field_extra_fields() {
+  $extra = array();
+
+  $entity_type = 'WorkflowTransition';
+
+  $info = entity_get_info($entity_type);
+  foreach ($info['bundles'] as $bundle => $bundle_info) {
+    $extra[$entity_type][$bundle] = array(
+      'form' => array(
+        'workflow_sid' => array(
+          'widget-type' => 'select',
+          'label' => t('State Id'),
+          'description' => t('Target state Id'),
+          'weight' => -4,
+          // 'edit' => 'test', // (optional) String containing markup (normally a link) used as the element's 'edit' operation in the administration interface. Only for 'form' context.
+          // 'delete' => 'test', // (optional) String containing markup (normally a link) used as the element's 'delete' operation in the administration interface. Only for 'form' context.
+        ),
+        'scheduled_container' => array(
+          'label' => t('Scheduling'),
+          'description' => t('Schedule checkbox & date/time'),
+          'weight' => -4,
+        ),
+        'workflow_comment' => array(
+          'label' => t('Comment'),
+          'description' => t('Comment text area'),
+          'weight' => -4,
+        ),
+      ),
+      'display' => array(
+      )
+    );
+  }
+
+  return $extra;
 }
 
 /**
@@ -377,8 +555,8 @@ function workflow_state_load_by_name($name, $wid) {
  * @deprecated: workflow_get_workflow_node_history_by_nid() --> workflow_transition_load_single()
  * @deprecated: workflow_get_recent_node_history() --> workflow_transition_load_single()
  */
-function workflow_transition_load_multiple($entity_type, array $entity_ids, $field_name = '', $limit = NULL) {
-  return WorkflowTransition::loadMultiple($entity_type, $entity_ids, $field_name, $limit);
+function workflow_transition_load_multiple($entity_type, array $entity_ids, $field_name = '', $limit = NULL, $langcode = '') {
+  return WorkflowTransition::loadMultiple($entity_type, $entity_ids, $field_name, $limit, $langcode);
 }
 
 /**
@@ -387,9 +565,9 @@ function workflow_transition_load_multiple($entity_type, array $entity_ids, $fie
  * @return WorkflowTransition
  *   object representing one row from the {workflow_node_history} table.
  */
-function workflow_transition_load_single($entity_type, $entity_id, $field_name = '') {
+function workflow_transition_load_single($entity_type, $entity_id, $field_name = '', $langcode = '') {
   $limit = 1;
-  if ($transitions = workflow_transition_load_multiple($entity_type, array($entity_id), $field_name, $limit)) {
+  if ($transitions = workflow_transition_load_multiple($entity_type, array($entity_id), $field_name, $limit, $langcode)) {
     return reset($transitions);
   }
   return NULL;

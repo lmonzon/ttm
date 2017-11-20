@@ -1,15 +1,15 @@
-name = Workflow VBO
-description = Provides workflow actions for VBO.
-
-dependencies[] = workflow
-dependencies[] = views_bulk_operations
-
+name = Workflow Actions
+description = "Provides actions that can be associated to triggers, or
+               used as VBO-action. Provided actions are 'set to next state'
+               and 'set to specific state'."
 package = Workflow
 core = 7.x
 
-; Information added by Drupal.org packaging script on 2014-09-01
-version = "7.x-2.4+17-dev"
+dependencies[] = workflow
+
+; Information added by Drupal.org packaging script on 2017-10-26
+version = "7.x-2.11"
 core = "7.x"
 project = "workflow"
-datestamp = "1409598866"
+datestamp = "1509025748"
 

@@ -132,7 +132,7 @@ function _privatemsg_format_participants($part_array, $limit = NULL, $no_text = 
 
       // Directly address the current user.
       if (isset($account->type) && in_array($account->type, array('hidden', 'user')) && $account->recipient == $user->uid) {
-        array_unshift($to, $no_text ? t('You') : t('you'));
+        array_unshift($to, $no_text ? t('You', array(), array('context' => 'Dative')) : t('you', array(), array('context' => 'Dative')));
         continue;
       }
 
@@ -522,9 +522,10 @@ function privatemsg_thread_load($thread_id, $account = NULL, $start = NULL, $use
         $conditions['account'] = $account;
       }
 
-      $pmids = $query->execute()->fetchCol();
-      if (!empty($pmids)) {
-        $thread['messages'] = privatemsg_message_load_multiple($pmids, $conditions);
+      // #2033161 privatemsg_message_load_multiple will load all threads if empty
+      $ids = $query->execute()->fetchCol();
+      if (count($ids)) {
+        $thread['messages'] = privatemsg_message_load_multiple($ids, $conditions);
       }
 
       // If there are no messages, don't allow access to the thread.
@@ -2600,7 +2601,7 @@ function privatemsg_message_change_recipient($mid, $uid, $type = 'user', $add = 
   }
   else {
     db_delete('pm_index')
-      >condition('mid', $mid)
+      ->condition('mid', $mid)
       ->condition('recipient', $uid)
       ->condition('type', $type)
       ->execute();
@@ -3168,6 +3169,19 @@ class PrivatemsgMessageController extends DrupalDefaultEntityController {
     }
     $query->join('pm_index', 'pmi', "base.mid = pmi.mid");
     return $query;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function cacheGet($ids, $conditions = array()) {
+    // Passing the account condition, which does not exist as a property to
+    // parent::cacheGet() causes notices, remove it.
+    // @todo Investigate if this causes any undesired side effects.
+    if (isset($conditions['account'])) {
+      unset($conditions['account']);
+    }
+    return parent::cacheGet($ids, $conditions);
   }
 }
 

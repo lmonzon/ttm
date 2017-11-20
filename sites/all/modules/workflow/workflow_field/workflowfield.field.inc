@@ -81,12 +81,13 @@ function workflowfield_property_info_callback(&$info, $entity_type, $field, $ins
  * and 'workflow' may be set, but is not in the field data.
  */
 function _workflowfield_metadata_property_get($entity, array $options, $name, $entity_type, $info) {
+  $values = array();
+
   // return entity_metadata_field_property_get($entity, array $options, $name, $entity_type, $info);
   $field = field_info_field($name);
   $columns = array_keys($field['columns']);
   $langcode = isset($options['language']) ? $options['language']->language : LANGUAGE_NONE;
   $langcode = entity_metadata_field_get_language($entity_type, $entity, $field, $langcode, TRUE);
-  $values = array();
 
   if (isset($entity->{$name}[$langcode])) {
     foreach ($entity->{$name}[$langcode] as $delta => $data) {
@@ -95,11 +96,24 @@ function _workflowfield_metadata_property_get($entity, array $options, $name, $e
       // Sometimes that is not widget, or the submit function has not been processed yet.
 
       // On a normal widget:
-      $data[$columns[0]] = $sid = isset($data['value']) ? $data['value'] : 0;
+      $sid = isset($data['value']) ? $data['value'] : 0;
       // On a workflow form widget:
-      $data[$columns[0]] = $sid = isset($data['workflow']['workflow_sid']) ? $data['workflow']['workflow_sid'] : $sid;
+      $sid = isset($data['workflow']['workflow_sid']) ? $data['workflow']['workflow_sid'] : $sid;
 
-      $values[$delta] = $data[$columns[0]];
+      // The workflow widget was not loaded properly. @see #2597307.
+      // So we need to reload the entity to extract the correct value.
+      if (!$sid && isset($data['workflow'])) {
+        // $new_entity = $entity->original; // is NULL :-(
+        list($entity_id, , ) = entity_extract_ids($entity_type, $entity);
+        if (!empty($entity_id)) {
+          $new_entity = entity_load_single($entity_type, $entity_id);
+          $workflow = $new_entity->{$name}[$langcode][$delta];
+          $sid = isset($workflow['value']) ? (int)$workflow['value'] : 0;
+        }
+      }
+
+      $data[$columns[0]] = $sid;
+      $values[$delta] = $sid;
     }
   }
   // For an empty single-valued field, we have to return NULL.
@@ -129,6 +143,9 @@ function _workflowfield_metadata_property_set($entity, $name, $value, $langcode,
  */
 function workflowfield_field_formatter_info_alter(&$info) {
   $info['list_default']['field types'][] = 'workflow';
+  if (isset($info['i18n_list_default'])) {
+    $info['i18n_list_default']['field types'][] = 'workflow';
+  }
 }
 
 /**
@@ -179,29 +196,47 @@ function workflowfield_field_update($entity_type, $entity, array $field, $instan
     $referenced_entity_id = $entity->nid;
     // Load the node again, since the passed node doesn't contain proper 'type' field.
     $referenced_entity = entity_load_single($referenced_entity_type, $referenced_entity_id);
+    // Normalize the contents of the workflow field.
+    $items[0]['value'] = _workflow_get_sid_by_items($items);
 
-    if ($field_name) {
-      // Execute the transition upon the node. Afterwards, $items is in form as expected by Field API.
-      // Remember, we don't know if the transition is scheduled or not.
-      $widget = new WorkflowDefaultWidget($field, $instance, $referenced_entity_type, $referenced_entity);
-      $widget->submit($form, $form_state, $items); // $items is a proprietary D7 parameter.
-
-      // Since we are saving the comment only, we must save the node separately.
-      entity_save($referenced_entity_type, $referenced_entity);
-    }
-    else {
-      // Execute the transition upon the node. Afterwards, $items is in form as expected by Field API.
-      // Remember, we don't know if the transition is scheduled or not.
-      $widget = new WorkflowDefaultWidget($field, $instance, $referenced_entity_type, $referenced_entity);
-      $widget->submit($form, $form_state, $items); // $items is a proprietary D7 parameter.
-
-      // Since we are saving the comment only, we must save the node separately.
-      entity_save($referenced_entity_type, $referenced_entity);
-    }
+    // Execute the transition upon the node. Afterwards, $items is in form as expected by Field API.
+    // Remember, we don't know if the transition is scheduled or not.
+    $widget = new WorkflowTransitionForm($field, $instance, $referenced_entity_type, $referenced_entity);
+    $widget->submitForm($form, $form_state, $items); // $items is a proprietary D7 parameter.
+    // // Since we are saving the comment only, we must save the node separately.
+    // entity_save($referenced_entity_type, $referenced_entity);
   }
   else {
-    $widget = new WorkflowDefaultWidget($field, $instance, $entity_type, $entity);
-    $widget->submit($form, $form_state, $items); // $items is a proprietary D7 parameter.
+    $widget = new WorkflowTransitionForm($field, $instance, $entity_type, $entity);
+    $widget->submitForm($form, $form_state, $items); // $items is a proprietary D7 parameter.
+  }
+}
+
+/**
+ * Implements hook_field_prepare_view().
+ *
+ * This hook is needed in the following case:
+ * - Edit a node with Workflow Field;
+ * - Change the value of the widget;
+ * - Click [Preview] button;
+ * See the "Notice: Undefined index: value in list_field_formatter_view() (line 467+472 of \modules\field\modules\list\list.module)."
+ * This is because in the Workflow Widget, the data is stored in a 'workflow'
+ * structure, not a 'value' value.
+ *
+ * However, it is a pity that we run this hook in every view :-(
+ */
+function workflowfield_field_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items) {
+  // I guess Preview mode is only with 1 entity at a time.
+  if (count ( $items ) !== 1) {
+    return;
+  }
+
+  foreach ($items as $id => &$item_array) {
+    foreach ($item_array as $index => &$item) {
+      if (!isset($item['value'])) {
+        $item['value'] = isset($item['workflow']['workflow_sid']) ? $item['workflow']['workflow_sid'] : '';
+      }
+    }
   }
 }
 
@@ -279,4 +314,38 @@ function workflowfield_options_list($field, $instance, $entity_type, $entity) {
     }
   }
   return $options;
+}
+
+/**
+ * Implements hook_i18n_field_info().
+ */
+function workflowfield_i18n_field_info() {
+  $info['workflow'] = array(
+    'translate_options' => 'workflowfield_i18n_field_translate_allowed_values',
+  );
+  return $info;
+}
+
+/**
+ * Returns the array of translated allowed values for a workflow (list) field.
+ *
+ * The strings are not safe for output. Keys and values of the array should be
+ * sanitized through field_filter_xss() before being displayed.
+ *
+ * @param $field
+ *   The field definition.
+ *
+ * @return
+ *   The array of allowed values. Keys of the array are the raw stored values
+ *   (number or text), values of the array are the display labels.
+ */
+function workflowfield_i18n_field_translate_allowed_values($field) {
+  $allowed_values = array();
+
+  $workflow_states = workflow_get_workflow_state_names($field['settings']['wid'], $grouped = FALSE, $all = TRUE);
+  foreach ($workflow_states as $sid => $state_name) {
+    $allowed_values[$sid] = t($state_name);
+  }
+
+  return $allowed_values;
 }

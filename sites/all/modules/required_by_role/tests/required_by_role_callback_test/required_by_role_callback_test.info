@@ -6,9 +6,9 @@ hidden = TRUE
 core = 7.x
 dependencies[] = required_by_role_test
 
-; Information added by Drupal.org packaging script on 2014-06-06
-version = "7.x-1.5"
+; Information added by Drupal.org packaging script on 2014-10-17
+version = "7.x-1.7"
 core = "7.x"
 project = "required_by_role"
-datestamp = "1402043341"
+datestamp = "1413563670"
 

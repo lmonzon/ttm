@@ -50,7 +50,7 @@ Bienvenido, <a href="<?php print url('user', array('absolute' => TRUE)); ?>"><?p
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="/" rel="home" title="Inicio"><img src="http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/logo.png" alt="Inicio"></a>
+                    <a href="/" rel="home" title="Inicio"><img src="/profiles/tutoriame/themes/tutoriame/logo.png" alt="Inicio"></a>
         		</div><!-- end navbar-header -->
                 
 				<div id="navbar-collapse-1" class="navbar-collapse collapse navbar-right">
@@ -64,8 +64,8 @@ Bienvenido, <a href="<?php print url('user', array('absolute' => TRUE)); ?>"><?p
 	</header><!-- end header-style-1 -->
 
 <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
-  <script type="text/javascript" src="http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
-  <script type="text/javascript" src="http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+  <script type="text/javascript" src="/profiles/tutoriame/themes/tutoriame/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
+  <script type="text/javascript" src="/profiles/tutoriame/themes/tutoriame/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
   <script type="text/javascript">
 	var revapi;
 	jQuery(document).ready(function() {
@@ -82,8 +82,8 @@ Bienvenido, <a href="<?php print url('user', array('absolute' => TRUE)); ?>"><?p
   </script>
       
   <!-- Royal Slider script files -->
-  <script src="http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/royalslider/jquery.easing-1.3.js"></script>
-  <script src="http://www.tutoriame.com/profiles/tutoriame/themes/tutoriame/royalslider/jquery.royalslider.min.js"></script>
+  <script src="/profiles/tutoriame/themes/tutoriame/royalslider/jquery.easing-1.3.js"></script>
+  <script src="/profiles/tutoriame/themes/tutoriame/royalslider/jquery.royalslider.min.js"></script>
   <script>
 	jQuery(document).ready(function($) {
 	  var rsi = $('#slider-in-laptop').royalSlider({

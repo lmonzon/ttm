@@ -1,7 +1,0 @@
---- fivestar.info
-+++ fivestar.info
-@@ -6,3 +6,4 @@
- configure = admin/config/content/fivestar
- files[] = test/fivestar.base.test
- files[] = test/fivestar.field.test
-+files[] = includes/fivestar_views_handler_filter_in_operator.inc

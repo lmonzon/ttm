@@ -36,6 +36,53 @@ function pcp_admin_settings($form, &$form_state) {
     '#description' => t('Checking a profile field below will add that field to the logic of the complete percentage. Please note that these are simply core profile fields, not fields attached to Profile2 profiles.'),
   );
 
+  $field_order_options = array('0' => t('Random'), '1' => t('Weight'));
+
+  $form['profile_field_settings']['pcp_fields_order'] = array(
+    '#type' => 'radios',
+    '#title' => t('Profile Fields Order'),
+    '#description' => t('Select to show which field come first.'),
+    '#options' => $field_order_options,
+    '#default_value' => variable_get('pcp_fields_order', 0),
+  );
+
+  $field_open_options = array('_self' => t('Same Window'), '_blank' => t('New Window'));
+
+  $form['profile_field_settings']['pcp_fields_open_option'] = array(
+    '#type' => 'radios',
+    '#title' => t('Profile Fields Open Link'),
+    '#description' => t('Select to open field link in browser.'),
+    '#options' => $field_open_options,
+    '#default_value' => variable_get('pcp_fields_open_option', '_self'),
+  );
+
+  $user_roles = user_roles();
+  // Remove anonymous user role from the list,
+  // we only need the roles that can login to the site.
+  unset($user_roles[DRUPAL_ANONYMOUS_RID]);
+
+  $form['profile_field_settings']['pcp_login_message_role'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Show profile message on login'),
+    '#description' => t('Select the roles for which the message is shown.'),
+    '#options' => $user_roles,
+    '#default_value' => variable_get('pcp_login_message_role', array()),
+  );
+
+  // Deafult message shown after login.
+  $pcp_default_text = t("Your Profile is not complete. Filling out remaining fields will make it 100%. Now you've reached [pcp-user:pcp-user]%.");
+  $form['profile_field_settings']['pcp_login_message'] = array(
+    '#type' => 'textarea',
+    '#description' => t('Write a message which will show after login'),
+    '#default_value' => variable_get('pcp_login_message', $pcp_default_text),
+  );
+
+  $form['profile_field_settings']['token_help'] = array(
+    '#theme' => 'token_tree',
+    '#global_type' => FALSE,
+    '#dialog' => TRUE,
+  );
+
   $options = array();
   $settings = pcp_admin_settings_form_data('user');
   foreach ($settings['profile_fields_options'] as $fiid => $field_name) {
@@ -136,6 +183,24 @@ function pcp_admin_settings_submit($form, &$form_state) {
         _pcp_save_profile_fields($form_state['values']['profile_fields']);
       }
   }
+
+  if (isset($form_state['values']['pcp_fields_order'])) {
+    $profile_fields_order_value = $form_state['values']['pcp_fields_order'];
+    variable_set('pcp_fields_order', $profile_fields_order_value);
+  }
+
+  if (isset($form_state['values']['pcp_fields_open_option'])) {
+    variable_set('pcp_fields_open_option', $form_state['values']['pcp_fields_open_option']);
+  }
+
+  if (isset($form_state['values']['pcp_login_message_role'])) {
+    variable_set('pcp_login_message_role', $form_state['values']['pcp_login_message_role']);
+  }
+
+  if (!empty($form_state['values']['pcp_login_message'])) {
+    variable_set('pcp_login_message', $form_state['values']['pcp_login_message']);
+  }
+
 }
 
 

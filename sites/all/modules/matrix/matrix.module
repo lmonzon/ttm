@@ -17,6 +17,7 @@ function matrix_menu() {
     'description' => 'Custom calculations will be done using this callback',
     'page callback' => 'matrix_custom_calculation_callback',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
@@ -59,6 +60,9 @@ function matrix_field_info() {
       'settings' => array('rows_count' => '', 'cols_count' => '', 'size' => '', 'spreadsheet_style' => ''),
       'default_widget' => 'matrix_grid',
       'default_formatter' => 'matrix_default',
+      // Support hook_entity_property_info() from contrib "Entity API".
+      'property_type' => 'field_item_matrix',
+      'property_callbacks' => array('matrix_field_property_info_callback'),
     ),
     'matrix_custom' => array(
       'label' => t('Matrix (custom)'),
@@ -66,6 +70,9 @@ function matrix_field_info() {
       'settings' => array('rows_count' => '', 'cols_count' => '', 'settings' => ''),
       'default_widget' => 'matrix_grid',
       'default_formatter' => 'matrix_default',
+      // Support hook_entity_property_info() from contrib "Entity API".
+      'property_type' => 'field_item_matrix',
+      'property_callbacks' => array('matrix_field_property_info_callback'),
     ),
   );
 }
@@ -708,15 +715,26 @@ function matrix_field_formatter_view($entity_type, $entity, $field, $instance, $
         $items[$item['row']][$item['col']][] = matrix_cell_value($item, $field);
       }
 
-      //work out how many rows and columns to show, which is the number of rows with at least some data in the row.
+      ksort($items);
+      foreach ($items as $row_id => $row) {
+        ksort($items[$row_id]);
+      }
+
+      // work out how many rows and columns to show, which is the number of rows
+      // with at least some data in the row.
+      // TODO this logic is wrong.
       foreach ($items as $row_id => $row) {
         foreach ($row as $col_id => $value) {
           if ($value != '') {
             $rows_count = $row_id;
+            // if this row has a value, we don't need to keep looking at the rest
+            // of the columns.
+            break;
           }
         }
       }
 
+      // TODO this is inconsistent with the row count logic.
       if ($field['settings']['cols_count'] > 0) {
         $cols_count = $field['settings']['cols_count'];
       }
@@ -799,6 +817,11 @@ function matrix_field_formatter_view($entity_type, $entity, $field, $instance, $
       }
       else {
         $headers = NULL;
+      }
+
+      // Make headers translatable.
+      foreach($headers as $key => $value){
+        $headers[$key] = t($value);
       }
 
       $element[0] = array(
@@ -950,4 +973,54 @@ function matrix_allowed_values_example($field) {
  */
 function matrix_custom_processing_example($data) {
   return implode(',', $data);
+}
+
+/**
+ * Additional callback to adapt the property info of matrix fields.
+ *
+ * @see entity_metadata_field_entity_property_info()
+ */
+function matrix_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+  // Define a data structure so it's possible to deal with the row, column and
+  // value.
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+
+  // Auto-create the field item as soon as a property is set.
+  $property['auto creation'] = 'matrix_field_item_create';
+
+  $property['property info'] = matrix_field_item_property_info();
+  unset($property['query callback']);
+}
+
+/**
+ * Callback for creating a new, empty matrix field item.
+ *
+ * @see matrix_field_property_info_callback()
+ */
+function matrix_field_item_create() {
+  return array('row' => NULL, 'col' => NULL, 'value' => NULL);
+}
+
+/**
+ * Defines info for the properties of the matrix-field item data structure.
+ */
+function matrix_field_item_property_info() {
+  $properties['row'] = array(
+    'type' => 'integer',
+    'label' => t('The row of the item'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $properties['col'] = array(
+    'type' => 'integer',
+    'label' => t('The column of the item.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $properties['value'] = array(
+    'type' => 'text',
+    'label' => t('The value of the item.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  return $properties;
 }

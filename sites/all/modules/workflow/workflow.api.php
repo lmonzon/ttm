@@ -37,8 +37,8 @@
 function hook_workflow($op, $id, $new_sid, $entity, $force, $entity_type = '', $field_name = '', $transition = NULL, $user = NULL) {
   switch ($op) {
     case 'transition permitted':
-      // This operation is called in the following situations:
-      // 1. when the widget with list of available transitions is built;
+      // This is called in the following situations:
+      // 1. when building a workflow widget with list of available transitions;
       // 2. when executing a transition, just before the 'transition pre';
       // 3. when showing a 'revert state' link in a Views display.
       // Your module's implementation may return FALSE here and disallow
@@ -50,14 +50,16 @@ function hook_workflow($op, $id, $new_sid, $entity, $force, $entity_type = '', $
 
     case 'transition pre':
       // The workflow module does nothing during this operation.
-      // But your module's implementation of the workflow hook could
-      // return FALSE here and veto the transition.
+      // Implement this hook if you need to change/do something BEFORE anything
+      // is saved to the database.
+      // If you return FALSE here, you will veto the transition.
       break;
 
     case 'transition post':
       // This is called by Workflow Node during update of the state, directly
       // after updating {workflow_node}. Workflow Field does not call this,
-      // since you can call an Entity event after saving the entity.
+      // since you can call a hook_entity_* event after saving the entity.
+      // @see https://api.drupal.org/api/drupal/includes%21module.inc/group/hooks/7
       break;
 
     case 'transition delete':
@@ -158,9 +160,68 @@ function hook_workflow_permitted_state_transitions_alter(array &$transitions, ar
   $transitions[] = $new_transition;
 }
 
-/**
- * Examples of hooks, that can be used to alter the Workflow Form.
+
+/**********************************************************************
+ * Hooks defined by core Form API: hooks to to alter the Workflow Form/Widget.
  */
+
+/**
+ * Alter forms for field widgets provided by other modules.
+ *
+ * @param $element
+ *   The field widget form element as constructed by hook_field_widget_form().
+ * @param $form_state
+ *   An associative array containing the current state of the form.
+ * @param $context
+ *   An associative array containing the following key-value pairs, matching the
+ *   arguments received by hook_field_widget_form():
+ *   - form: The form structure to which widgets are being attached. This may be
+ *     a full form structure, or a sub-element of a larger form.
+ *   - field: The field structure.
+ *   - instance: The field instance structure.
+ *   - langcode: The language associated with $items.
+ *   - items: Array of default values for this field.
+ *   - delta: The order of this item in the array of subelements (0, 1, 2, etc).
+ *
+ * @see hook_field_widget_form()
+ * @see hook_field_widget_WIDGET_TYPE_form_alter()
+ */
+function hook_field_widget_form_alter(&$element, &$form_state, $context) {
+  // A hook for changing any widget. Better not use it: it is called on EVERY
+  // Widget. (Even though the message is only shown once.)
+  // D7: This hook is introduced in Drupal 7.8.
+  // workflow_debug(__FILE__, __FUNCTION__, __LINE__, '', '');
+  // dpm($context['widget']->getPluginId());
+}
+
+function hook_field_widget_workflow_default_form_alter(&$element, $form_state, $context) {
+  // A hook specific for the 'workflow_default' widget.
+  // D7: This hook is introduced in Drupal 7.8.
+  // D8: This name is specified in the annotation of WorkflowDefaultWidget.
+  // workflow_debug(__FILE__, __FUNCTION__, __LINE__, '', '');
+  // dpm($context['widget']->getPluginId());
+
+  // A widget on an entity form.
+
+  if ('workflow_default' == $context['widget']->getPluginId()) { // D8-code
+    // This object contains all you need. You may find it in one of two locations.
+    /* @var $transition WorkflowTransitionInterface */
+    $transition = $element['#default_value'];
+
+    // An example of customizing/overriding the workflow widget.
+    // Beware, until now, you must do this twice: on the widget and on the form.
+    if ($transition->getOwnerId() == 1) {
+      drupal_set_message('I got you, user 1, you will never schedule again,
+        and you WILL document each state change!', 'warning');
+      // Let's prohibit scheduling for user 1.
+      $element['workflow']['workflow_scheduling']['#access'] = FALSE;
+      // Let's prohibit scheduling for user 1.
+      if ($element['workflow']['workflow_comment']['#access'] == TRUE) {
+        $element['workflow']['workflow_comment']['#required'] = TRUE;
+      }
+    }
+  }
+}
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
@@ -170,7 +231,7 @@ function hook_workflow_permitted_state_transitions_alter(array &$transitions, ar
  * If you change the state on the Node Form (Edit modus), you need the hook
  * hook_form_alter(). See below for more info.
  */
-function workflowfield_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
+function hook_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
 
   // Get the Entity.
   $entity = $form['workflow']['workflow_entity']['#value'];
@@ -206,7 +267,7 @@ function workflowfield_form_workflow_transition_form_alter(&$form, &$form_state,
  *
  * Use this hook to alter the form on a Node Form, Comment Form (Edit page).
  */
-function workflowfield_form_alter(&$form, $form_state, $form_id) {
+function hook_form_alter(&$form, $form_state, $form_id) {
 
   // Get the Entity.
   $entity = $form['#entity'];
@@ -219,3 +280,11 @@ function workflowfield_form_alter(&$form, $form_state, $form_id) {
   // Get the current state and act upon it.
   // .. copy code from the hook above.
 }
+
+/*
+ * Implements hook_field_attach_form().
+ */
+function workflow_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode){
+  // @see http://drupal.stackexchange.com/questions/101857/difference-between-hook-form-alter-and-hook-field-attach-form
+}
+

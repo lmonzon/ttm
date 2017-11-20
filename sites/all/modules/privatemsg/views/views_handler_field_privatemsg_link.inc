@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \views_handler_field_pm_thread_link.
+ * Contains the privatemsg link views field handler.
  */
 
 /**

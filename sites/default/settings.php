@@ -215,16 +215,19 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'tutoriame',
-      'username' => 'admin_tutoriame',
-      'password' => 'Admin_7u70r14m3!',
-      'host' => '10.0.0.21',
+      'database' => 'exp_online',
+      'username' => 'exp_online',
+      'password' => 'Arcangel!!',
+      'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
       'prefix' => '',
     ),
   ),
 );
+
+
+
 
 /**
  * Access control for update.php script.
@@ -237,7 +240,7 @@ $databases = array (
  * After finishing the upgrade, be sure to open this file again and change the
  * TRUE back to a FALSE!
  */
-$update_free_access = FALSE;
+$update_free_access = false;
 
 /**
  * Salt for one-time login links and cancel links, form tokens, etc.

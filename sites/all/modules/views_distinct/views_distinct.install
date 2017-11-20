@@ -5,33 +5,63 @@
  */
 
 /**
- * Implements hook_uninstall().
+ * Implements hook_install().
  */
-function views_distinct_uninstall() {
-  // We can't delete the variables one by one because we don't know them all.
-  db_delete('variable')
-    ->condition('name', 'views_distinct:%', 'LIKE')
-    ->execute();
-  cache_clear_all('variables', 'cache_bootstrap');
+function views_distinct_schema() {
+  $schema['views_distinct'] = array(
+    'description' => 'Store settings per View->Display->Field',
+    'fields' => array(
+      'view_name' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'default' => '',
+        'not null' => TRUE,
+        'description' => 'View name, as found in views_view.name.',
+      ),
+      'display_id' => array(
+        'type' => 'varchar',
+        'length' => '64',
+        'default' => '',
+        'not null' => TRUE,
+        'description' => 'Display id, as found in views_display.id.',
+      ),
+      'field_id' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'default' => '',
+        'not null' => TRUE,
+        'description' => 'Machine name for the field on this display, as assigned by Views.',
+      ),
+      'settings' => array(
+        'type' => 'blob',
+        'description' => 'A serialized array of settings for this View->Display->Field.',
+        'serialize' => TRUE,
+        'serialized default' => 'a:0:{}',
+      ),
+    ),
+    'indexes' => array(
+      'view' => array('view_name'),
+      'field_setting' => array('view_name', 'display_id', 'field_id'),
+    ),
+    'unique keys' => array(),
+    'foreign keys' => array(
+      'view_name' => array(
+        'table' => 'views_view',
+        'columns' => array('view_name' => 'name'),
+      ),
+      'display_id' => array(
+        'table' => 'views_display',
+        'columns' => array('display_id' => 'id'),
+      ),
+    ),
+    'primary key' => array('view_name', 'display_id', 'field_id'),
+  );
+
+  return $schema;
 }
 
-/**
- * Migrate existing views_distinct settings to the variable storage.
- */
-function views_distinct_update_7001() {
-  $result = db_select('views_distinct', 'v')
-    ->fields('v')
-    ->execute();
 
-  foreach ($result as $v) {
-    $views[$v->view_name][$v->display_id][$v->field_id] = unserialize($v->settings);
-  }
+function views_distinct_update_7206(&$sandbox) {
 
-  foreach ($views as $view_name => $settings) {
-    variable_set('views_distinct:' . $view_name, $settings);
-  }
-
-  if (db_table_exists('views_distinct')) {
-    db_drop_table('views_distinct');
-  }
+    drupal_install_schema('views_distinc');
 }

@@ -99,13 +99,16 @@ function views_distinct_form_views_ui_config_item_form_submit($form, &$form_stat
   $view_name = $form_state['view']->name;
   $display_name = $form_state['display_id'];
   $field_name = $form_state['id'];
-  $override_display_name = reset($form_state['values']['override']);
-
+  $override_display_name = FALSE;
+  // Only set $override_display_name if such a thing was submitted.
+  if (!empty($form_state['values']['override']) && is_array($form_state['values']['override'])) {
+    $override_display_name = reset($form_state['values']['override']);
+  }
   // Check if we're configuring this field for *this display only* or for all
   // displays (really, the "default" display):
-  if ($display_name != $override_display_name) {
+  if (!empty($override_display_name) && $display_name !== $override_display_name) {
     // In this case we are setting the configuration for a different display,
-    // so we'll actually store the setting on the overridde display name
+    // so we'll actually store the setting on the overridden display name
     // (probably this is "default"/All Displays). We also need to remove any
     // setting we've stored for the actual $display_name, since that no longer
     // applies (the user has chosen to NOT override the default settings,
@@ -353,14 +356,26 @@ function _views_distinct_field_settings_get($view_name, $display_name, $field_na
   // Check if this view_name has been loaded and if not, load it from the DB:
   if (!isset($static_cache[$view_name])) {
     $static_cache[$view_name] = array();
-    $settings = variable_get('views_distinct:'.$view_name);
-    if($settings != NULL) {
-      foreach ($settings as $display => $fields) {
-        foreach ($fields as $field => $field_settings) {
-          $settings[$display][$field]['aggregate_separator'] = filter_xss($field_settings['aggregate_separator']);
-        }
-      }
-      $static_cache[$view_name] = $settings;
+    $results = db_select('views_distinct', 'vsd')
+      ->fields('vsd')
+      ->condition('view_name', $view_name, '=')
+      ->execute();
+    if (empty($results)) {
+      $results = array();
+    }
+    foreach ($results as $result) {
+      $settings = unserialize($result->settings) + _views_distinct_field_settings_defaults();
+      // HTML is allowed, but filter for terrible exploits in the aggregation
+      // joiner:
+      $settings['aggregate_separator'] = filter_xss($settings['aggregate_separator']);
+      $static_cache[$view_name] = array_merge_recursive(
+        $static_cache[$view_name],
+        array(
+          $result->display_id => array(
+            $result->field_id => $settings,
+          ),
+        )
+      );
     }
   }
   // Check for a result in static cache:
@@ -394,47 +409,32 @@ function _views_distinct_field_settings_set($view_name, $display_name, $field_na
   if (empty($display_name)) {
     $display_name = 'default';
   }
+  // Whether updating/inserting or removing, we start with removing the current
+  // setting, if it exists:
+  db_delete('views_distinct')
+    ->condition('view_name', $view_name, '=')
+    ->condition('display_id', $display_name, '=')
+    ->condition('field_id', $field_name, '=')
+    ->execute();
 
   // Now, optionally insert a new (or updated) value:
   if (!empty($settings)) {
     // Updating the stored record.
     $settings = (array) $settings + _views_distinct_field_settings_defaults();
-
-    $view_settings = variable_get('views_distinct:'.$view_name);
-    if($view_settings == NULL) {
-      $view_settings = array($display_name => array($field_name => $settings));
-    }
-    elseif(isset($view_settings[$display_name])) {
-      $view_settings[$display_name][$field_name] = $settings;
-    }
-    else {
-      $view_settings[$display_name] = array($field_name => $settings);
-    }
-    variable_set('views_distinct:'.$view_name, $view_settings);
+    // If !empty($settings), we're inserting/updating this setting; since we've
+    // already removed the setting either way, this is always a simple INSERT:
+    $record = array(
+      'view_name' => $view_name,
+      'display_id' => $display_name,
+      'field_id' => $field_name,
+      'settings' => $settings,
+    );
+    drupal_write_record('views_distinct', $record);
   }
   else {
     // If we're removing settings, revert the static cache to defaults:
     $settings = _views_distinct_field_settings_defaults();
-
-    //remove field, and display if no more settings
-    $view_settings = variable_get('views_distinct:'.$view_name);
-    if(isset($view_settings[$display_name][$field_name])) {
-      unset($view_settings[$display_name][$field_name]);
-      if(count($view_settings[$display_name]) == 0) {
-        unset($view_settings[$display_name]);
-      }
-    }
-
-    if($view_settings != NULL && count($view_settings) == 0) {
-      //delete variable if no more useful information
-      variable_del('views_distinct:'.$view_name);
-    }
-    else {
-      //update just to remove the settings
-      variable_set('views_distinct:'.$view_name, $view_settings);
-    }
   }
-
   if (!isset($static_cache[$view_name])) {
     $static_cache[$view_name] = array();
   }

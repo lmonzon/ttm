@@ -61,7 +61,7 @@
       </tr>
     </tbody></table></td>
   <tr>
-    <td bgcolor="#e0e0e0" align="center"><a href="http://www.tutoriame.com" style="padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px; font-size:20px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#fff; background:#F05F55; text-decoration:none;">ACCEDE A  TUTORIAME </a></td>
+    <td bgcolor="#e0e0e0" align="center"><a href="" style="padding-top:10px; padding-bottom:10px; padding-left:20px; padding-right:20px; font-size:20px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#fff; background:#F05F55; text-decoration:none;">ACCEDE A  TUTORIAME </a></td>
   </tr>
   </tr>
   <td bgcolor="#e0e0e0" style="padding:20px; font-size:16px; color:#8f8f8f" align="center">EXPERTOS PARA TUS PROYECTOS</td>
@@ -86,7 +86,7 @@
         <td width="40">&nbsp;</td>
         <td width="240">&nbsp;</td>
         <td width="40">&nbsp;</td>
-        <td width="240"><a href="http://www.tutoriame.com" style="color:#fff">www.tutoriame.com</a></td>
+        <td width="240"><a href="" style="color:#fff">www.tutoriame.com</a></td>
         <td width="40">&nbsp;</td>
       </tr>
       <tr>

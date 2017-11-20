@@ -125,22 +125,6 @@ function fivestar_field_delete($entity_type, $entity, $field, $instance, $langco
   _fivestar_field_helper($entity_type, $entity, $field, $instance, $langcode, $items, 'delete');
 }
 
-/**
- * Implements hook_field_views_data().
- */
-function fivestar_field_views_data($field) {
-  $field_name = $field['field_name'];
-  $data = field_views_field_default_views_data($field);
-  foreach ($data as $table_name => $table_data) {
-    foreach ($table_data as $field => $field_data) {
-      if (isset($field_data['title']) && strpos($field_data['title'],           $field_name . ':rating')) {
-        $data[$table_name][$field]['filter']['handler'] =                       'fivestar_views_handler_filter_in_operator';
-      }
-    }
-  }
-  return $data;
-}
-
 function _fivestar_field_helper($entity_type, $entity, $field, $instance, $langcode, &$items, $op = '') {
   foreach ($items as $delta => $item) {
     if ((isset($entity->status) && !$entity->status) || $op == 'delete') {
@@ -374,11 +358,11 @@ function fivestar_field_formatter_info() {
       ),
     ),
     'fivestar_formatter_rating' => array(
-      'label' => t('Rating (i.e. 4.2/5)'),
+      'label' => t('Rating (e.g. 4.2/5)'),
       'field types' => array('fivestar'),
     ),
     'fivestar_formatter_percentage' => array(
-      'label' => t('Percentage (i.e. 92)'),
+      'label' => t('Percentage (e.g. 92)'),
       'field types' => array('fivestar'),
     ),
   );
