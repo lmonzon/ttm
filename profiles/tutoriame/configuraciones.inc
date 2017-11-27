@@ -7,7 +7,7 @@ $variables = array(
   // Jquery update.
   'jquery_update_compression_type' => 'min',
   'jquery_update_jquery_cdn' => 'none',
-  'jquery_update_jquery_version' => '1.9',
+  'jquery_update_jquery_version' => '1.7',
   'jquery_update_admin_theme' => '0',
 
   // Tema de administración.

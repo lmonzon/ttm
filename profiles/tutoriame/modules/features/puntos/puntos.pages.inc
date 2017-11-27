@@ -9,7 +9,7 @@ function puntos_comprar_page($form, &$form_state) {
   $form = array(
     'message_header' => array(
       '#type' => 'fieldset',
-      '#title' => t('Comprar Créditos'),
+      '#title' => t('Comprar Crï¿½ditos'),
       '#weight' => -20,
       '#attributes' => array('class' => array('comprar-puntos-titulo')),
     ),
@@ -24,7 +24,7 @@ function puntos_comprar_page($form, &$form_state) {
 
   $form['saldo_inicial'] = array(
     '#type' => 'textfield',
-    '#title' => t('Saldo inicial en Créditos'),
+    '#title' => t('Saldo inicial en Crï¿½ditos'),
     '#size' => 50,
     '#maxlength' => 255,
     '#weight' => -15,
@@ -33,7 +33,7 @@ function puntos_comprar_page($form, &$form_state) {
   );
   $form['puntos'] = array(
     '#type' => 'textfield',
-    '#title' => t('Créditos a comprar'),
+    '#title' => t('Creditos a comprar'),
     '#size' => 50,
     '#maxlength' => 255,
     '#weight' => -10,
@@ -50,7 +50,7 @@ function puntos_comprar_page($form, &$form_state) {
   );
   $form['saldo_final'] = array(
     '#type' => 'textfield',
-    '#title' => t('Saldo final en Créditos'),
+    '#title' => t('Saldo final en Crï¿½ditos'),
     '#size' => 50,
     '#maxlength' => 255,
     '#weight' => 0,
