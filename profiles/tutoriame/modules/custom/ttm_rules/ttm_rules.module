@@ -118,8 +118,8 @@ function ttm_rules_send_mail($key, $to, $subject, $body, $context = array()) {
     'attachments' => '',
     'plaintext' => '',
   );
-
-  drupal_mail('ttm_rules', $key, $to, $language, $params, $from);
+  drupal_set_message(t('SARASA'), 'error');
+    drupal_mail('ttm_rules', $key, $to, $language, $params, $from);
 }
 
 /**
