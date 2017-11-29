@@ -14,7 +14,7 @@ function puntos_comprar_page($form, &$form_state) {
       '#attributes' => array('class' => array('comprar-puntos-titulo')),
     ),
     '#access' => user_access('access puntos comprar'),
-    '#form_placeholder' => FALSE,
+    '#form_placeholder' => TRUE,
   );
   $form['subtitulo'] = array(
     '#type' => 'item',
