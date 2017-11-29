@@ -2064,14 +2064,6 @@ margin-bottom: 10px;
 ******* MENSAJES
 ==================================*/
 
-.alert-danger, 
-.alert-error {
-	background-color: #f0f0f0;
-	border: none;
-	color: #666;
-	display:none;
-	
-}
 
 /*==================================
 ******* NODOS
