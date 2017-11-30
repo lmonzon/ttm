@@ -38,6 +38,7 @@ function puntos_comprar_page($form, &$form_state) {
     '#maxlength' => 255,
     '#weight' => -10,
     '#default_value' => 0,
+    '#description'=>t('Ingresar los Creditos a comprar'),
   );
   $form['importe'] = array(
     '#type' => 'textfield',
