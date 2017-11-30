@@ -16,7 +16,6 @@ class TTMRulesMailSystem implements MailSystemInterface {
       
       $this->mailClass = new MimeMailSystem();
     } else {
-      drupal_set_message(t('SARASA3'), 'error');
       
       $this->mailClass = new DefaultMailSystem();
     }
