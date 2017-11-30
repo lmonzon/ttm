@@ -119,7 +119,11 @@ function ttm_rules_send_mail($key, $to, $subject, $body, $context = array()) {
     'plaintext' => '',
   );
   drupal_set_message(t('SARASA'), 'error');
+  try{
     drupal_mail('ttm_rules', $key, $to, $language, $params, $from);
+  } catch (Exception $e) {
+    echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+}
 }
 
 /**
