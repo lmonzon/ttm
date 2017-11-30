@@ -6,14 +6,21 @@ class TTMRulesMailSystem implements MailSystemInterface {
 
   public function __construct() {
     if (drupal_autoload_class('MimeMailSystem')) {
+      drupal_set_message(t('SARASA2'), 'error');
       $this->formatClass = new MimeMailSystem();
     } else {
+      drupal_set_message(t('SARASA3'), 'error');
+      
       $this->formatClass = new DefaultMailSystem();
     }
 
     if (drupal_autoload_class('MimeMailSystem')) {
+      drupal_set_message(t('SARASA1'), 'error');
+      
       $this->mailClass = new MimeMailSystem();
     } else {
+      drupal_set_message(t('SARASA3'), 'error');
+      
       $this->mailClass = new DefaultMailSystem();
     }
   }
