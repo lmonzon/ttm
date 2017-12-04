@@ -1781,10 +1781,10 @@ margin-top: 10px;
 
 .field-name-field-pais .control-group,
 .field-name-field-pais .controls {
-	display: inline;
+	/* display: inline; */
 	width: 250px;
-	float: left;
-	clear: right;
+	/* float: left; */
+	/* clear: right; */
 
 }
 
@@ -1805,7 +1805,7 @@ margin-top: 10px;
 .field-name-field-referente input {
 	width: 238px;
 	display: block;
-	float: left;
+	/* float: left; */
 }
 
 .field-name-field-mail-referente input {
@@ -2012,7 +2012,7 @@ margin-bottom: 10px;
 
 .field-name-field-telefonos input {
     display: block;
-    float: left;
+    /* float: left; */
     margin-right: 10px;
     text-align: left;
     width: 148px;
