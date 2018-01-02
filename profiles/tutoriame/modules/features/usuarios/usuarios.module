@@ -720,6 +720,8 @@ function usuarios_date_combo_process_alter(&$element, &$form_state, $context) {
 function usuarios_location_element_alter(&$element) {
   unset($element['province']['#options']['xx']);
   unset($element['country']['#options']['xx']);
+  unset($element['delete_location']);
+  unset($element['re_geocode_location']);
 }
 
 /**
