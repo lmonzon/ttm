@@ -1666,7 +1666,7 @@ function usuarios_default_page_manager_pages() {
   $page->api_version = 1;
   $page->name = 'mi_cuenta_ttm';
   $page->task = 'page';
-  $page->admin_title = 'Mi cuenta TTM';
+  $page->admin_title = 'Mi cuenta  Experto Online';
   $page->admin_description = '';
   $page->path = 'mi-cuenta-ttm';
   $page->access = array(
@@ -1688,7 +1688,7 @@ function usuarios_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = -30;
   $handler->conf = array(
-    'title' => 'Mi Cuenta TTM Tutor',
+    'title' => 'Mi Cuenta  Experto Online Tutor',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -1733,7 +1733,7 @@ function usuarios_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Mi cuenta TTM';
+  $display->title = 'Mi cuenta  Experto Online';
   $display->uuid = '3e951510-9a1d-4906-ac5b-23aea7a86d73';
   $display->content = array();
   $display->panels = array();
@@ -1775,7 +1775,7 @@ function usuarios_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = -29;
   $handler->conf = array(
-    'title' => 'Mi cuenta TTM',
+    'title' => 'Mi cuenta  Experto Online',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -1808,7 +1808,7 @@ function usuarios_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Mi cuenta TTM';
+  $display->title = 'Mi cuenta  Experto Online';
   $display->uuid = '3e951510-9a1d-4906-ac5b-23aea7a86d73';
   $display->content = array();
   $display->panels = array();

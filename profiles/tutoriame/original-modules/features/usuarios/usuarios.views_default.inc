@@ -3841,7 +3841,7 @@ function usuarios_views_default_views() {
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos TTM Vendidos</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos  Experto Online Vendidos</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">0</td></td>
 </tr>
 </tbody>
@@ -3880,7 +3880,7 @@ function usuarios_views_default_views() {
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos TTM Vendidos</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos  Experto Online Vendidos</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">[field_puntos]</td></td>
 </tr>
 </tbody>
@@ -5140,7 +5140,7 @@ function usuarios_views_default_views() {
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos TTM Vendidos</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos  Experto Online Vendidos</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">0</td></td>
 </tr>
 </tbody>
@@ -5150,7 +5150,7 @@ function usuarios_views_default_views() {
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos TTM Vendidos</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-vendidos"><span class="icono-puntos-ttm">Puntos  Experto Online Vendidos</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">[field_puntos]</td></td>
 </tr>
 </tbody>
@@ -5794,7 +5794,7 @@ function usuarios_views_default_views() {
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-ttm"><span class="icono-puntos-ttm">Puntos TTM</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-ttm"><span class="icono-puntos-ttm">Puntos  Experto Online</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">[points]</td></td>
 </tr>
 </tbody>
@@ -5830,8 +5830,8 @@ function usuarios_views_default_views() {
     ),
   );
 
-  /* Display: Mi cuenta TTM Tabla */
-  $handler = $view->new_display('panel_pane', 'Mi cuenta TTM Tabla', 'panel_pane_6');
+  /* Display: Mi cuenta  Experto Online Tabla */
+  $handler = $view->new_display('panel_pane', 'Mi cuenta  Experto Online Tabla', 'panel_pane_6');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'span21 offset1';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
@@ -8130,8 +8130,8 @@ Contenidos Publicados en Tutoriame
     ),
   );
 
-  /* Display: Mi cuenta TTM Total */
-  $handler = $view->new_display('panel_pane', 'Mi cuenta TTM Total', 'panel_pane_25');
+  /* Display: Mi cuenta  Experto Online Total */
+  $handler = $view->new_display('panel_pane', 'Mi cuenta  Experto Online Total', 'panel_pane_25');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'span21 offset1';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
@@ -8282,13 +8282,13 @@ Contenidos Publicados en Tutoriame
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black puntos-ttm"><span class="icono-puntos-ttm">Puntos TTM</span></div></td>
+<td><div class="span6 min uppercase bold black puntos-ttm"><span class="icono-puntos-ttm">Puntos  Experto Online</span></div></td>
 <td><div class="span1 align-right normal-min bold gris-tres">[points]</td></td>
 </tr>
 </tbody>
 </table>
 </div>'),
-    t('Mi cuenta TTM Tabla'),
+    t('Mi cuenta  Experto Online Tabla'),
     t('Filtrar'),
     t('Seleccione cualquier filtro y haga clic en Aplicar para ver los resultados'),
     t('<strong class="verde">No tienes movimientos en el período solicitado</strong>'),
@@ -8534,7 +8534,7 @@ Contenidos Publicados en Tutoriame
     t('Conocimientos'),
     t('Comunicación'),
     t('Cumplimiento de plazos'),
-    t('Mi cuenta TTM Total'),
+    t('Mi cuenta  Experto Online Total'),
     t('<h2 class="plus verde">Estado de cuenta</h2>'),
     t('<h2 class="plus verde">Estado de cuenta</h2>
 <div class="mi-cuenta-ttm-total-puntos">

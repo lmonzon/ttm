@@ -583,7 +583,7 @@ function puntos_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'uc_msg_continue_shopping';
-  $strongarm->value = '<p><a href="[site:url]mi-cuenta-ttm" class="btn">Mi Cuenta TTM</a></p>';
+  $strongarm->value = '<p><a href="[site:url]mi-cuenta-ttm" class="btn">Mi Cuenta  Experto Online</a></p>';
   $export['uc_msg_continue_shopping'] = $strongarm;
 
   $strongarm = new stdClass();

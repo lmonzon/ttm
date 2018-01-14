@@ -453,7 +453,7 @@ function vistas_administrativas_views_default_views() {
   $handler->display->display_options['filters']['field_name']['value'] = 'field_estado_del_proyecto';
   $handler->display->display_options['path'] = 'admin/tutoriame/informes/proyectos';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'TTM Proyectos';
+  $handler->display->display_options['menu']['title'] = ' Experto Online Proyectos';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
@@ -1329,7 +1329,7 @@ if (isset($estados[$row->status])) {
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
   $handler->display->display_options['path'] = 'admin/tutoriame/informes/puntos';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'TTM Puntos';
+  $handler->display->display_options['menu']['title'] = ' Experto Online Puntos';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
@@ -1829,7 +1829,7 @@ if (isset($estados[$row->status])) {
   $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
   $handler->display->display_options['path'] = 'admin/tutoriame/informes/usuarios';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'TTM Usuarios';
+  $handler->display->display_options['menu']['title'] = ' Experto Online Usuarios';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;

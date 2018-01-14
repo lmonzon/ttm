@@ -766,8 +766,8 @@ return($user->uid);';
     ),
   );
 
-  /* Display: Autor Conteo Puntos TTM */
-  $handler = $view->new_display('panel_pane', 'Autor Conteo Puntos TTM', 'panel_pane_5');
+  /* Display: Autor Conteo Puntos  Experto Online */
+  $handler = $view->new_display('panel_pane', 'Autor Conteo Puntos  Experto Online', 'panel_pane_5');
   $handler->display->display_options['defaults']['group_by'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -801,7 +801,7 @@ return($user->uid);';
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black"><span class="icono-puntos-ttm">Créditos TTM</span></div></td>
+<td><div class="span6 min uppercase bold black"><span class="icono-puntos-ttm">Créditos  Experto Online</span></div></td>
 <td><div class="span3 align-right normal-min bold gris-tres">[points]</td></td>
 </tr>
 </tbody>
@@ -1620,13 +1620,13 @@ return($user->uid);';
 </tbody>
 </table>
 </div>'),
-    t('Autor Conteo Puntos TTM'),
+    t('Autor Conteo Puntos  Experto Online'),
     t('Usuarios'),
     t('<div class="autor-puntos-ttm span9 offset1 clearfix">
 <table>
 <tbody>
 <tr>
-<td><div class="span6 min uppercase bold black"><span class="icono-puntos-ttm">Créditos TTM</span></div></td>
+<td><div class="span6 min uppercase bold black"><span class="icono-puntos-ttm">Créditos  Experto Online</span></div></td>
 <td><div class="span3 align-right normal-min bold gris-tres">[points]</td></td>
 </tr>
 </tbody>

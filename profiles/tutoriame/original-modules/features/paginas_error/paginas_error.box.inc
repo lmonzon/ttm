@@ -16,7 +16,7 @@ function paginas_error_default_box() {
   $box->delta = 'ttm_403';
   $box->plugin_key = 'simple';
   $box->title = '';
-  $box->description = 'TTM 403 acceso denegado';
+  $box->description = ' Experto Online 403 acceso denegado';
   $box->options = array(
     'body' => array(
       'value' => '<div class="clearfix span30 offset1">
@@ -43,7 +43,7 @@ El usuario con el que has iniciado sesión no tiene permisos para acceder a este
   $box->delta = 'ttm_404';
   $box->plugin_key = 'simple';
   $box->title = '';
-  $box->description = 'TTM 404 pagina no encontrada';
+  $box->description = ' Experto Online 404 pagina no encontrada';
   $box->options = array(
     'body' => array(
       'value' => '<div class="clearfix span30 offset1">
