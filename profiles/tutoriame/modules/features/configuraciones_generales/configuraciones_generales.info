@@ -1,7 +1,7 @@
 name = Configuraciones generales
 description = Fontyourface, Image Toolkit, Info del sitio, Form Placeholder
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.10
 project = configuraciones_generales
 dependencies[] = ckeditor

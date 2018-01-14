@@ -1,7 +1,7 @@
 name = Foros
 description = foros internos para los usuarios pertenecientes a una institucion
 core = 7.x
-package = Tutoriame
+package =  Experto OnlineOnline
 version = 7.x-1.7
 project = foros
 dependencies[] = advanced_forum

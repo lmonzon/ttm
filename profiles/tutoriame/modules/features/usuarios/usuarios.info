@@ -1,7 +1,7 @@
 name = Usuarios
 description = Roles; Perfiles; Panels de registro, edición, vista pública y privada con sus boxes, minipanels y vistas
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-2.7
 project = usuarios
 files[] = includes/views/handlers/shs_taxonomy_entity_index_handler_filter_tid_depth.inc
@@ -238,7 +238,7 @@ features[panels_mini][] = publico_tutor_estadisticas
 features[panels_mini][] = publico_tutor_info
 features[panels_mini][] = publico_tutor_proyectos
 features[panels_mini][] = publico_tutor_servicio
-features[password_policy][] = Tutoriame Policy
+features[password_policy][] =  Experto Online Policy
 features[profile2_regpath][] = emprendedor
 features[profile2_regpath][] = main
 features[profile2_regpath][] = tutor

@@ -16,7 +16,7 @@ function site_default_template_default_box() {
   $box->delta = 'ttm_redes_sociales';
   $box->plugin_key = 'simple';
   $box->title = '';
-  $box->description = 'Tutoriame Redes Sociales';
+  $box->description = ' Experto Online Redes Sociales';
   $box->options = array(
     'body' => array(
       'value' => '<?php global $base_path;?>

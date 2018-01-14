@@ -1,7 +1,7 @@
 name = Site Default Template
 description = Panel, minipanels, boxes del SDT
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.2
 project = site_default_template
 dependencies[] = boxes

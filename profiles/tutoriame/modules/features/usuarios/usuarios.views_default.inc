@@ -3254,7 +3254,7 @@ function usuarios_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<div class="servicio-titulo medium verde bold">Proyectos Tutoriame</div>
+  $handler->display->display_options['header']['area']['content'] = '<div class="servicio-titulo medium verde bold">Proyectos  Experto Online</div>
 <div class="proyectos-tutoriame-activos-encabezado medium black bold">Proyectos Activos</div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['footer'] = FALSE;
@@ -5100,7 +5100,7 @@ function usuarios_views_default_views() {
 <div class="lista-contenido-content-resumen medium gris-tres">[field_resumen_del_contenido]</div>
 </div>'),
     t('Proyectos Activos Pub.Tutor'),
-    t('<div class="servicio-titulo medium verde bold">Proyectos Tutoriame</div>
+    t('<div class="servicio-titulo medium verde bold">Proyectos  Experto Online</div>
 <div class="proyectos-tutoriame-activos-encabezado medium black bold">Proyectos Activos</div>'),
     t('<?php global $base_path;?>
 <div class="ver-mas align-right verde bold medium span21">
@@ -6097,7 +6097,7 @@ function usuarios_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="normal-min bold black uppercase span11 offset1">
-Contenidos Publicados en Tutoriame
+Contenidos Publicados en  Experto Online
 </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['footer'] = FALSE;
@@ -6881,7 +6881,7 @@ Contenidos Publicados en Tutoriame
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<h1 class="verde">Bienvenido "[name]",</h1>
-<div>completa tu perfil para aprovechar al máximo tu cuenta en Tutoriame:</div>
+<div>completa tu perfil para aprovechar al máximo tu cuenta en  Experto Online:</div>
 ';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -8311,7 +8311,7 @@ Contenidos Publicados en Tutoriame
 </div>'),
     t('Artículos Publicados Tutor Público'),
     t('<div class="normal-min bold black uppercase span11 offset1">
-Contenidos Publicados en Tutoriame
+Contenidos Publicados en  Experto Online
 </div>'),
     t('<?php global $base_path;?>
 <div class="ver-mas align-right verde bold medium span11 offset1">
@@ -8372,7 +8372,7 @@ Contenidos Publicados en Tutoriame
     t('<h2><span class="gris-tres">Experiencia laboral</span> <span class="verde">[name]</span></h2>'),
     t('Encabezado Usuario Edit'),
     t('<h1 class="verde">Bienvenido "[name]",</h1>
-<div>completa tu perfil para aprovechar al máximo tu cuenta en Tutoriame:</div>
+<div>completa tu perfil para aprovechar al máximo tu cuenta en  Experto Online:</div>
 '),
     t('Conteo Contratos Realizados Empr.Privado'),
     t('<div class="autor-contratos-realizados span8 clearfix">

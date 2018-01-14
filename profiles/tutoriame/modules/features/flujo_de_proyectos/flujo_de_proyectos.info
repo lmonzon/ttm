@@ -1,6 +1,6 @@
 name = Flujo de Proyectos
 core = 7.x
-package = Tutoriame
+package =  Experto OnlineOnline
 version = 7.x-1.17
 project = flujo_de_proyectos
 dependencies[] = entity

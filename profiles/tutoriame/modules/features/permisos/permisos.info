@@ -1,6 +1,6 @@
 name = permisos
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.16
 project = permisos
 dependencies[] = admin_menu

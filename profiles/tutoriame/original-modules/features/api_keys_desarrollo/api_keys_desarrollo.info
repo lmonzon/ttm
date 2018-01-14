@@ -1,7 +1,7 @@
 name = Api keys desarrollo
 description = Claves para los servicios externos usadas en desarrollo
 core = 7.x
-package = Tutoriame desarrollo
+package =  Experto Online desarrollo
 version = 7.x-1.0
 project = api_keys_desarrollo
 dependencies[] = ctools

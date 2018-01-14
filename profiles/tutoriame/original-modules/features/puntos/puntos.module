@@ -30,8 +30,8 @@ function puntos_uc_add_to_cart($nid, $qty, $data) {
 function puntos_permission() {
   return array(
     'access puntos comprar' => array(
-      'title' => t('Compra de puntos de Tutoriame'),
-      'description' => t('Acceder a la página de compra de Tutoriame'),
+      'title' => t('Compra de puntos de  Experto Online'),
+      'description' => t('Acceder a la página de compra de  Experto Online'),
     ),
   );
 }

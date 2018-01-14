@@ -79,7 +79,7 @@
         <td width="40">&nbsp;</td>
         <td width="240" style="color: #ffffff; font-weight: bold; font-size: 18px; font-family:Arial, Helvetica, sans-serif;">Somos sociales</td>
         <td width="40">&nbsp;</td>
-        <td width="240" style="color: #ffffff; font-weight: bold; font-size: 18px; font-family:Arial, Helvetica, sans-serif;">Tutoriame</td>
+        <td width="240" style="color: #ffffff; font-weight: bold; font-size: 18px; font-family:Arial, Helvetica, sans-serif;"> Experto Online</td>
         <td width="40">&nbsp;</td>
       </tr>
       <tr>

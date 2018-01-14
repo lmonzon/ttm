@@ -1,7 +1,7 @@
 name = Mensajería
 description = Sistema de mensajería entre usuarios del sitio
 core = 7.x
-package = Tutoriame
+package =  Experto OnlineOnline
 version = 7.x-1.14
 project = mensajer_a
 dependencies[] = computed_field

@@ -1,7 +1,7 @@
 name = Home
 description = Panel, vistas, boxes de home
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.2
 project = home
 dependencies[] = boxes

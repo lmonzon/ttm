@@ -1,6 +1,6 @@
 name = formatos_fecha
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.0
 project = formatos_fecha
 dependencies[] = ctools

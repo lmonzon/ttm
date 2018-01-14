@@ -50,9 +50,9 @@ function usuarios_taxonomy_default_vocabularies() {
       'weight' => 0,
     ),
     'medio_conoci_tutoriame' => array(
-      'name' => 'Medio conoció Tutoriame',
+      'name' => 'Medio conoció  Experto Online',
       'machine_name' => 'medio_conoci_tutoriame',
-      'description' => 'Vocabulario con opciones para campo Medio a través del cual conoció Tutoriame emprendedor',
+      'description' => 'Vocabulario con opciones para campo Medio a través del cual conoció  Experto Online emprendedor',
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
@@ -74,7 +74,7 @@ function usuarios_taxonomy_default_vocabularies() {
       'weight' => 0,
     ),
     'rol_en_tutoriame' => array(
-      'name' => 'Rol en Tutoriame',
+      'name' => 'Rol en  Experto Online',
       'machine_name' => 'rol_en_tutoriame',
       'description' => '',
       'hierarchy' => 0,

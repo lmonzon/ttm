@@ -90,8 +90,8 @@ function tutoriame_calificar_node_update_action($node, $context = array()) {
 function tutoriame_calificar_permission() {
   return array(
     'administer tutoriame_calificar settings' => array(
-      'title' => t('Administrar calificaciones en Tutoriame'),
-      'description' => t('Configurar las calificaciones realizadas entre usuarios de Tutoriame.'),
+      'title' => t('Administrar calificaciones en  Experto Online'),
+      'description' => t('Configurar las calificaciones realizadas entre usuarios de  Experto Online.'),
     ),
   );
 }
@@ -109,7 +109,7 @@ function tutoriame_calificar_menu() {
   );
   $items['admin/tutoriame/config/calificar'] = array(
     'title' => t('Calificaciones'),
-    'description' => t('Configure las calificaciones entre usuarios de Tutoriame.'),
+    'description' => t('Configure las calificaciones entre usuarios de  Experto Online.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tutoriame_calificar_admin_settings'),
     'file' => 'tutoriame_calificar.admin.inc',

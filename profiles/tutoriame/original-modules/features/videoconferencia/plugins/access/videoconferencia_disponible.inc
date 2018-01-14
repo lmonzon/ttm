@@ -11,7 +11,7 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  'title' => t("Tutoriame: Videoconferencia disponible para el usuario"),
+  'title' => t(" Experto Online: Videoconferencia disponible para el usuario"),
   'description' => t('Controlar acceso basado en si hay videoconferencia disponible en este proyecto para el usuario logueado.'),
   'callback' => 'videoconferencia_disponible_ctools_access_check',
   'summary' =>  'videoconferencia_disponible_ctools_access_summary',

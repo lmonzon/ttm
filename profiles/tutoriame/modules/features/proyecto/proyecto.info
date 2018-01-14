@@ -1,7 +1,7 @@
 name = Proyecto
 description = Tipo de contenido; Panel de edición y creación para Emprendedor y box encabezado
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.29
 project = proyecto
 dependencies[] = auto_nodetitle

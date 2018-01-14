@@ -1,6 +1,6 @@
 name = Destacado
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.1
 project = destacado
 dependencies[] = ctools

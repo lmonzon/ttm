@@ -68,8 +68,8 @@ function tutoriame_privatemsg_user_update_action($account, $context = array()) {
 function tutoriame_privatemsg_permission() {
   return array(
     'administer tutoriame_privatemsg settings' => array(
-      'title' => t('Administrar privatemsg para Tutoriame'),
-      'description' => t('Configurar la utilización de Privatemsg para Tutoriame'),
+      'title' => t('Administrar privatemsg para  Experto Online'),
+      'description' => t('Configurar la utilización de Privatemsg para  Experto Online'),
     ),
   );
 }
@@ -87,7 +87,7 @@ function tutoriame_privatemsg_menu() {
   );
   $items['admin/tutoriame/config/privatemsg'] = array(
     'title' => t('Mensajería'),
-    'description' => t('Configure la mensajería entre usuarios de Tutoriame.'),
+    'description' => t('Configure la mensajería entre usuarios de  Experto Online.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tutoriame_privatemsg_admin_settings'),
     'file' => 'tutoriame_privatemsg.admin.inc',

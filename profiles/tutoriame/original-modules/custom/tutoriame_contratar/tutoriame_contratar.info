@@ -1,6 +1,6 @@
-name = Tutoriame Contratar
-description = Módulo para la contratación de tutores en Tutoriame
-package = Tutoriame
+name =  Experto Online Contratar
+description = Módulo para la contratación de tutores en  Experto Online
+package =  Experto Online
 core = 7.x
 version = '7.x-1.0'
 dependencies[] = block

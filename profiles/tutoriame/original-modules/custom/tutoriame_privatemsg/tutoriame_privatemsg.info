@@ -1,5 +1,5 @@
-name = Tutoriame Private messages
-description = Módulo de personalización de PrivateMsg para Tutoriame
+name =  Experto Online Private messages
+description = Módulo de personalización de PrivateMsg para  Experto Online
 package = Mail
 core = 7.x
 version = '7.x-1.0'

@@ -1,7 +1,7 @@
 name = Workflows Proyectos
 description = Workflows para proyectos
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.4
 project = workflows_proyectos
 dependencies[] = entity

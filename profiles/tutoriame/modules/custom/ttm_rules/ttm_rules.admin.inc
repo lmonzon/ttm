@@ -195,7 +195,7 @@ function ttm_rules_admin_settings() {
   $form['compra_puntos']['ttm_rules_compra_puntos_body'] = array(
     '#type' => 'textarea',
     '#title' => t('Cuerpo del mensaje'),
-    '#default_value' => variable_get('ttm_rules_compra_puntos_body', 'Has comprado puntos en Tutoriame.'),
+    '#default_value' => variable_get('ttm_rules_compra_puntos_body', 'Has comprado puntos en  Experto Online.'),
   );
 
   if (module_exists('token')) {

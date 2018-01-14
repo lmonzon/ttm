@@ -1,7 +1,7 @@
 name = Taxonomías
 description = Vocabulario Auspicios, campos, panels y vistas de taxonomias
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.6
 project = taxonomias
 dependencies[] = features

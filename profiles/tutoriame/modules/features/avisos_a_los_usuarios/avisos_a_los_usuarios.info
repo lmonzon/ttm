@@ -1,7 +1,7 @@
 name = Avisos a los usuarios
 description = Reglas y plantillas para los mensajes enviados a los usuarios
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.1
 project = avisos_a_los_usuarios
 dependencies[] = ctools

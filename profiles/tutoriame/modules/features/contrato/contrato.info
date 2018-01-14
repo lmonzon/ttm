@@ -1,6 +1,6 @@
 name = contrato
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.2
 project = contrato
 dependencies[] = field_validation

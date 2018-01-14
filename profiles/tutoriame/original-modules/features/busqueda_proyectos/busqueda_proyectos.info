@@ -1,6 +1,6 @@
 name = busqueda_proyectos
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 dependencies[] = better_exposed_filters
 dependencies[] = page_manager
 dependencies[] = views

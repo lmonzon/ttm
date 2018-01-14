@@ -1,5 +1,5 @@
-name = Tutoriame Plantillas
-description = Módulo de personalización de plantillas para la mensajería de Tutoriame
+name =  Experto Online Plantillas
+description = Módulo de personalización de plantillas para la mensajería de  Experto Online
 package = Mail
 core = 7.x
 version = '7.x-1.0'

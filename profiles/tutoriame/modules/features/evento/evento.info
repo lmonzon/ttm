@@ -1,7 +1,7 @@
 name = Evento
 description = Tipo de contenido Evento; Vista Calendario
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.4
 project = evento
 dependencies[] = calendar

@@ -37,7 +37,7 @@
       $register_path = url('registro');
       print '<h2 class="user-login-title">Accede a tu cuenta</h2>
       <div class="user-login-title-desc">
-      No tienes cuenta en Tutoriame? <a class="user-login-register" href="'.$register_path.'">Regístrate</a>
+      No tienes cuenta en  Experto Online? <a class="user-login-register" href="'.$register_path.'">Regístrate</a>
       </div>';
       $block = module_invoke('connector', 'block_view', 'one_click_block');
       $one_click_block = render($block['content']);

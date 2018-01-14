@@ -11,7 +11,7 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  'title' => t("Tutoriame: Participa del contrato"),
+  'title' => t(" Experto Online: Participa del contrato"),
   'description' => t('Controlar acceso basado en la participación del usuario logueado en este contrato.'),
   'callback' => 'contrato_participante_ctools_access_check',
   'summary' =>  'contrato_participante_ctools_access_summary',

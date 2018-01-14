@@ -3,7 +3,7 @@
 $plugin = array(
   'title' => t('Usuarios institución'),
   'description' => t('Muestra los usuarios en la misma institución que el usuario actual.'),
-  'category' => t('Tutoriame'),
+  'category' => t(' Experto Online'),
   'edit form' => 'usuarios_institucion_edit_form',
   'render callback' => 'usuarios_institucion_render',
   'admin info' => 'usuarios_institucion_admin_info',

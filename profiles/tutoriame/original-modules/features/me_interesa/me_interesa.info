@@ -1,7 +1,7 @@
 name = Me interesa
 description = Botón Me Interesa para los Proyectos
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.0
 project = me_interesa
 dependencies[] = features

@@ -1,7 +1,7 @@
 name = paginas_error
 description = 403 y 404
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 dependencies[] = boxes
 dependencies[] = ctools
 dependencies[] = page_manager

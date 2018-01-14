@@ -46,7 +46,7 @@
 						<div align="left">&nbsp;</div>
 						</th>
 						<th scope="col" width="69%">
-						<div align="left">&copy; Copyright 2015 &nbsp;<a href="http://tutoriame.com" target="_blank">Tutoriame</a>. All Rights Reserved.</div>
+						<div align="left">&copy; Copyright 2015 &nbsp;<a href="http://tutoriame.com" target="_blank"> Experto Online</a>. All Rights Reserved.</div>
 						</th>
 						<th scope="col" width="27%">
 						<p align="right"><a href="http://tutoriame.com" title="Home">Home</a>&nbsp;/ <a href="/FAQ" title="FAQs">FAQs</a>&nbsp;/ <a href="/contactanos" title="Contact Us">Contacto</a></p>

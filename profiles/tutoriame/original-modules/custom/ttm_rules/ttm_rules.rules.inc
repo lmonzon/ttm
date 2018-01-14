@@ -12,7 +12,7 @@ function ttm_rules_rules_event_info() {
   $events['ttm_rules_perfil_creado'] = array(
     'label' => t('Perfil unificado creado'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'usuario' => _ttm_rules_get_var('usuario'),
       'perfil' => _ttm_rules_get_var('perfil'),
@@ -23,7 +23,7 @@ function ttm_rules_rules_event_info() {
   $events['ttm_rules_proyecto_creado'] = array(
     'label' => t('Proyecto creado'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'author' => _ttm_rules_get_var('emprendedor'),
       'project' => _ttm_rules_get_var('proyecto'),
@@ -33,7 +33,7 @@ function ttm_rules_rules_event_info() {
   $events['ttm_rules_tutor_declara_interes'] = array(
     'label' => t('Tutor declara interés'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
       'emprendedor' => _ttm_rules_get_var('emprendedor'),
@@ -44,7 +44,7 @@ function ttm_rules_rules_event_info() {
  $events['ttm_rules_contrato_creado'] = array(
     'label' => t('Contrato creado'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
       'emprendedor' => _ttm_rules_get_var('emprendedor'),
@@ -56,7 +56,7 @@ function ttm_rules_rules_event_info() {
  $events['ttm_rules_tutor_acepta_contratacion'] = array(
     'label' => t('Tutor acepta contratación'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
       'emprendedor' => _ttm_rules_get_var('emprendedor'),
@@ -68,7 +68,7 @@ function ttm_rules_rules_event_info() {
  $events['ttm_rules_tutor_rechaza_contratacion'] = array(
     'label' => t('Tutor rechaza contratación'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
       'emprendedor' => _ttm_rules_get_var('emprendedor'),
@@ -80,7 +80,7 @@ function ttm_rules_rules_event_info() {
  $events['ttm_rules_calificacion_creada'] = array(
     'label' => t('Calificación creada'),
     'module' => 'ttm_rules',
-    'group' => 'Tutoriame',
+    'group' => ' Experto Online',
     'variables' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
       'emprendedor' => _ttm_rules_get_var('emprendedor'),
@@ -129,7 +129,7 @@ function _ttm_rules_get_var($var = NULL) {
     ),
     'rol_en_tutoriame' => array(
       'type' => 'taxonomy_term',
-      'label' => t('Rol en Tutoriame'),
+      'label' => t('Rol en  Experto Online'),
     ),
     'usuario' => array(
       'type' => 'user',
@@ -153,7 +153,7 @@ function _ttm_rules_get_var($var = NULL) {
 function ttm_rules_rules_action_info() {
   $actions['ttm_rules_action_mail_proyecto_creado'] = array(
     'label' => t('Enviar correo al crear un proyecto'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_proyecto_creado',
     'parameter' => array(
       'author' => _ttm_rules_get_var('emprendedor'),
@@ -162,7 +162,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_declaracion_interes'] = array(
     'label' => t('Enviar correo al declarar interés por un proyecto'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_declaracion_interes',
     'parameter' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
@@ -172,7 +172,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_contratacion'] = array(
     'label' => t('Enviar correo de contratación'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_contratacion',
     'parameter' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
@@ -183,7 +183,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_aceptacion_contrato'] = array(
     'label' => t('Enviar correo al aceptar el contrato de un proyecto'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_aceptacion_contrato',
     'parameter' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
@@ -194,7 +194,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_rechazo_contrato'] = array(
     'label' => t('Enviar correo al rechazar el contrato de un proyecto'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_rechazo_contrato',
     'parameter' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
@@ -205,7 +205,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_calificacion_creada'] = array(
     'label' => t('Enviar correo al calificar un proyecto'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_calificacion_creada',
     'parameter' => array(
       'tutor' => _ttm_rules_get_var('tutor'),
@@ -216,7 +216,7 @@ function ttm_rules_rules_action_info() {
   );
   $actions['ttm_rules_action_mail_compra_puntos'] = array(
     'label' => t('Enviar correo al comprar puntos'),
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'base' => 'ttm_rules_mail_compra_puntos',
     'parameter' => array(
       'order' => _ttm_rules_get_var('order'),
@@ -347,7 +347,7 @@ function ttm_rules_mail_compra_puntos($order) {
   );
 
   $subject = variable_get('ttm_rules_compra_puntos_subject', t('Has comprado puntos'));
-  $body = variable_get('ttm_rules_compra_puntos_body', t('Has comprado puntos en Tutoriame.'));
+  $body = variable_get('ttm_rules_compra_puntos_body', t('Has comprado puntos en  Experto Online.'));
 
   ttm_rules_send_mail('ttm_rules_compra_puntos', $order->primary_email, $subject, $body, $context);
 }

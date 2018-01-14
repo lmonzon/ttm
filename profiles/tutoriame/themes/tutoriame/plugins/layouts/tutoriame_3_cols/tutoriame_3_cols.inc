@@ -1,7 +1,7 @@
 <?php
 
 $plugin = array(
-  'title' => t('Tutoriame 3 columnas'),
+  'title' => t(' Experto Online 3 columnas'),
   'theme' => 'tutoriame_3_cols',
   'icon' => 'tutoriame-3-cols.png',
   'category' => 'Bootstrap everywhere',

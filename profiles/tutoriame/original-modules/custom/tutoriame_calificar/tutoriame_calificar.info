@@ -1,6 +1,6 @@
-name = Tutoriame Calificar
-description = Módulo para la calificación entre usuarios en Tutoriame
-package = Tutoriame
+name =  Experto Online Calificar
+description = Módulo para la calificación entre usuarios en  Experto Online
+package =  Experto Online
 core = 7.x
 version = '7.x-1.0'
 dependencies[] = block

@@ -1,9 +1,9 @@
-# Spanish translation of Tutoriame
+# Spanish translation of  Experto Online
 # Copyright (c) 2014 by gcoop
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Tutoriame\n"
+"Project-Id-Version:  Experto Online\n"
 "POT-Creation-Date: 2014-08-06 18:00-0300\n"
 "PO-Revision-Date: 2014-08-06 18:00-0300\n"
 "Language-Team: Spanish\n"

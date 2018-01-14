@@ -1,6 +1,6 @@
 name = busqueda_tutores
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 dependencies[] = better_exposed_filters
 dependencies[] = ctools
 dependencies[] = views_field_view

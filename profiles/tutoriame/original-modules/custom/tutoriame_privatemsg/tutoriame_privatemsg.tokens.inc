@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Builds replacement tokens for Tutoriame Privatemsg
+ * Builds replacement tokens for  Experto Online Privatemsg
  */
 
 /**
@@ -10,8 +10,8 @@
  */
 function tutoriame_privatemsg_token_info() {
   $message['url_tutoriame'] = array(
-    'name' => t('URL en Tutoriame'),
-    'description' => t('Dirección URL del mensaje en Tutoriame.'),
+    'name' => t('URL en  Experto Online'),
+    'description' => t('Dirección URL del mensaje en  Experto Online.'),
   );
 
   return array(

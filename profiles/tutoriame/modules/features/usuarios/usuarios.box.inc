@@ -19,7 +19,7 @@ function usuarios_default_box() {
   $box->description = 'encabezado_perfil_edit';
   $box->options = array(
     'body' => array(
-      'value' => '<div>completa tu perfil para aprovechar al máximo tu cuenta en Tutoriame:</div>
+      'value' => '<div>completa tu perfil para aprovechar al máximo tu cuenta en  Experto Online:</div>
 ',
       'format' => 'full_html',
     ),

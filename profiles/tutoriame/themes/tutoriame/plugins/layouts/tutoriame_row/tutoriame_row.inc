@@ -1,7 +1,7 @@
 <?php
 
 $plugin = array(
-  'title' => t('Tutoriame Row'),
+  'title' => t(' Experto OnlineOnline Row'),
   'theme' => 'tutoriame_row',
   'icon' => 'tutoriame-row.png',
   'category' => 'Bootstrap everywhere',

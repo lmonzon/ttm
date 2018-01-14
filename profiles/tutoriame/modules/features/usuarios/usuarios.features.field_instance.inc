@@ -845,7 +845,7 @@ function usuarios_field_default_field_instances() {
     ),
     'entity_type' => 'profile2',
     'field_name' => 'field_medio_conocio_ttm',
-    'label' => 'Medio a través del cual conoció Tutoriame',
+    'label' => 'Medio a través del cual conoció  Experto Online',
     'pcp_tag' => 1,
     'required' => 1,
     'settings' => array(
@@ -2388,7 +2388,7 @@ function usuarios_field_default_field_instances() {
     ),
     'entity_type' => 'profile2',
     'field_name' => 'field_rol_en_tutoriame',
-    'label' => 'Rol en Tutoriame',
+    'label' => 'Rol en  Experto Online',
     'pcp_tag' => 0,
     'required' => 1,
     'settings' => array(
@@ -4136,7 +4136,7 @@ function usuarios_field_default_field_instances() {
   t('Lo volvería a contratar');
   t('Logo');
   t('Mail referente');
-  t('Medio a través del cual conoció Tutoriame');
+  t('Medio a través del cual conoció  Experto Online');
   t('Newsletter');
   t('Nombre comercial');
   t('Nombre del puesto');
@@ -4154,7 +4154,7 @@ function usuarios_field_default_field_instances() {
   t('Referente');
   t('Responsabilidad ante el IVA');
   t('Resumen del servicio');
-  t('Rol en Tutoriame');
+  t('Rol en  Experto Online');
   t('Sexo');
   t('Skype ID');
   t('Tarifa');

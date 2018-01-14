@@ -77,7 +77,7 @@ function avisos_a_los_usuarios_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'mimemail_name';
-  $strongarm->value = 'Tutoriame';
+  $strongarm->value = ' Experto Online';
   $export['mimemail_name'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -137,7 +137,7 @@ Puedes ver el proyecto en [ttm_rules:proyecto:url:absolute]';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ttm_rules_compra_puntos_body';
-  $strongarm->value = 'Has realizado una compra de puntos por $ [uc_order:order-total] en Tutoriame.
+  $strongarm->value = 'Has realizado una compra de puntos por $ [uc_order:order-total] en  Experto Online.
 
 Compraste:
 

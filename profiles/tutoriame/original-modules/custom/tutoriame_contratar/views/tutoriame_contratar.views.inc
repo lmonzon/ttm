@@ -9,7 +9,7 @@
  */
 function tutoriame_contratar_views_data() {
   $data['node']['tutoriame_contratar_para_link'] = array(
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'real field' => 'nid',
     'title' => t('Contratar para'),
     'field' => array(
@@ -19,7 +19,7 @@ function tutoriame_contratar_views_data() {
     ),
   );
   $data['users']['tutoriame_contratar_link'] = array(
-    'group' => t('Tutoriame'),
+    'group' => t(' Experto Online'),
     'real field' => 'uid',
     'title' => t('Contratar'),
     'field' => array(

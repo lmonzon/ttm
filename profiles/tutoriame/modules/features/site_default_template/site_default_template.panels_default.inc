@@ -144,7 +144,7 @@ function site_default_template_default_panels_mini() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => '<h4>Acerca de Tutoriame</h4>',
+      'override_title_text' => '<h4>Acerca de  Experto Online</h4>',
     );
     $pane->cache = array();
     $pane->style = array(

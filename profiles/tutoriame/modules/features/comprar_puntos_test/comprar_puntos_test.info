@@ -1,7 +1,7 @@
 name = comprar_puntos_test
 description = habilita la compra de puntos para el gateway de test
 core = 7.x
-package = Tutoriame desarrollo
+package =  Experto Online desarrollo
 version = 7.x-1.0
 project = comprar_puntos_test
 dependencies[] = ctools

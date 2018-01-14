@@ -1,6 +1,6 @@
-name = Tutoriame Rules
-description = Rules events, actions and conditions specific to Tutoriame.
-package = Tutoriame
+name =  Experto Online Rules
+description = Rules events, actions and conditions specific to  Experto Online.
+package =  Experto Online
 core = 7.x
 dependencies[] = mimemail
 dependencies[] = rules

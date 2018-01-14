@@ -3,8 +3,8 @@
 function tutoriame_plantillas_permission() {
   return array(
     'administer tutoriame_plantillas settings' => array(
-      'title' => t('Administrar plantillas para Tutoriame'),
-      'description' => t('Configurar la utilización de plantillas para Tutoriame'),
+      'title' => t('Administrar plantillas para  Experto Online'),
+      'description' => t('Configurar la utilización de plantillas para  Experto Online'),
     ),
   );
 }
@@ -12,7 +12,7 @@ function tutoriame_plantillas_permission() {
 function tutoriame_plantillas_menu() {
   $items['admin/tutoriame/config/plantillas'] = array(
     'title' => t('Plantillas'),
-    'description' => t('Configure las plantillas para mensajería de Tutoriame.'),
+    'description' => t('Configure las plantillas para mensajería de  Experto Online.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tutoriame_plantillas_admin_settings'),
     'file' => 'tutoriame_plantillas.admin.inc',

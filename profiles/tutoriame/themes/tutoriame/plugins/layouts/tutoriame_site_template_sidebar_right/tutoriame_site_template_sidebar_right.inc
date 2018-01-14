@@ -1,7 +1,7 @@
 <?php
 
 $plugin = array(
-  'title' => t('Tutoriame Site Template Sidebar Right'),
+  'title' => t(' Experto Online Site Template Sidebar Right'),
   'theme' => 'tutoriame_site_template_sidebar_right',
   'icon' => 'tutoriame-site-template-sidebar-right.png',
   'category' => 'Bootstrap everywhere',

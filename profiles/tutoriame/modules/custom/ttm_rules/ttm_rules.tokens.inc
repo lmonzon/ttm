@@ -10,8 +10,8 @@
  */
 function ttm_rules_token_info() {
   $type = array(
-    'name' => t('Tutoriame'),
-    'description' => t('Tokens para las reglas de Tutoriame.'),
+    'name' => t(' Experto Online'),
+    'description' => t('Tokens para las reglas de  Experto Online.'),
   );
 
   $tokens['tutor'] = array(
@@ -26,7 +26,7 @@ function ttm_rules_token_info() {
   );
   $tokens['proyecto'] = array(
     'name' => t('Proyecto'),
-    'description' => t('Proyecto en Tutoriame.'),
+    'description' => t('Proyecto en  Experto Online.'),
     'type' => 'node',
   );
   $tokens['contrato'] = array(

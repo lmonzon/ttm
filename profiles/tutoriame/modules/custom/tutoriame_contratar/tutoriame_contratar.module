@@ -143,8 +143,8 @@ function tutoriame_contratar_permission() {
       'description' => t('Permite ver los detalles de los contratos, sin participar de estos.'),
     ),
     'administer tutoriame_contratar settings' => array(
-      'title' => t('Administrar contrataciones en Tutoriame'),
-      'description' => t('Configurar las contrataciones realizadas entre usuarios de Tutoriame.'),
+      'title' => t('Administrar contrataciones en  Experto Online'),
+      'description' => t('Configurar las contrataciones realizadas entre usuarios de  Experto Online.'),
     ),
   );
 }
@@ -192,7 +192,7 @@ function tutoriame_contratar_menu() {
   );
   $items['admin/tutoriame/config/contratar'] = array(
     'title' => t('Contrataciones'),
-    'description' => t('Configure las contrataciones entre usuarios de Tutoriame.'),
+    'description' => t('Configure las contrataciones entre usuarios de  Experto Online.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tutoriame_contratar_admin_settings'),
     'file' => 'tutoriame_contratar.admin.inc',

@@ -1,6 +1,6 @@
 name = terminos_condiciones
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.0
 project = terminos_condiciones
 dependencies[] = features

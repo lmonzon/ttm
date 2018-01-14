@@ -1,7 +1,7 @@
 name = puntos
 description = puntos de usuarios, pagos
 core = 7.x
-package = Tutoriame
+package =  Experto Online
 version = 7.x-1.11
 project = puntos
 dependencies[] = ctools

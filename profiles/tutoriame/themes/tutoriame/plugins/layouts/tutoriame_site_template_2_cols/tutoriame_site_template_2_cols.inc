@@ -1,7 +1,7 @@
 <?php
 
 $plugin = array(
-  'title' => t('Tutoriame Site Template 2 columnas'),
+  'title' => t(' Experto Online Site Template 2 columnas'),
   'theme' => 'tutoriame_site_template_2_cols',
   'icon' => 'tutoriame-site-template-2-cols.png',
   'category' => 'Bootstrap everywhere',

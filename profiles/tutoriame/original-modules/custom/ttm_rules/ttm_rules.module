@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Rules events, actions and conditions specific to Tutoriame.
+ * Rules events, actions and conditions specific to  Experto Online.
  */
 
 /**
@@ -51,16 +51,16 @@ function ttm_rules_flag_flag($flag, $entity, $account, $flagging) {
 function ttm_rules_permission() {
   return array(
     'administer ttm_rules settings' => array(
-      'title' => t('Administrar los avisos a usuarios en Tutoriame'),
-      'description' => t('Configurar los avisos que se enviarán a usuarios de Tutoriame.'),
+      'title' => t('Administrar los avisos a usuarios en  Experto Online'),
+      'description' => t('Configurar los avisos que se enviarán a usuarios de  Experto Online.'),
     ),
   );
 }
 
 function ttm_rules_menu() {
   $items['admin/tutoriame'] = array(
-    'title' => t('Tutoriame'),
-    'description' => t('Opciones para Tutoriame.'),
+    'title' => t(' Experto Online'),
+    'description' => t('Opciones para  Experto Online.'),
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('access administration pages'),
     'file' => 'system.admin.inc',
@@ -68,7 +68,7 @@ function ttm_rules_menu() {
   );
   $items['admin/tutoriame/config'] = array(
     'title' => t('Configuraciones'),
-    'description' => t('Configuraciones para Tutoriame.'),
+    'description' => t('Configuraciones para  Experto Online.'),
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('access administration pages'),
     'file' => 'system.admin.inc',
@@ -76,7 +76,7 @@ function ttm_rules_menu() {
   );
   $items['admin/tutoriame/informes'] = array(
     'title' => t('Informes'),
-    'description' => t('Informes para Tutoriame.'),
+    'description' => t('Informes para  Experto Online.'),
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('access administration pages'),
     'file' => 'system.admin.inc',
@@ -84,7 +84,7 @@ function ttm_rules_menu() {
   );
   $items['admin/tutoriame/config/rules'] = array(
     'title' => t('Avisos a usuarios'),
-    'description' => t('Configure los mensajes que se enviarán a usuarios de Tutoriame.'),
+    'description' => t('Configure los mensajes que se enviarán a usuarios de  Experto Online.'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ttm_rules_admin_settings'),
     'file' => 'ttm_rules.admin.inc',

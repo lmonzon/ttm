@@ -832,7 +832,7 @@ For your convenience, you are already logged in with your newly created account.
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'uc_store_name';
-  $strongarm->value = 'Tutoriame';
+  $strongarm->value = ' Experto Online';
   $export['uc_store_name'] = $strongarm;
 
   $strongarm = new stdClass();
