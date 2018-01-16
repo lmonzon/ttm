@@ -39,7 +39,9 @@
     <td height="50" bgcolor="#ececec"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tbody><tr>
         <td width="300" style="font-size:30px; font-weight:bold; color:#8f8f8f; padding-left:20px"><span style="color:#1abc9c; font-size:18px; font-family:Arial, Helvetica, sans-serif;">Aviso a usuarios</span></td>
-        <td width="300" align="right" style="padding-right:20px">Abril del 2015 </td>
+        <td width="300" align="right" style="padding-right:20px">
+        <?php $date = new DateTime(); echo $date->format('d/m/Y'); ?>
+        </td>
       </tr>
     </tbody></table></td>
   </tr><tr>
@@ -86,14 +88,14 @@
         <td width="40">&nbsp;</td>
         <td width="240">&nbsp;</td>
         <td width="40">&nbsp;</td>
-        <td width="240"><a href="" style="color:#fff">www.tutoriame.com</a></td>
+        <td width="240"><a href="" style="color:#fff">www.expertoonline.com.ar</a></td>
         <td width="40">&nbsp;</td>
       </tr>
       <tr>
         <td width="40">&nbsp;</td>
-        <td width="240"><a href="http:twitter.com/tutoriame"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/twitter.png" border="0"></a><a href="http:facebook.com/tutoriame"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/facebook.png" border="0"></a><a href="http://www.google-plus.com/tutoriame"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/googleplus.png" border="0"></a></td>
+        <td width="240"><a href="http:twitter.com/expertoonline"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/twitter.png" border="0"></a><a href="http:facebook.com/tutoriame"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/facebook.png" border="0"></a><a href="http://www.google-plus.com/tutoriame"><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/googleplus.png" border="0"></a></td>
         <td width="40">&nbsp;</td>
-        <td width="240" style="color:#fff;">info@tutoriame.com</td>
+        <td width="240" style="color:#fff;">info@expertoonline.com.ar</td>
         <td width="40">&nbsp;</td>
       </tr>
       <tr>
