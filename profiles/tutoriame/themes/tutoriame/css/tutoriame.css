@@ -977,7 +977,7 @@ textarea,
 }
 
 .skype .selectyzeValue {
-	width: 474px;
+	width: 30;
 }
 
 .formulario .field-name-field-formacion .skype .selectyzeValue {
@@ -1359,6 +1359,7 @@ form#connector-button-form {
 .page-user input[type="password"],
 .page-user-login input[type="password"] {
 	margin-bottom: 0px;
+	width: 30%;
 }
 
 .page-user .help-block,
@@ -1803,12 +1804,16 @@ width: 30%;
 }
 
 .formulario .field-name-field-pais .skype .selectyzeValue {
-	width: 30%;
+
+	width: 100%;
+	margin-top: 10px;
+
 }
+
+
 
 .field-name-field-pais .location .form-item input,
 .field-name-field-referente input {
-	width: 238px;
 	display: block;
 	/* float: left; */
 }
@@ -1819,7 +1824,6 @@ width: 30%;
 }
 
 .field-name-field-pais .skype .UlSelectize {
-	left: 18%;
 	width: 100%;
 
 }
