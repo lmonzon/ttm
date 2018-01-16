@@ -57,8 +57,10 @@ width: 260px;
 
 /*logo*/
 #logo {
-	margin-top: 20px;
-	margin-bottom: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+
 }
 
 /*enlaces login logout*/
@@ -1349,7 +1351,7 @@ form#connector-button-form {
 .page-user-login .formulario input,
 .page-user .formulario .form-type-password input,
 .page-user-login .formulario .form-type-password input {
-	width: 65%;
+	width: 80%;
 }
 
 .page-user input[type="text"], 
@@ -1652,6 +1654,8 @@ form#connector-button-form {
 .formulario .skype .UlSelectize {
 	max-height: 250px;
 	overflow: auto;
+	width: 30%;
+	left :0;
 }
 
 /*PERFILES REGISTROS */
@@ -1729,6 +1733,7 @@ margin-left: 20px;
 
 .formulario input, .formulario .uneditable-input, .field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-calle.form-item input, .field-name-field-domicilio .location .form-item input.location_auto_province, .formulario .confirm-parent, .formulario .password-parent {
 margin-top: 10px;
+width: 30%;
 }
 
 .field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-delete-location {
@@ -1798,7 +1803,7 @@ margin-top: 10px;
 }
 
 .formulario .field-name-field-pais .skype .selectyzeValue {
-	width: 223px;
+	width: 30%;
 }
 
 .field-name-field-pais .location .form-item input,
