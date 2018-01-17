@@ -1824,7 +1824,7 @@ width: 30%;
     /* margin-left: 10px;
     width: 228px; */
 }
-.password-field.form-text.required.password-processed passwordOverride-processed 
+.password-field.form-text.required.password-processed.passwordOverride-processed 
 {
 	width: 100%;
 }
