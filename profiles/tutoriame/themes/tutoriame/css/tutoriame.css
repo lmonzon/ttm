@@ -1740,6 +1740,9 @@ margin-left: 20px;
 
 .formulario input, .formulario .uneditable-input, .field-name-field-domicilio .location .form-item-profile-emprendedor-field-domicilio-und-0-calle.form-item input, .field-name-field-domicilio .location .form-item input.location_auto_province, .formulario .confirm-parent, .formulario .password-parent {
 margin-top: 10px;
+height: 28px;
+
+
 width: 30%;
 }
 
