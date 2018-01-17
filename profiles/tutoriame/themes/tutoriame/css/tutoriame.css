@@ -3378,10 +3378,12 @@ margin-top: 67px;
 
 #buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
 #buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-widget-filter-field_categoria_tid,
 #buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid,
 #buscar-proyectos-filtros .views-widget-filter-country,
+#buscar-tutores-filtros .views-widget-filter-field_categoria_tid,
 #buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
-#buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
+
 #buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid,
 #buscar-tutores-filtros .views-widget-filter-country,
 #buscar-tutores-filtros .views-widget-filter-field_tarifa_value,
@@ -3391,9 +3393,13 @@ margin-top: 67px;
 }
 
 #buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth select,
+#buscar-proyectos-filtros .views-widget-filter-field_categoria_tid select,
+
 #buscar-proyectos-filtros .views-widget-filter-country select,
 #buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
 #buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth select,
+#buscar-tutores-filtros .views-widget-filter-field_categoria_tid select,
+
 #buscar-tutores-filtros .views-widget-filter-country select,
 #buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid input,
 #buscar-tutores-filtros .views-widget-filter-field_tarifa_value input,
@@ -3403,9 +3409,13 @@ margin-top: 67px;
 }
 
 #buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth .controls,
+#buscar-proyectos-filtros .views-widget-filter-field_categoria_tid .controls,
+
 #buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid .controls,
 #buscar-proyectos-filtros .views-widget-filter-country .controls,
 #buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth .controls,
+#buscar-tutores-filtros .views-widget-filter-field_categoria_tid .controls,
+
 #buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid .controls,
 #buscar-tutores-filtros .views-widget-filter-country .controls,
 #buscar-tutores-filtros .views-widget-filter-field_tarifa_value .controls,
@@ -3416,8 +3426,11 @@ margin-top: 67px;
 }
 
 #buscar-proyectos-filtros .views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-widget-filter-field_categoria_tid,
+
 #buscar-proyectos-filtros .views-widget-filter-field_habilidades_requeridas_tid,
 #buscar-tutores-filtros .views-widget-filter-shs_taxonomy_entity_index_tid_depth,
+#buscar-tutores-filtros .views-widget-filter-field_categoria_tid,
 #buscar-tutores-filtros .views-widget-filter-field_habilidades_requeridas_tid {
 	padding-bottom: 2px;
 }
@@ -3429,6 +3442,8 @@ margin-top: 67px;
 }
 
 #buscar-proyectos-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-shs_term_node_tid_depth,
+#buscar-proyectos-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-field_categoria_tid,
+#buscar-tutores-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-field_categoria_tid
 #buscar-tutores-filtros .views-exposed-form .views-exposed-widget.views-widget-filter-shs_taxonomy_entity_index_tid_depth {
 	padding-top: 10px;
 }
