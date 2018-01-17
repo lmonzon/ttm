@@ -1820,6 +1820,11 @@ width: 30%;
 	/* float: left; */
 }
 
+#edit-current-pass{
+	width: 30%;
+
+}
+
 .field-name-field-mail-referente input {
     /* margin-left: 10px;
     width: 228px; */
