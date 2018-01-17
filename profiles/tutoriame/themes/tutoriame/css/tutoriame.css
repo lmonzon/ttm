@@ -1828,6 +1828,10 @@ width: 30%;
 {
 	width: 100%;
 }
+
+.password-confirm.form-text.required{
+	width: 100%;
+}
 .field-name-field-pais .skype .UlSelectize {
 	width: 100%;
 
