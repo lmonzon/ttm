@@ -977,7 +977,9 @@ textarea,
 }
 
 .skype .selectyzeValue {
-	width: 30;
+	width: 30%;
+	margin-top: 10px;
+
 }
 
 .formulario .field-name-field-formacion .skype .selectyzeValue {
@@ -1799,8 +1801,9 @@ width: 30%;
 }*/
 
 .field-name-field-pais .DivSelectyze.skype {
-	width: 200px;
+	width: 30%;
 	margin-right: 0px;
+	
 }
 
 .formulario .field-name-field-pais .skype .selectyzeValue {
