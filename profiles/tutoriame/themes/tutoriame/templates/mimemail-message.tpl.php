@@ -33,7 +33,7 @@
 
   <body id="mimemail-body" <?php if ($module && $key): print 'class="'. $module .'-'. $key .'"'; endif; ?>><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tbody><tr>
-    <td><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/headermail.png" /></td>
+    <td><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/logo.png" /></td>
   </tr>
   <tr>
     <td height="50" bgcolor="#ececec"><table width="100%" border="0" cellspacing="0" cellpadding="0">
