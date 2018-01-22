@@ -956,8 +956,11 @@ MARGIN-TOP: 25PX;
 .help-block {
 	font-size: 10px;
 	line-height: 12px;
+	margin-top:10px
 }
-
+.form-file{
+	width: auto;
+}
 input, 
 button, 
 select, 
@@ -1392,6 +1395,7 @@ form#connector-button-form {
 	font-size: 16px;
 	font-weight: bold;
 	height: 26px;
+	margin-top: 15px;
 }
 
 .page-user .btn,
@@ -1758,7 +1762,7 @@ width: 30%;
 .formulario .form-type-password input,
 .formulario .form-item-mail input,
 .formulario input.username {
-/*    float: left;*/
+    float: left;
     margin-right: 10px;
     width: 30%;
 }
@@ -1792,6 +1796,7 @@ width: 30%;
 .formulario .form-checkboxes input,
 .formulario .form-type-checkbox input {
 	width: auto !important;
+	margin-top: -3px;
 }
 
 .field-name-field-pais .control-group,
@@ -1876,12 +1881,12 @@ html.js fieldset.collapsed {
 #edit-account {
 	border-bottom: 2px solid #52BE9C;
 	margin-bottom: 40px;
-	padding-bottom: 10px;
+	padding-bottom: 25px;
 }
 
 .formulario .password-strength,
 .formulario div.password-confirm {
-	width: 180px;
+	width: 250px;
 	margin-top: 0px;
 	font-size: 11px;
 	line-height: 17px;
