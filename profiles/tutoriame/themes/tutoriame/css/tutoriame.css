@@ -1314,7 +1314,7 @@ h2.user-login-title {
 }
 
 .span20 {
-  width: 800px;
+  width: 100%;
 }
 
 #overlay-content .btn.oauthconnector-facebook {
@@ -1762,7 +1762,6 @@ width: 30%;
 .formulario .form-type-password input,
 .formulario .form-item-mail input,
 .formulario input.username {
-    float: left;
     margin-right: 10px;
     width: 30%;
 }
