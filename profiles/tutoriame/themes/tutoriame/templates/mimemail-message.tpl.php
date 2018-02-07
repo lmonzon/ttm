@@ -22,16 +22,13 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php if ($css): ?>
     <style type="text/css">
-      <!--
-      <?php print $css ?>
-      -->
+
     </style>
-    <?php endif; ?>
   </head>
 
-  <body id="mimemail-body" <?php if ($module && $key): print 'class="'. $module .'-'. $key .'"'; endif; ?>><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+  <body id="mimemail-body" <?php if ($module && $key) : print 'class="' . $module . '-' . $key . '"';
+                          endif; ?>><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tbody><tr>
     <td><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/logo.png" /></td>
   </tr>
@@ -40,7 +37,8 @@
       <tbody><tr>
         <td width="300" style="font-size:30px; font-weight:bold; color:#8f8f8f; padding-left:20px"><span style="color:#1abc9c; font-size:18px; font-family:Arial, Helvetica, sans-serif;">Aviso a usuarios</span></td>
         <td width="300" align="right" style="padding-right:20px">
-        <?php $date = new DateTime(); echo $date->format('d/m/Y'); ?>
+        <?php $date = new DateTime();
+        echo $date->format('d/m/Y'); ?>
         </td>
       </tr>
     </tbody></table></td>
@@ -108,4 +106,5 @@
     </tbody></table></td>
   </tr>
 </tbody></table>
-</body></html>
+</body>
+</html>
