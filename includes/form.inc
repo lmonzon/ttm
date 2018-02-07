@@ -1083,10 +1083,14 @@ function drupal_prepare_form($form_id, &$form, &$form_state) {
   if (!isset($form['#validate'])) {
     // Ensure that modules can rely on #validate being set.
     $form['#validate'] = array();
+    $form['#validate'][] = 'ife_form_validator';
     // Check for a handler specific to $form_id.
     if (function_exists($form_id . '_validate')) {
       $form['#validate'][] = $form_id . '_validate';
     }
+
+
+
     // Otherwise check whether this is a shared form and whether there is a
     // handler for the shared $form_id.
     elseif (isset($form_state['build_info']['base_form_id']) && function_exists($form_state['build_info']['base_form_id'] . '_validate')) {
