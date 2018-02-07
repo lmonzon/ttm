@@ -1759,6 +1759,10 @@ width: 30%;
 	width: 433px;
 }
 
+.messages.error.messages-inline{
+	width: 80%
+}
+
 .formulario .form-type-password input,
 .formulario .form-item-mail input,
 .formulario input.username {
