@@ -26,7 +26,7 @@
 
   <body id="mimemail-body"><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tbody><tr>
-    <td><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/logo.png" /></td>
+    <td><img width="150" src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/logo.png" /></td>
   </tr>
   <tr>
     <td height="50" bgcolor="#ececec"><table width="100%" border="0" cellspacing="0" cellpadding="0">
