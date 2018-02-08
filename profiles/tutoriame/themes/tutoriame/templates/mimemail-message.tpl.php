@@ -22,13 +22,9 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style type="text/css">
-
-    </style>
   </head>
 
-  <body id="mimemail-body" <?php if ($module && $key) : print 'class="' . $module . '-' . $key . '"';
-                          endif; ?>><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+  <body id="mimemail-body"><table width="600" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
   <tbody><tr>
     <td><img src="<?php print drupal_get_path('theme', 'tutoriame'); ?>/logo.png" /></td>
   </tr>
